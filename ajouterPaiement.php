@@ -25,7 +25,7 @@
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link active" href="service.php">Services</a>
+          <a class="nav-link " href="service.php">Services</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="clients.php">Clients</a>
@@ -37,7 +37,7 @@
           <a class="nav-link" href="contrats.php">Contrats</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="paiement.php">Paiements</a>
+          <a class="nav-link active" href="paiement.php">Paiements</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="commentaires.php">Commentaires</a>
