@@ -77,8 +77,9 @@
     <td>Doe</td>
     <td>30</td>
     <td class="action-icons">
-    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+  
     <a href="modifierService.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
 </td>
 </tr>
 
@@ -90,8 +91,9 @@
             <td>Smith</td>
             <td>25</td>
             <td class="action-icons">
-    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+
     <a href="modifierService.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
 </td>
           </tr>
           <tr>
@@ -100,8 +102,9 @@
             <td>Jones</td>
             <td>40</td>
             <td class="action-icons">
-    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+
     <a href="modifierService.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
 </td>
 
           </tr>
@@ -111,8 +114,9 @@
             <td>Jones</td>
             <td>40</td>
             <td class="action-icons">
-    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+
     <a href="modifierService.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
 </td>
 
           </tr>
@@ -122,8 +126,9 @@
             <td>Jones</td>
             <td>40</td>
             <td class="action-icons">
-    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+   
     <a href="modifierService.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+    <a href="supprimerService.php" class="delete-icon"><i class="fa fa-trash"></i></a>
 </td>
 
           </tr>
