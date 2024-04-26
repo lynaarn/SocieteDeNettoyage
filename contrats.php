@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/9e5b9bb661.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -77,8 +77,8 @@
     
     <td class="action-icons">
    
-    <a href="modifierPersonnels.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-    <a href="supprimerPersonnels.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+    <a href="modifierPersonnels.php" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
+    <a href="supprimerPersonnels.php" class="delete-icon"><i class="fas fa-trash"></i></a>
 </td>
 </tr>
 
