@@ -24,7 +24,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link " href="service.php">Services</a>
         </li>
         <li class="nav-item">
