@@ -78,6 +78,7 @@
     <td class="action-icons">
     <a href="supprimerPersonnels.php" class="delete-icon"><i class="fa fa-trash"></i></a>
     <a href="modifierPersonnels.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+    désolé je t'aime bb 
 </td>
 </tr>
 
