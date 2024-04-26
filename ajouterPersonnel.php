@@ -25,13 +25,13 @@
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link active" href="service.php">Services</a>
+          <a class="nav-link " href="service.php">Services</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="clients.php">Clients</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="personnels.php">Personnels</a>
+          <a class="nav-link active" href="personnels.php">Personnels</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="contrats.php">Contrats</a>
