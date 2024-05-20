@@ -44,7 +44,7 @@
         <div class="row">
           <div class="col-md-3">
             <div class="logo">
-              <a href="index.html"><img src="images/logo.png" /></a>
+              <a href="index.html"><img src="images/lgg.png" /></a>
             </div>
           </div>
           <div class="col-md-9">
@@ -53,9 +53,14 @@
                 <div class="togle_3">
                   <div class="menu_main">
                     <div class="padding_left0">
-                      <a href="#">Créer compte</a>
+                      <a href="creationcompte.php">Créer compte</a>
                       <span class="padding_left0"
-                        ><a href="#">Se connecter</a></span
+                        ><a
+                          href="authentification.php"
+                          data-toggle="modal"
+                          data-target="#loginModal"
+                          >Se connecter</a
+                        ></span
                       >
                     </div>
                   </div>
@@ -603,5 +608,58 @@
         document.getElementById("myNav").style.width = "0%";
       }
     </script>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <!-- Contenu du modal -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Se connecter</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Contenu du corps du modal -->
+            <form>
+              <div class="form-group">
+                <label for="username">Email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Entrez votre email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Entrez votre mot de passe"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn ajout mb-3">Se connecter</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

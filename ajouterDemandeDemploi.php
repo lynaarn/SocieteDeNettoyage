@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capiclean</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
+  <div class="container"> 
+    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Capiclean Logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+          <a class="nav-link " href="employes.php">Employés</a>
+        </li>
+  
+        <li class="nav-item">
+          <a class="nav-link" href="congés.php">Congés</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="demandeDemplois.php">demande D'emplois</a>
+        </li>
+        <li class="nav-item  ">
+            <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container mt-5 custom-container">
+    <div class="row justify-content-center">
+    <div class="photo4"><img src="images/26.jpg" /></div>
+        <div class="col-md-6">
+       
+            <h2 class="text-center mb-4 center-text2 ">Ajouter une demande d'emplois</h2>
+           
+            <form>
+    <div class="form-group">
+        <label for="titreOffre" class="form-label">Titre de l'offre</label>
+        <input type="text" class="form-control form-input" id="titreOffre" placeholder="Entrez le titre de l'offre">
+    </div>
+    <div class="form-group">
+        <label for="descriptionOffre" class="form-label">Description de l'offre</label>
+        <textarea class="form-control form-input" id="descriptionOffre" rows="3" placeholder="Entrez la description de l'offre"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="lieuOffre" class="form-label">Lieu de travail</label>
+        <input type="text" class="form-control form-input" id="lieuOffre" placeholder="Entrez le lieu de travail">
+    </div>
+    <div class="form-group">
+        <label for="typeContrat" class="form-label">Type de contrat</label>
+        <select class="form-control form-input" id="typeContrat">
+            <option value="CDI">CDI</option>
+            <option value="CDD">CDD</option>
+            <option value="Stage">Stage</option>
+            <option value="Apprentissage">Apprentissage</option>
+            <option value="Freelance">Freelance</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="dateDebut" class="form-label">Date de début</label>
+        <input type="date" class="form-control form-input" id="dateDebut">
+    </div>
+    <div class="form-group">
+        <label for="dateFin" class="form-label">Date de fin</label>
+        <input type="date" class="form-control form-input" id="dateFin">
+    </div>
+    <div class="form-group">
+        <label for="salaire" class="form-label">Salaire proposé</label>
+        <input type="number" class="form-control form-input" id="salaire" placeholder="Entrez le salaire proposé">
+    </div>
+   
+    </form>
+                <button type="submit" class="btn btn-success btn-send">Publier l'offre</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

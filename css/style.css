@@ -905,7 +905,7 @@ textarea#comment::placeholder {
 }
 
 .edit-icon {
-  background-color: blue;
+  background-color: rgb(55, 119, 175);
   border-radius: 5px;
   padding: 5px; /* Ajoutez du padding pour un peu d'espace autour de l'icône */
 }
@@ -963,4 +963,168 @@ textarea#comment::placeholder {
 }
 .ajout:hover {
   color: #23239e;
+}
+.edit-icon2 {
+  background-color: rgb(73, 190, 73);
+  border-radius: 5px;
+  padding: 5px; /* Ajoutez du padding pour un peu d'espace autour de l'icône */
+}
+.info-container {
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.info-container:hover {
+  background-color: #f0f0f0;
+}
+
+.info-box {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-box i {
+  color: #94bad0;
+  margin-right: 10px;
+}
+
+.bold-label {
+  font-weight: bold;
+}
+
+.main-title {
+  font-family: "Arial", sans-serif;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.main-title {
+  font-family: "Arial", sans-serif;
+  color: #08192a;
+  margin-bottom: 20px;
+}
+
+.bold-label {
+  font-weight: bold;
+}
+
+.info-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.info-box form {
+  margin-bottom: 0;
+}
+
+.form-control {
+  border-color: #ced4da;
+}
+
+.form-control:focus {
+  border-color: #ffc107;
+  box-shadow: none;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+.navbar-brand img {
+  max-height: 60px;
+}
+.nav-item1 {
+  margin-left: 100%;
+}
+.comment-box {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.comment-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.comment {
+  margin-bottom: 10px;
+}
+.comment .fa-star {
+  color: #f8d605;
+}
+.comment-text {
+  font-size: 16px;
+}
+.top-margin-adjust {
+  margin-top: 100px; /* Ajustez la valeur selon la hauteur de votre barre de navigation */
+}
+.rating {
+  font-size: 25px;
+  cursor: pointer;
+}
+.star {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.star.selected {
+  color: #ffc107; /* Jaune */
+}
+
+.star.hover {
+  color: #ffc107;
+}
+.links {
+  text-align: center;
+  margin-top: 100px; /* Réduire l'espace en haut */
+}
+
+.links a {
+  display: inline-block;
+  margin-bottom: 20px; /* Espacement entre les liens */
+  padding: 15px 30px; /* Augmenter l'espacement intérieur */
+  border-radius: 20px; /* Coins arrondis */
+  background-color: #aacee4; /* Couleur de fond */
+  color: #525050;
+  text-decoration: none;
+  box-shadow: 0px 5px 15px rgba(115, 140, 167, 0.3);
+  transition: all 0.3s ease;
+}
+
+.links a:hover {
+  background-color: #acc1db;
+  box-shadow: 0px 8px 20px rgba(97, 137, 181, 0.5);
+}
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.auth-container .form-group .form-control:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #007bff;
+}
+.auth-container .btn-primary {
+  width: 100%;
+}
+.modal-title {
+  text-align: center;
 }
