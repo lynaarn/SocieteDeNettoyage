@@ -28,7 +28,7 @@
           <a class="nav-link " href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="clients.php">Clients</a>
+          <a class="nav-link active" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="personnels.php">Personnels</a>
@@ -55,39 +55,49 @@
        
             <h2 class="text-center mb-4 center-text2 ">Ajouter un client</h2>
            
-            <form>
-            <div class="form-group">
-    <label for="codeService" class="form-label">Code client</label>
-    <input type="text" class="form-control form-input" id="codeclient" placeholder="Entrez le code du client">
-</div>
-<div class="form-group">
-    <label for="nomclient" class="form-label">Nom client</label>
-    <input type="text" class="form-control form-input" id="nomclient" placeholder="Entrez le nom du client">
-</div>
-<div class="form-group">
-    <label for="nomclient" class="form-label">Prénom client</label>
-    <input type="text" class="form-control form-input" id="Prénomclient" placeholder="Entrez le prénom du client">
-</div>
-<div class="form-group">
-                    <label for="adresseClient" class="form-label">Adresse client</label>
-                    <input type="text" class="form-control form-input" id="adresseClient" placeholder="Entrez l'adresse du client">
-                </div>
-                <div class="form-group" >
-                    <label for="telClient" class="form-label">Numéro de téléphone</label>
-                    <input type="tel" class="form-control form-input" id="telClient" placeholder="Entrez le numéro de téléphone du client">
-                </div>
-                <div class="form-group">
-                    <label for="emailClient" class="form-label">Email client</label>
-                    <input type="email" class="form-control form-input" id="emailClient" placeholder="Entrez l'email du client">
-                </div>
-                <div class="form-group" >
-                    <label for="mdpClient" class="form-label">Mot de passe client</label>
-                    <input type="password" class="form-control form-input" id="mdpClient" placeholder="Entrez le mot de passe du client">
-                </div>
+            <form method="post" action="insertClient.php">
+    <div class="form-group">
+        <label for="nomclient" class="form-label">Nom client</label>
+        <input type="text" class="form-control form-input" id="nomclient" name="nomclient" placeholder="Entrez le nom du client" required>
+    </div>
+    <div class="form-group">
+        <label for="prenomclient" class="form-label">Prénom client</label>
+        <input type="text" class="form-control form-input" id="prenomclient" name="prenomclient" placeholder="Entrez le prénom du client" required>
+    </div>
+    <div class="form-group">
+        <label for="emailClient" class="form-label">Email client</label>
+        <input type="email" class="form-control form-input" id="emailClient" name="emailClient" placeholder="Entrez l'email du client" required>
+    </div>
+    <div class="form-group">
+        <label for="telClient" class="form-label">Numéro de téléphone</label>
+        <input type="tel" class="form-control form-input" id="telClient" name="telClient" placeholder="Entrez le numéro de téléphone du client">
+    </div>
+    <div class="form-group">
+        <label for="adresseClient" class="form-label">Adresse client</label>
+        <input type="text" class="form-control form-input" id="adresseClient" name="adresseClient" placeholder="Entrez l'adresse du client">
+    </div>
+    <div class="form-group">
+        <label for="loginClient" class="form-label">Nom d'utilisateur</label>
+        <input type="text" class="form-control form-input" id="loginClient" name="loginClient" placeholder="Entrez le nom d'utilisateur du client" required>
+    </div>
+    <div class="form-group">
+        <label for="passwordClient" class="form-label">Mot de passe client</label>
+        <input type="password" class="form-control form-input" id="passwordClient" name="passwordClient" placeholder="Entrez le mot de passe du client" required>
+    </div>
+    <div class="form-group">
+        <label for="dateInscription" class="form-label">Date d'inscription</label>
+        <input type="date" class="form-control form-input" id="dateInscription" name="dateInscription" required>
+    </div>
+    <div class="form-group">
+        <label for="typeClient" class="form-label">Type de client</label>
+        <select class="form-control form-input" id="typeClient" name="typeClient" required>
+            <option value="Particulier">Particulier</option>
+            <option value="Entreprise">Entreprise</option>
+        </select>
+    </div>
 
-
-                <button type="submit" class="btn btn-success btn-send">Envoyer</button>
-            </form>
+    <button type="submit" class="btn btn-success btn-send">Envoyer</button>
+</form>
         </div>
     </div>
 </div>

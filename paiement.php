@@ -27,7 +27,7 @@
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="personnels.php">Personnels</a> <!-- Corrigez l'URL, il y avait un point en trop -->

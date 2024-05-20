@@ -25,13 +25,13 @@
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
         <li class="nav-item ">
-          <a class="nav-link " href="service.php">Services</a>
+          <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="personnels.php">Personnels</a>
+          <a class="nav-link active" href="personnels.php ">Personnels</a> <!-- Corrigez l'URL, il y avait un point en trop -->
         </li>
         <li class="nav-item">
           <a class="nav-link" href="contrats.php">Contrats</a>
@@ -53,48 +53,53 @@
     <div class="photo4"><img src="images/16.jpg" /></div>
         <div class="col-md-6">
        
-            <h2 class="text-center mb-4 center-text2 ">Ajouter un personnel</h2>
+            <h2 class="text-center mb-4 center-text2 ">Ajouter un Personnel</h2>
            
-            <form>
-            <div class="form-group">
-    <label for="codeService" class="form-label">Code personnel</label>
-    <input type="number" class="form-control form-input" id="codepersonnel" placeholder="Entrez le code du personnel">
-</div>
-<div class="form-group">
-    <label for="nomclient" class="form-label">Nom personnel</label>
-    <input type="text" class="form-control form-input" id="nompersonnel" placeholder="Entrez le nom du personnel">
-</div>
-<div class="form-group">
-    <label for="nomclient" class="form-label">Prénom personnel</label>
-    <input type="text" class="form-control form-input" id="Prénompersonnel" placeholder="Entrez le prénom du personnel">
-</div>
-<div class="form-group">
-                    <label for="adresseClient" class="form-label">Adresse personnel</label>
-                    <input type="text" class="form-control form-input" id="adressePersonnel" placeholder="Entrez l'adresse du personnel">
-                </div>
-                <div class="form-group" >
-                    <label for="telClient" class="form-label">Numéro de téléphone</label>
-                    <input type="tel" class="form-control form-input" id="telpersonnel" placeholder="Entrez le numéro de téléphone du personnel">
+            <form method="post" action="insertPersonnel.php">
+                <div class="form-group">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input name="nom" type="text" class="form-control form-input" id="nom" placeholder="Entrez le nom">
                 </div>
                 <div class="form-group">
-                    <label for="emailClient" class="form-label">Email personnel</label>
-                    <input type="email" class="form-control form-input" id="emailpersonnel" placeholder="Entrez l'email du personnel">
+                    <label for="prenom" class="form-label">Prénom</label>
+                    <input name="prenom" type="text" class="form-control form-input" id="prenom" placeholder="Entrez le prénom">
                 </div>
-                <div class="form-group" >
-                    <label for="mdpClient" class="form-label">Mot de passe personnel</label>
-                    <input type="password" class="form-control form-input" id="mdppersonnel" placeholder="Entrez le mot de passe du personnel">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input name="email" type="email" class="form-control form-input" id="email" placeholder="Entrez l'email">
                 </div>
-
-
-                <button type="submit" class="btn btn-success btn-send">Envoyer</button>
+                <div class="form-group">
+                    <label for="telephone" class="form-label">Téléphone</label>
+                    <input name="telephone" type="tel" class="form-control form-input" id="telephone" placeholder="Entrez le téléphone">
+                </div>
+                <div class="form-group">
+                    <label for="adresse" class="form-label">Adresse</label>
+                    <input name="adresse" type="text" class="form-control form-input" id="adresse" placeholder="Entrez l'adresse">
+                </div>
+                <div class="form-group">
+                    <label for="login" class="form-label">Login</label>
+                    <input name="login" type="text" class="form-control form-input" id="login" placeholder="Entrez le login">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input name="password" type="password" class="form-control form-input" id="password" placeholder="Entrez le mot de passe">
+                </div>
+                <div class="form-group">
+                    <label for="role" class="form-label">Rôle</label>
+                    <select class="form-control form-input" id="role" name="role">
+                        <option value="1">Administratif</option>
+                        <!-- Ajoutez ici d'autres options pour les différents rôles -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date_embauche" class="form-label">Date d'embauche</label>
+                    <input name="date_embauche" type="date" class="form-control form-input" id="date_embauche">
+                </div>
+                <button type="submit" class="btn btn-success btn-send">Valider</button>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

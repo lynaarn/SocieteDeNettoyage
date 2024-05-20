@@ -1,3 +1,23 @@
+<?php
+     require_once("connexiondb.php");
+
+    $codes=isset($_GET['codes'])?$_GET['codes']:0;
+    $requete="select * from Service where CodeS=$codes";
+
+    $resultat = $pdo->query($requete);
+   
+    if ($Service = $resultat->fetch()) {
+      $noms = $Service['NomS'];
+      $types = strtolower($Service['TypeS']);
+      $TarifHr = $Service['TarifHr'];
+      $Duree = $Service['Duree'];
+      $Description = $Service['Description'];
+  } else {
+      echo "Service not found.";
+      exit();
+  }
+?>  
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,37 +73,39 @@
     <div class="photo4"><img src="images/14.jpg" /></div>
         <div class="col-md-6">
        
-            <h2 class="text-center mb-4 center-text2 ">Ajouter un Service</h2>
+            <h2 class="text-center mb-4 center-text2 ">Modifier un Service</h2>
            
-            <form method="post" action="insertService.php">
+            <form method="post" action="updateService.php">
             <div class="form-group">
+    <label for="codeService" class="form-label">Code Service: <?php echo $codes ?> </label>
+    <input type="hidden" name="CodeS" value="<?php echo $codes ?>" class="form-control form-input" id="codeService" >
 </div>
 <div class="form-group">
     <label for="nomService" class="form-label">Nom Service</label>
-    <input name="NomS" type="text" class="form-control form-input" id="nomService" placeholder="Entrez le nom du service">
+    <input type="text" name="NomS" value="<?php echo $noms ?>" class="form-control form-input" id="nomService" >
 </div>
 <div class="form-group">
-                    <label for="typeService" class="form-label">Type Service</label>
-                    <select class="form-control form-input" id="typeService" name="TypeS" required>
-                        <option value="" selected disabled>Sélectionner un type de service</option>
-                        <option value="Nettoyage Résidentiel">Nettoyage Résidentiel</option>
-                        <option value="Nettoyage Commercial">Nettoyage Commercial</option>
-                        <option value="Nettoyage Industriel">Nettoyage Industriel</option>
-                        <option value="Autres Services">Autres Services</option>
-                    </select>
+        <label for="typeService" class="form-label">Type Service</label>
+        <select name="TypeS" id="TypeS">
+          <option value="nettoyage residentiel" <?php if($types=="nettoyage residentiel") echo "selected" ?>>Nettoyage résidentiel</option>
+          <option value="nettoyage commercial" <?php if($types=="nettoyage commercial") echo "selected" ?>>Nettoyage commercial</option>
+          <option value="nettoyage industriel"<?php if($types=="nettoyage industriel") echo "selected" ?> >Nettoyage industriel</option>
+          <option value="autres services" <?php if($types=="autres services") echo "selected" ?> >Autres services</option>
+        </select>
                 </div>
 <div class="form-group">
     <label for="tarif" class="form-label">TarifHeure (en dinars)</label>
-    <input name="TarifHr" type="number" class="form-control form-input" id="tarif" placeholder="Entrez le tarif" min="0" step="1000">
+    <input type="number" name="TarifHr" value="<?php echo $TarifHr ?>" class="form-control form-input" id="tarif"  min="0" step="1000">
 </div>
 <div class="form-group">
     <label for="duree" class="form-label">Durée (en heures)</label>
-    <input name="Duree" type="number" class="form-control form-input" id="duree" placeholder="Entrez la durée" min="0" max="24">
+    <input type="number" name="Duree" value="<?php echo $Duree ?>" class="form-control form-input" id="duree"  min="0" max="24">
 </div>
 <div class="form-group">
     <label for="description" class="form-label">Description</label>
-    <textarea name="Description" class="form-control form-input" id="description" rows="3" placeholder="Entrez la description"></textarea>
+    <textarea name="Description" class="form-control form-input" id="description" rows="3"><?php echo htmlspecialchars($Description); ?></textarea>
 </div>
+
 
 
                 <button type="submit" class="btn btn-success btn-send">valider</button>
