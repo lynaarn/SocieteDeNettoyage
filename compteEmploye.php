@@ -1,50 +1,53 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Client - Mon Compte</title>
-    <!-- Bootstrap CSS -->
+    <title>Capiclean</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Custom CSS -->
+
     <link rel="stylesheet" href="css/style.css">
-    <!-- Font Awesome -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-
     
+   
+  
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
-  <div class="container">
+  <div class="container"> 
     <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
         <li class="nav-item ">
-          <a class="nav-link" href="prestationsClient.php">Préstations</a>
+          <a class="nav-link " href="demission.php">Démission</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link " href="congésEmploye.php">Congés</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contratsClients.php">Contrats</a>
+          <a class="nav-link" href="historiqueintervention.php">Historique interventions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentairesClients.php">commentaires</a>
+          <a class="nav-link" href="tacheethoraire.php">attribution tâche et horraire</a>
         </li>
-        <li class="nav-item1 active ">
-        <a class="nav-link" href="compteClient.php"><i class="fas fa-user fa-lg"></i></a>
-
+        <li class="nav-item active ">
+            <a class="nav-link" href="compteEmploye.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
         <li class="nav-item ">
-        <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
-
+            <a class="nav-link ml-2" href="deconnexionEmploye.php">Deconnexion</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
 <div class="container mt-5">
   <div class="row">
     <div class="col">
@@ -54,7 +57,7 @@
           <div class="info-box">
             <form>
               <div class="text-center mb-3">
-                <img src="images/35.jpg" class="rounded-circle"  width="200">
+                <img src="images/3.jpg" class="rounded-circle"  width="200">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
@@ -86,8 +89,8 @@
                   <input type="password" class="form-control" id="mdp">
                 </div>
               </div>
-              <button type="submit" class="btn btn-success">Enregistrer</button>
-              <button type="button" class="btn btn-danger ml-2">Supprimer le compte</button>
+             
+             
             </form>
           </div>
         </div>
@@ -96,6 +99,8 @@
   </div>
 </div>
 <div style="height: 50px;"></div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

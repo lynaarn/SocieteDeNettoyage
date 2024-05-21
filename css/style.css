@@ -215,7 +215,7 @@ button {
 .header_section {
   width: 100%;
   float: left;
-  background-image: url(../images/banner-bg.png);
+  background-image: url(../images/picture.jpg);
   height: auto;
   padding-top: 27px;
   padding-bottom: 25px;
@@ -1127,4 +1127,10 @@ textarea#comment::placeholder {
 }
 .modal-title {
   text-align: center;
+}
+.photo5 {
+  width: 30%;
+  float: right;
+  text-align: center;
+  margin-top: 19%;
 }
