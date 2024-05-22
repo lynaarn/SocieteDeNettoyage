@@ -72,7 +72,7 @@ h6 {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 h2 {
@@ -215,7 +215,7 @@ button {
 .header_section {
   width: 100%;
   float: left;
-  background-image: url(../images/picture.jpg);
+  background-image: url(../images/36.jpg);
   height: auto;
   padding-top: 27px;
   padding-bottom: 25px;
@@ -223,7 +223,7 @@ button {
   padding-bottom: 201px;
 }
 .logo {
-  width: 100%;
+  width: 80%;
   float: left;
   padding-left: 30px;
 }
@@ -310,7 +310,7 @@ button {
 .banner_taital {
   width: 100%;
   float: left;
-  font-size: 40px;
+  font-size: 35px;
   color: #181919;
   font-weight: bold;
   text-transform: uppercase;
@@ -318,7 +318,7 @@ button {
 .banner_taital_1 {
   width: 100%;
   float: left;
-  font-size: 55px;
+  font-size: 35px;
   color: #ffffff;
   font-weight: bold;
   text-transform: uppercase;
@@ -326,8 +326,8 @@ button {
 .banner_text {
   width: 80%;
   float: left;
-  font-size: 16px;
-  color: #f8fdfe;
+  font-size: 18px;
+  color: #131414;
   margin-left: 0px;
 }
 .contact_bt {
