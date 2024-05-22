@@ -9,7 +9,7 @@ if(isset($_GET['id'])) {
     $requete = "SELECT u.*, r.nomR
                 FROM users u
                 INNER JOIN personnel_administratif pa ON u.id = pa.id
-                INNER JOIN roles r ON u.role = r.id
+                INNER JOIN roles r ON pa.role = r.numR
                 WHERE u.id = ?";
     
     $resultat = $pdo->prepare($requete);

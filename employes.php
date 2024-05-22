@@ -1,3 +1,44 @@
+<?php
+require_once("connexiondb.php");
+
+// Récupération des filtres et pagination
+$nom = isset($_GET['nom']) ? $_GET['nom'] : "";
+$statut = isset($_GET['statut']) ? $_GET['statut'] : "Tous";
+
+$size = isset($_GET['size']) ? $_GET['size'] : 5;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($page - 1) * $size;
+
+// Requête principale pour récupérer les employés
+if ($statut != "Tous") {
+  $requete = "SELECT users.id AS user_id, nom, prenom, statut FROM users INNER JOIN employe ON users.id = employe.id WHERE nom LIKE '%$nom%' AND statut='$statut' LIMIT $size OFFSET $offset";
+} else {
+  $requete = "SELECT users.id AS user_id, nom, prenom, statut FROM users INNER JOIN employe ON users.id = employe.id WHERE nom LIKE '%$nom%' LIMIT $size OFFSET $offset";
+}
+
+$resultat = $pdo->query($requete);
+
+// Requête pour compter le nombre total d'employés
+$requeteCount = "SELECT count(*) as countE 
+                 FROM users INNER JOIN employe ON users.id = employe.id
+                 WHERE nom LIKE '%$nom%' ";
+      if ($statut !== "Tous") {
+        $requeteCount .= " AND statut = '$statut'";
+    }
+    
+$resultatCount = $pdo->query($requeteCount);
+$tabCount = $resultatCount->fetch();
+$nbrEmployes = $tabCount['countE'];
+$reste = $nbrEmployes % $size;
+
+if ($reste === 0) {
+  $nbrPage = $nbrEmployes / $size;
+} else {
+  $nbrPage = floor($nbrEmployes / $size) + 1;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +52,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-
 </head>
 <body>
 
@@ -21,7 +61,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> <!-- Ajoutez la classe justify-content-center pour centrer les éléments -->
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item ">
           <a class="nav-link active" href="employes.php">Employés</a>
@@ -51,80 +91,71 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col">
-      <h2 class="center-text">La liste des employés</h2> 
+      <h2 class="center-text">La liste des employés (<?php echo $nbrEmployes; ?>)</h2> 
       <div class="photo2"><img src="images/19.jpg" /></div>
-    
-      <form class="form-inline mb-3 justify-content-end"> <!-- Utilisez la classe justify-content-end pour aligner à droite -->
-        <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un employé" aria-label="Search">
+      <form method="get" action="employes.php" class="form-inline mb-3 justify-content-end">
+        <input class="form-control mr-sm-2" type="search" name="nom" value="<?php echo $nom; ?>" placeholder="Rechercher un employé" aria-label="Search">
+        <select name="statut" id="statut" class="form-control mr-sm-2">
+            <option value="Tous" <?php if ($statut === "Tous") echo "selected"; ?>>Tous les types</option>
+            <?php
+          $typesReq = "SELECT DISTINCT statut FROM employe";
+          $typesResult = $pdo->query($typesReq);
+          while ($typeData = $typesResult->fetch()) {
+              $selected = $typeData['statut'] == $statut ? 'selected' : '';
+              echo "<option value='{$typeData['statut']}' $selected>{$typeData['statut']}</option>";
+          }
+          ?>
+        </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher </button>
       </form>
 
       <table class="table table-hover">
         <thead class="couleurTableau">
           <tr>
-            <th scope="col">Num employé</th>
-            <th scope="col">Nom employé</th>
-            <th scope="col">prénom employé</th>
+            <th scope="col">ID</th>
+            <th scope="col">Nom </th>
+            <th scope="col">Prénom </th>
+            <th scope="col">Statut </th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
+          <?php while ($employe = $resultat->fetch()) { ?>
           <tr>
-            <th scope="row">1</th>
-            <td>John</td>
-            <td>Doe</td>
+            <th scope="row"><?php echo $employe['user_id']; ?></th>
+            <td><?php echo $employe['nom']; ?></td>
+            <td><?php echo $employe['prenom']; ?></td>
+            <td class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>" ><?php echo $employe['statut']; ?></td>
             <td class="action-icons">
-              <a href="modifierEmployes.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-              <a href="supprimerEmployes.php" class="delete-icon"><i class="fa fa-trash"></i></a>
+              <a href="modifierEmployes.php?id=<?php echo $employe['user_id']; ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
+              <a onclick="return confirm('etes vous sur de vouloir supprimer ce service')" 
+              href="supprimerEmployes.php?id=<?php echo $employe['user_id']; ?>" class="delete-icon"><i class="fa fa-trash"></i></a>
             </td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td class="action-icons">
-              <a href="modifierEmployes.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-              <a href="supprimerEmployes.php" class="delete-icon"><i class="fa fa-trash"></i></a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>David</td>
-            <td>Jones</td>
-            <td class="action-icons">
-              <a href="modifierEmployes.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-              <a href="supprimerEmployes.php" class="delete-icon"><i class="fa fa-trash"></i></a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>David</td>
-            <td>Jones</td>
-            <td class="action-icons">
-              <a href="modifierEmployes.php" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-              <a href="supprimerEmployes.php" class="delete-icon"><i class="fa fa-trash"></i></a>
-            </td>
-          </tr>
+          <?php } ?>
         </tbody>
       </table>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center paginationModif">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédant</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Suivant</a>
-          </li>
-          <a href="ajouterEmployes.php" class="btn ajout mb-3">Ajouter un employé</a>
-        </ul>
-      </nav>
-      
-    </div>
+
+     
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center paginationModif">
+            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+              <a class="page-link" href="employes.php?page=<?php echo $page - 1; ?>&statut=<?php echo $statut; ?>" tabindex="-1" aria-disabled="true">Précédant</a>
+            </li>
+            <?php for ($i = 1; $i <= $nbrPage; $i++) { ?>
+            <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+              <a class="page-link" href="employes.php?page=<?php echo $i; ?>&statut=<?php echo $statut; ?>"><?php echo $i; ?></a>
+            </li>
+            <?php } ?>
+            <li class="page-item <?php if ($page >= $nbrPage) echo 'disabled'; ?>">
+              <a class="page-link" href="employes.php?page=<?php echo $page + 1; ?>&statut=<?php echo $statut; ?>">Suivant</a>
+            </li>
+            <a href="ajouterEmployes.php" class="btn ajout">Ajouter un employé</a>
+          </ul>
+        </nav>
+      </div>
+      </div>
   </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

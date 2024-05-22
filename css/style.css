@@ -1134,3 +1134,12 @@ textarea#comment::placeholder {
   text-align: center;
   margin-top: 19%;
 }
+
+.status-actif {
+  color: green;
+}
+
+.status-autre {
+  color: red;
+}
+

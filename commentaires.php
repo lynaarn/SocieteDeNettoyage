@@ -70,11 +70,17 @@ if ($reste === 0) {
         .card-body {
             text-align: center;
         }
+        .star-rating {
+            font-size: 1.25rem;
+            color: #ddd;
+        }
+        .star-rating .filled {
+            color: gold;
+        }
     </style>
 </head>
   
 <body>
-
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container"> 
@@ -88,7 +94,7 @@ if ($reste === 0) {
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="personnels.php">Personnels</a>
@@ -112,6 +118,7 @@ if ($reste === 0) {
     </div>
   </div>
 </nav>
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -135,7 +142,18 @@ if ($reste === 0) {
         <div class="card border-primary shadow rounded">
             <div class="card-body">
                 <h5 class="card-title"><?php echo htmlspecialchars($commentaire['prenom'] . ' ' . $commentaire['nom']); ?></h5>
-                <h6 class="card-subtitle mb-2 text-muted">Note: <?php echo htmlspecialchars($commentaire['note']); ?></h6>
+                <div class="star-rating">
+                    <?php
+                    $note = $commentaire['note'];
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $note) {
+                            echo '<i class="fas fa-star filled"></i>';
+                        } else {
+                            echo '<i class="fas fa-star"></i>';
+                        }
+                    }
+                    ?>
+                </div>
                 <p class="card-text"><?php echo htmlspecialchars(strlen($commentaire['contenu']) > 60 ? substr($commentaire['contenu'], 0, 60) . '...' : $commentaire['contenu']); ?></p>
             </div>
             <div class="card-footer">
@@ -177,3 +195,5 @@ if ($reste === 0) {
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

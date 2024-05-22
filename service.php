@@ -67,7 +67,7 @@
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="personnels.php">Personnels</a>
@@ -102,8 +102,8 @@
     
       <form method="get" action="service.php" class="form-inline mb-3 justify-content-end"> <!-- Utilisez la classe justify-content-end pour aligner à droite -->
         <input class="form-control mr-sm-2" type="search" 
-        name="NomS" value="<?php echo $noms?>" placeholder="Rechercher un service" aria-label="Search">
-        <select name="TypeS" id="TypeS">
+        name="NomS" value="<?php echo $noms?>" placeholder="Rechercher un service" aria-label="Search" >
+        <select name="TypeS" id="TypeS" class="form-control mr-sm-2">
           <option value="all" <?php if($types==="all") echo "selected" ?>>Tout les services</option>
           <option value="nettoyage residentiel" <?php if($types==="nettoyage residentiel") echo "selected" ?>>Nettoyage résidentiel</option>
           <option value="nettoyage commercial" <?php if($types==="nettoyage commercial") echo "selected" ?>>Nettoyage commercial</option>
@@ -144,13 +144,13 @@
       <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center paginationModif">
     <li class="page-item ">
-      <a class="page-link" href="service.php?page=<?php echo $page-1 ?>" tabindex="-1" aria-disabled="true">Précédant</a>
+    <a class="page-link" href="service.php?page=<?php echo $page - 1; ?>&TypeS=<?php echo $types; ?>" tabindex="-1" aria-disabled="true">Précédant</a>
     </li>
     <?php for($i=1;$i<=$nbrPage;$i++){ ?>
-     <li class="page-item <?php if($i==$page) echo 'active' ?>" class="<?php if($i==$page) echo 'active'?>"><a class="page-link" href="service.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
+     <li class="page-item <?php if($i==$page) echo 'active' ?>" class="<?php if($i==$page) echo 'active'?>"><a class="page-link" href="service.php?page=<?php echo $i ?>&TypeS=<?php echo $types; ?>"><?php echo $i ?></a></li>
     <?php } ?>
     <li class="page-item">
-      <a class="page-link" href="service.php?page=<?php echo $page +1 ?>">Suivant</a>
+      <a class="page-link" href="service.php?page=<?php echo $page +1 ?>&TypeS=<?php echo $types; ?>">Suivant</a>
     </li>
     <a href="ajouterService.php" class="btn ajout mb-3">Ajouter un service</a>
   </ul>

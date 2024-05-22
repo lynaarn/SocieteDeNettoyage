@@ -77,7 +77,7 @@ if ($reste === 0) {
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="personnels.php">Personnels</a>

@@ -78,7 +78,7 @@ if ($reste === 0) {
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="personnels.php">Personnels</a>
@@ -155,20 +155,19 @@ if ($reste === 0) {
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center paginationModif">
           <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-            <a class="page-link" href="clients.php?page=<?php echo $page - 1; ?>" tabindex="-1" aria-disabled="true">Précédent</a>
+            <a class="page-link" href="clients.php?page=<?php echo $page - 1; ?>&type_client=<?php echo $type_client; ?>" tabindex="-1" aria-disabled="true">Précédent</a>
           </li>
           <?php for ($i = 1; $i <= $nbrPage; $i++) { ?>
           <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-            <a class="page-link" href="clients.php?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+            <a class="page-link" href="clients.php?page=<?php echo $i; ?>&type_client=<?php echo $type_client; ?>"><?php echo $i; ?></a>
           </li>
           <?php } ?>
           <li class="page-item <?php if ($page >= $nbrPage) echo 'disabled'; ?>">
-            <a class="page-link" href="clients.php?page=<?php echo $page + 1; ?>">Suivant</a>
+            <a class="page-link" href="clients.php?page=<?php echo $page + 1; ?>&type_client=<?php echo $type_client; ?>">Suivant</a>
           </li>
+          <a href="ajouterClient.php" class="btn ajout mb-3">Ajouter un client</a>
         </ul>
       </nav>
-
-      <a href="ajouterClient.php" class="btn ajout mb-3">Ajouter un client</a>
     </div>
   </div>
 </div>

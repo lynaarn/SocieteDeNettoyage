@@ -11,8 +11,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-
-    
 </head>
 <body>
 
@@ -24,22 +22,20 @@
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav">
-        <li class="nav-item ">
+        <li class="nav-item">
           <a class="nav-link" href="prestationsClient.php">Préstations</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="contratsClients.php">Contrats</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentairesClients.php">commentaires</a>
+          <a class="nav-link" href="commentairesClients.php">Commentaires</a>
         </li>
-        <li class="nav-item1 active ">
-        <a class="nav-link" href="compteClient.php"><i class="fas fa-user fa-lg"></i></a>
-
+        <li class="nav-item1 active">
+          <a class="nav-link" href="compteClient.php"><i class="fas fa-user fa-lg"></i></a>
         </li>
-        <li class="nav-item ">
-        <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
-
+        <li class="nav-item">
+          <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>
@@ -54,7 +50,7 @@
           <div class="info-box">
             <form>
               <div class="text-center mb-3">
-                <img src="images/35.jpg" class="rounded-circle"  width="200">
+                <img src="images/35.jpg" class="rounded-circle" width="200">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
@@ -77,16 +73,27 @@
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="email" class="bold-label"><i class="fas fa-at"></i>Email</label>
-                  <input type="email" class="form-control" id="email">
+              <div class="form-group col-md-6">
+                  <label for="login" class="bold-label"><i class="fas fa-user-circle"></i>Login</label>
+                  <input type="text" class="form-control" id="login">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="mdp" class="bold-label"><i class="fas fa-lock"></i>Mot de passe</label>
                   <input type="password" class="form-control" id="mdp">
                 </div>
               </div>
+              <div class="form-row">   
+                <div class="form-group col-md-6">
+                  <label for="email" class="bold-label"><i class="fas fa-at"></i>Email</label>
+                  <input type="email" class="form-control" id="email">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="date_inscription" class="bold-label"><i class="fas fa-calendar-alt"></i>Date d'inscription</label>
+                  <input type="date" class="form-control" id="date_inscription">
+                </div>
+              </div>
               <button type="submit" class="btn btn-success">Enregistrer</button>
+              <button type="button" class="btn btn-primary ml-2">Modifier</button>
               <button type="button" class="btn btn-danger ml-2">Supprimer le compte</button>
             </form>
           </div>

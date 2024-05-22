@@ -17,7 +17,7 @@ $requete = "SELECT users.id AS user_id, nom, prenom, nomR
             AND prenom LIKE '%$prenom%'";
 
 if ($role !== "all") {
-    $requete .= " AND role = '$role'";
+    $requete .= " AND personnel_administratif.role = $role";
 }
 
 $requete .= " LIMIT $size OFFSET $offset";
@@ -30,7 +30,7 @@ $requeteCount = "SELECT count(*) as countP
                  AND prenom LIKE '%$prenom%'";
 
 if ($role !== "all") {
-    $requeteCount .= " AND role = '$role'";
+    $requeteCount .= " AND personnel_administratif.role = $role";
 }
 
 $resultatF = $pdo->query($requete);
@@ -46,6 +46,8 @@ if ($reste === 0) {
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,7 +75,7 @@ if ($reste === 0) {
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="clients.php">Clients</a>
+          <a class="nav-link" href="Menuclients.php">Clients</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="personnels.php">Personnels</a>
@@ -113,8 +115,8 @@ if ($reste === 0) {
           $rolesReq = "SELECT * FROM roles";
           $rolesResult = $pdo->query($rolesReq);
           while ($roleData = $rolesResult->fetch()) {
-              $selected = $roleData['id'] == $role ? 'selected' : '';
-              echo "<option value='{$roleData['id']}' $selected>{$roleData['nomR']}</option>";
+              $selected = $roleData['numR'] == $role ? 'selected' : '';
+              echo "<option value='{$roleData['numR']}' $selected>{$roleData['nomR']}</option>";
           }
           ?>
         </select>
@@ -150,21 +152,20 @@ if ($reste === 0) {
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center paginationModif">
           <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-            <a class="page-link" href="personnels.php?page=<?php echo $page - 1; ?>" tabindex="-1" aria-disabled="true">Précédent</a>
+            <a class="page-link" href="personnels.php?page=<?php echo $page - 1; ?>&role=<?php echo $role; ?>" tabindex="-1" aria-disabled="true">Précédent</a>
           </li>
           <?php for ($i = 1; $i <= $nbrPage; $i++) { ?>
           <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-            <a class="page-link" href="personnels.php?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+            <a class="page-link" href="personnels.php?page=<?php echo $i; ?>&role=<?php echo $role; ?>"><?php echo $i; ?></a>
           </li>
           <?php } ?>
           <li class="page-item <?php if ($page >= $nbrPage) echo 'disabled'; ?>">
-            <a class="page-link" href="personnels.php?page=<?php echo $page + 1; ?>">Suivant</a>
+            <a class="page-link" href="personnels.php?page=<?php echo $page + 1; ?>&role=<?php echo $role; ?>">Suivant</a>
           </li>
+          <a href="ajouterPersonnel.php" class="btn ajout mb-3">Ajouter un personnel</a>
         </ul>
       </nav>
-
-      <a href="ajouterPersonnel.php" class="btn ajout mb-3">Ajouter un personnel</a>
-    </div>
+     </div>
   </div>
 </div>
 
