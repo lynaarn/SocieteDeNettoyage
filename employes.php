@@ -126,6 +126,9 @@ if ($reste === 0) {
             <td class="action-icons">
               <a href="modifierEmployes.php?id=<?php echo $employe['user_id']; ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
               <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-employee-id="<?php echo $employe['user_id']; ?>"><i class="fa fa-trash"></i></a>
+              <?php if (in_array($employe['statut'], ['Actif', 'Congé', 'Maladie', 'Maternité/Paternité'])) { ?>
+              <a href="#" class="licencier-icon" data-toggle="modal" data-target="#confirmLicencierModal" data-employee-id="<?php echo $employe['user_id']; ?>"><i class="fas fa-user-times"></i></a>
+              <?php } ?>
             </td>
           </tr>
           <?php } ?>
@@ -152,7 +155,7 @@ if ($reste === 0) {
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal de confirmation de suppression -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -173,14 +176,36 @@ if ($reste === 0) {
   </div>
 </div>
 
+<!-- Modal de confirmation de licenciement -->
+<div class="modal fade" id="confirmLicencierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Confirmation de licenciement</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir licencier cet employé ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmLicencierBtn">Licencier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
   var deleteEmployeeId;
+  var licencierEmployeeId;
 
-  // Ouvrir le modal et stocker l'ID de l'employé à supprimer
+  // Ouvrir le modal de suppression et stocker l'ID de l'employé à supprimer
   $('.delete-icon').on('click', function() {
     deleteEmployeeId = $(this).data('employee-id');
   });
@@ -188,6 +213,16 @@ $(document).ready(function() {
   // Confirmer la suppression
   $('#confirmDeleteBtn').on('click', function() {
     window.location.href = 'supprimerEmployes.php?id=' + deleteEmployeeId;
+  });
+
+  // Ouvrir le modal de licenciement et stocker l'ID de l'employé à licencier
+  $('.licencier-icon').on('click', function() {
+    licencierEmployeeId = $(this).data('employee-id');
+  });
+
+  // Confirmer le licenciement
+  $('#confirmLicencierBtn').on('click', function() {
+    window.location.href = 'licencierEmploye.php?id=' + licencierEmployeeId;
   });
 });
 </script>

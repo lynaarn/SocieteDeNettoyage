@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS commentaire (
 CREATE TABLE IF NOT EXISTS employe (
     id INT PRIMARY KEY,
     date_embauche DATE,
-    statut ENUM('Actif', 'Congé', 'Maladie', 'Maternité/Paternité', 'Formation', 'Suspendu', 'Démissionnaire', 'Retraité', 'Licencié') NOT NULL,
+    statut ENUM('Actif', 'Congé', 'Maladie', 'Maternité/Paternité', 'Démissionnaire', 'Licencié') NOT NULL,
     salaire DECIMAL(10, 2) NOT NULL,
     codeCp INT,
     FOREIGN KEY (id) REFERENCES users(id),
@@ -131,6 +131,16 @@ CREATE TABLE IF NOT EXISTS employe_intervention (
     FOREIGN KEY (employe_id) REFERENCES employe(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS ArretDeTravail (
+    NumA INT AUTO_INCREMENT PRIMARY KEY,
+    Type ENUM('Congé', 'Maladie', 'Maternité/Paternité') NOT NULL,
+    Date_deb DATE NOT NULL,
+    Date_fin DATE NOT NULL,
+    Description TEXT,
+    statut ENUM('accordé', 'refusé', 'pas encore traité') DEFAULT 'pas encore traité',
+    id INT,
+    FOREIGN KEY (id) REFERENCES employe(id) ON DELETE CASCADE
+);
 
 -- Insérer les rôles dans la table roles
 INSERT INTO roles (nomR) VALUES ('Responsable RH'), ('Gestionnaire d\'Interventions');
@@ -297,18 +307,18 @@ INSERT INTO employe (id, date_embauche, statut, salaire) VALUES
 (@user_id_start + 1, '2023-01-02', 'Congé', 2200.00),
 (@user_id_start + 2, '2023-01-03', 'Maladie', 2300.00),
 (@user_id_start + 3, '2023-01-04', 'Actif', 2400.00),
-(@user_id_start + 4, '2023-01-05', 'Formation', 2600.00),
+(@user_id_start + 4, '2023-01-05', 'Congé', 2600.00),
 (@user_id_start + 5, '2023-01-06', 'Actif', 2100.00),
 (@user_id_start + 6, '2023-01-07', 'Démissionnaire', 2700.00),
-(@user_id_start + 7, '2023-01-08', 'Retraité', 2500.00),
+(@user_id_start + 7, '2023-01-08', 'Congé', 2500.00),
 (@user_id_start + 8, '2023-01-09', 'Licencié', 2000.00),
 (@user_id_start + 9, '2023-01-10', 'Actif', 2300.00),
 (@user_id_start + 10, '2023-01-11', 'Actif', 2200.00),
 (@user_id_start + 11, '2023-01-12', 'Congé', 2400.00),
 (@user_id_start + 12, '2023-01-13', 'Actif', 2100.00),
 (@user_id_start + 13, '2023-01-14', 'Maternité/Paternité', 2700.00),
-(@user_id_start + 14, '2023-01-15', 'Formation', 2300.00),
-(@user_id_start + 15, '2023-01-16', 'Suspendu', 2200.00),
+(@user_id_start + 14, '2023-01-15', 'Actif', 2300.00),
+(@user_id_start + 15, '2023-01-16', 'Congé', 2200.00),
 (@user_id_start + 16, '2023-01-17', 'Démissionnaire', 2600.00),
 (@user_id_start + 17, '2023-01-18', 'Actif', 2500.00),
 (@user_id_start + 18, '2023-01-19', 'Licencié', 2000.00),
@@ -438,3 +448,12 @@ INSERT INTO materiel (nomM, type, etat, quantite) VALUES
 ('Tapis désinfectant', 'autre', 'neuf', 10),
 ('Lampe UV désinfectante', 'électronique', 'neuf', 5),
 ('Détecteur de fumée', 'électronique', 'bon', 10);
+
+
+-- Insertion de 5 éléments dans la table ArretDeTravail pour 5 employés différents
+INSERT INTO ArretDeTravail (Type, Date_deb, Date_fin, Description, statut, id) VALUES
+('Congé', '2024-06-01', '2024-06-10', 'Congé annuel', 'pas encore traité', @user_id_start),
+('Maladie', '2024-06-05', '2024-06-12', 'Arrêt maladie pour grippe', 'pas encore traité', @user_id_start + 1),
+('Maternité/Paternité', '2024-07-01', '2024-09-30', 'Congé maternité', 'pas encore traité', @user_id_start + 2),
+('Congé', '2024-08-01', '2024-08-15', 'Congé estival', 'pas encore traité', @user_id_start + 3),
+('Maladie', '2024-06-15', '2024-06-22', 'Arrêt maladie pour fracture', 'pas encore traité', @user_id_start + 4);
