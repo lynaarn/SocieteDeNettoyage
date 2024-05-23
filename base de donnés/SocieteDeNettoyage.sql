@@ -176,56 +176,56 @@ VALUES
 -- Insérer 10 utilisateurs pour les clients
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Bernard', 'Alice', 'alice.bernard@example.com', '0123456789', '123 Rue Exemple', 'abernard', 'hashed_password1', 1);
+('Safa', 'Imad', 'alice.bernard@example.com', '0123456789', '123 Rue Exemple', 'abernard', 'hashed_password1', 1);
 
 SET @user_id_1 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Durand', 'Charles', 'charles.durand@example.com', '0123456789', '456 Rue Exemple', 'cdurand', 'hashed_password2', 1);
+('Aourane', 'Lyna', 'charles.durand@example.com', '0123456789', '456 Rue Exemple', 'cdurand', 'hashed_password2', 1);
 
 SET @user_id_2 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Petit', 'David', 'david.petit@example.com', '0123456789', '789 Rue Exemple', 'dpetit', 'hashed_password3', 1);
+('Zdadka', 'Hakim', 'david.petit@example.com', '0123456789', '789 Rue Exemple', 'dpetit', 'hashed_password3', 1);
 
 SET @user_id_3 = LAST_INSERT_ID();
 
 -- Insertion des utilisateurs pour les clients (suite)
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Moreau', 'Emma', 'emma.moreau@example.com', '0123456789', '101 Rue Exemple', 'emoreau', 'hashed_password4', 1);
+('Benfares', 'sarra', 'emma.moreau@example.com', '0123456789', '101 Rue Exemple', 'emoreau', 'hashed_password4', 1);
 
 SET @user_id_4 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Roux', 'Fabien', 'fabien.roux@example.com', '0123456789', '102 Rue Exemple', 'froux', 'hashed_password5', 1);
+('Larbaoui', 'Amine', 'fabien.roux@example.com', '0123456789', '102 Rue Exemple', 'froux', 'hashed_password5', 1);
 
 SET @user_id_5 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Simon', 'Georges', 'georges.simon@example.com', '0123456789', '103 Rue Exemple', 'gsimon', 'hashed_password6', 1);
+('Aksouh', 'Anis', 'georges.simon@example.com', '0123456789', '103 Rue Exemple', 'gsimon', 'hashed_password6', 1);
 
 SET @user_id_6 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Laurent', 'Hélène', 'helene.laurent@example.com', '0123456789', '104 Rue Exemple', 'hlaurent', 'hashed_password7', 1);
+('Harzallah', 'Serine', 'helene.laurent@example.com', '0123456789', '104 Rue Exemple', 'hlaurent', 'hashed_password7', 1);
 
 SET @user_id_7 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Lefevre', 'Isabelle', 'isabelle.lefevre@example.com', '0123456789', '105 Rue Exemple', 'ilefevre', 'hashed_password8', 1);
+('Hachemi', 'Rahima', 'isabelle.lefevre@example.com', '0123456789', '105 Rue Exemple', 'ilefevre', 'hashed_password8', 1);
 
 SET @user_id_8 = LAST_INSERT_ID();
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, etat)
 VALUES 
-('Blanc', 'Jacques', 'jacques.blanc@example.com', '0123456789', '106 Rue Exemple', 'jblanc', 'hashed_password9', 1);
+('Semati', 'Mehdi', 'jacques.blanc@example.com', '0123456789', '106 Rue Exemple', 'jblanc', 'hashed_password9', 1);
 
 SET @user_id_9 = LAST_INSERT_ID();
 

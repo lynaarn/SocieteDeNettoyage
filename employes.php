@@ -36,7 +36,6 @@ if ($reste === 0) {
 } else {
   $nbrPage = floor($nbrEmployes / $size) + 1;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -63,10 +62,9 @@ if ($reste === 0) {
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav">
-        <li class="nav-item ">
+        <li class="nav-item">
           <a class="nav-link active" href="employes.php">Employés</a>
         </li>
-        
         <li class="nav-item">
           <a class="nav-link" href="congés.php">Congés</a>
         </li>
@@ -74,15 +72,14 @@ if ($reste === 0) {
           <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="demandeDemplois.php">demande D'emplois</a>
+          <a class="nav-link" href="demandeDemplois.php">Demande d'emplois</a>
         </li>
-        <li class="nav-item  ">
-            <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+        <li class="nav-item">
+          <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
-        <li class="nav-item ">
-            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
+        <li class="nav-item">
+          <a class="nav-link ml-2" href="deconnexionClient.php">Déconnexion</a>
         </li>
-        
       </ul>
     </div>
   </div>
@@ -98,24 +95,24 @@ if ($reste === 0) {
         <select name="statut" id="statut" class="form-control mr-sm-2">
             <option value="Tous" <?php if ($statut === "Tous") echo "selected"; ?>>Tous les types</option>
             <?php
-          $typesReq = "SELECT DISTINCT statut FROM employe";
-          $typesResult = $pdo->query($typesReq);
-          while ($typeData = $typesResult->fetch()) {
-              $selected = $typeData['statut'] == $statut ? 'selected' : '';
-              echo "<option value='{$typeData['statut']}' $selected>{$typeData['statut']}</option>";
-          }
-          ?>
+            $typesReq = "SELECT DISTINCT statut FROM employe";
+            $typesResult = $pdo->query($typesReq);
+            while ($typeData = $typesResult->fetch()) {
+                $selected = $typeData['statut'] == $statut ? 'selected' : '';
+                echo "<option value='{$typeData['statut']}' $selected>{$typeData['statut']}</option>";
+            }
+            ?>
         </select>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher </button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
       </form>
 
       <table class="table table-hover">
         <thead class="couleurTableau">
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Nom </th>
-            <th scope="col">Prénom </th>
-            <th scope="col">Statut </th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Statut</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -125,40 +122,74 @@ if ($reste === 0) {
             <th scope="row"><?php echo $employe['user_id']; ?></th>
             <td><?php echo $employe['nom']; ?></td>
             <td><?php echo $employe['prenom']; ?></td>
-            <td ><span class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>" ><?php echo $employe['statut']; ?> </span></td>
+            <td><span class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>"><?php echo $employe['statut']; ?></span></td>
             <td class="action-icons">
               <a href="modifierEmployes.php?id=<?php echo $employe['user_id']; ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-              <a onclick="return confirm('etes vous sur de vouloir supprimer ce service')" 
-              href="supprimerEmployes.php?id=<?php echo $employe['user_id']; ?>" class="delete-icon"><i class="fa fa-trash"></i></a>
+              <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-employee-id="<?php echo $employe['user_id']; ?>"><i class="fa fa-trash"></i></a>
             </td>
           </tr>
           <?php } ?>
         </tbody>
       </table>
 
-     
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center paginationModif">
-            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-              <a class="page-link" href="employes.php?page=<?php echo $page - 1; ?>&statut=<?php echo $statut; ?>" tabindex="-1" aria-disabled="true">Précédant</a>
-            </li>
-            <?php for ($i = 1; $i <= $nbrPage; $i++) { ?>
-            <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-              <a class="page-link" href="employes.php?page=<?php echo $i; ?>&statut=<?php echo $statut; ?>"><?php echo $i; ?></a>
-            </li>
-            <?php } ?>
-            <li class="page-item <?php if ($page >= $nbrPage) echo 'disabled'; ?>">
-              <a class="page-link" href="employes.php?page=<?php echo $page + 1; ?>&statut=<?php echo $statut; ?>">Suivant</a>
-            </li>
-            <a href="ajouterEmployes.php" class="btn ajout">Ajouter un employé</a>
-          </ul>
-        </nav>
-      </div>
-      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center paginationModif">
+          <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+            <a class="page-link" href="employes.php?page=<?php echo $page - 1; ?>&statut=<?php echo $statut; ?>" tabindex="-1" aria-disabled="true">Précédent</a>
+          </li>
+          <?php for ($i = 1; $i <= $nbrPage; $i++) { ?>
+          <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+            <a class="page-link" href="employes.php?page=<?php echo $i; ?>&statut=<?php echo $statut; ?>"><?php echo $i; ?></a>
+          </li>
+          <?php } ?>
+          <li class="page-item <?php if ($page >= $nbrPage) echo 'disabled'; ?>">
+            <a class="page-link" href="employes.php?page=<?php echo $page + 1; ?>&statut=<?php echo $statut; ?>">Suivant</a>
+          </li>
+          <a href="ajouterEmployes.php" class="btn ajout mb-3">Ajouter un employé</a>
+        </ul>
+      </nav>
+    </div>
   </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation de la suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir supprimer cet employé ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  var deleteEmployeeId;
+
+  // Ouvrir le modal et stocker l'ID de l'employé à supprimer
+  $('.delete-icon').on('click', function() {
+    deleteEmployeeId = $(this).data('employee-id');
+  });
+
+  // Confirmer la suppression
+  $('#confirmDeleteBtn').on('click', function() {
+    window.location.href = 'supprimerEmployes.php?id=' + deleteEmployeeId;
+  });
+});
+</script>
 </body>
 </html>

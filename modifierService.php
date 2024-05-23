@@ -96,7 +96,7 @@ margin-bottom: 20px;
 </div>
 <div class="form-group">
         <label for="typeService" class="form-label">Type Service</label>
-        <select name="TypeS" id="TypeS">
+        <select name="TypeS" id="TypeS" class="form-control mr-sm-2">
           <option value="nettoyage residentiel" <?php if($types=="nettoyage residentiel") echo "selected" ?>>Nettoyage résidentiel</option>
           <option value="nettoyage commercial" <?php if($types=="nettoyage commercial") echo "selected" ?>>Nettoyage commercial</option>
           <option value="nettoyage industriel"<?php if($types=="nettoyage industriel") echo "selected" ?> >Nettoyage industriel</option>
