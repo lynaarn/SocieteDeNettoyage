@@ -54,14 +54,8 @@
                   <div class="menu_main">
                     <div class="padding_left0">
                       <a href="creationcompte.php">Créer compte</a>
-                      <span class="padding_left0"
-                        ><a
-                          href="authentification.php"
-                          data-toggle="modal"
-                          data-target="#loginModal"
-                          >Se connecter</a
-                        ></span
-                      >
+                      <span class="padding_left0"></span>
+                        <a href="authentification.php">Se connecter</a></span>
                     </div>
                   </div>
                 </div>
@@ -83,7 +77,7 @@
                 </div>
                 <span class="navbar-toggler-icon"></span>
                 <span onclick="openNav()"
-                  ><img src="images/toggle-icon.png" class="toggle_menu"
+                  ><img src="" class="toggle_menu"
                 /></span>
               </ul>
             </div>
@@ -101,12 +95,6 @@
                 Nous offrons le meilleur service de nettoyage, vous ne serez pas
                 déçu de notre efficacité et de notre professionnalisme.
               </p>
-              <div class="contact_bt">
-                <a href="contact.html"
-                  >CONTACTEZ NOUS<span class="contact_padding"
-                    ><img src="images/contact-icon.png" /></span
-                ></a>
-              </div>
             </div>
 
             <div class="col-sm-5">
@@ -605,58 +593,5 @@
         document.getElementById("myNav").style.width = "0%";
       }
     </script>
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="loginModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <!-- Contenu du modal -->
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Se connecter</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Contenu du corps du modal -->
-            <form>
-              <div class="form-group">
-                <label for="username">Email</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="username"
-                  placeholder="Entrez votre email"
-                />
-              </div>
-              <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  placeholder="Entrez votre mot de passe"
-                />
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn ajout mb-3">Se connecter</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </body>
 </html>

@@ -57,7 +57,7 @@ if ($reste === 0) {
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container"> 
-    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Capiclean Logo"></a>
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -91,7 +91,7 @@ if ($reste === 0) {
 <div class="container mt-5">
   <div class="row">
     <div class="col">
-      <h2 class="center-text">La liste des employés (<?php echo $nbrEmployes; ?>)</h2> 
+      <h2 class="center-text">La liste des employés <!-- (<?php echo $nbrEmployes; ?>) --></h2> 
       <div class="photo2"><img src="images/19.jpg" /></div>
       <form method="get" action="employes.php" class="form-inline mb-3 justify-content-end">
         <input class="form-control mr-sm-2" type="search" name="nom" value="<?php echo $nom; ?>" placeholder="Rechercher un employé" aria-label="Search">
@@ -125,7 +125,7 @@ if ($reste === 0) {
             <th scope="row"><?php echo $employe['user_id']; ?></th>
             <td><?php echo $employe['nom']; ?></td>
             <td><?php echo $employe['prenom']; ?></td>
-            <td class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>" ><?php echo $employe['statut']; ?></td>
+            <td ><span class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>" ><?php echo $employe['statut']; ?> </span></td>
             <td class="action-icons">
               <a href="modifierEmployes.php?id=<?php echo $employe['user_id']; ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
               <a onclick="return confirm('etes vous sur de vouloir supprimer ce service')" 

@@ -1,69 +1,105 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création de compte</title>
+    <title>Créer compte</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<link rel="stylesheet" href="css/style.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        .contents {
-            padding: 40px;
-            margin-top: 30px;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url(../images/36.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
+        .form-container {
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+        .imgg {
+            width: 30%;
+            margin: 0 auto 20px auto;
+            display: block;
         }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
+        .titre {
+            font-weight: bold;
+            color: #2774AE;
         }
+        .form-group i {
+            margin-right: 10px;
+            color: #2774AE;
+        }
+        .modal-footer {
+          
+          
+            align-items: center;
+        }
+       
     </style>
 </head>
 <body>
-  
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <img src="images/24.jpg" alt="Image" class="img-fluid">
-            </div>
-            <div class="col-md-6 contents">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="mb-4">
-                            <h3>Se connecter</h3>
-                        </div>
-                        <form action="#" method="post">
-                            <div class="form-group">
-                                <label for="username">Email</label>
-                                <input type="text" class="form-control" id="username">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Mot de passe</label>
-                                <input type="password" class="form-control" id="password">
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Valider" class="btn ajout mb-3">
-                            </div>
-                        </form>
-                        <div class="d-flex mb-5 align-items-center">
-                            <span class="ml-auto">Vous n'avez pas de compte ? <a href="#" class="forgot-pass">Créer un compte</a></span>
-                        </div>
-                    </div>
+
+<div class="container">
+    <div class="form-container">
+        <div class="imgg">
+            <img src="images/logoo.png" alt="Logo">
+        </div>
+        <h2 class="text-center mb-4 titre">Créer un compte</h2>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="nom"><i class="fas fa-user"></i>Nom</label>
+                    <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="prenom"><i class="fas fa-user"></i>Prénom</label>
+                    <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom" required>
                 </div>
             </div>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="num_tel"><i class="fas fa-phone"></i>Numéro de téléphone</label>
+                    <input type="tel" class="form-control" id="num_tel" placeholder="Entrez votre numéro de téléphone" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="adresse"><i class="fas fa-map-marker-alt"></i>Adresse</label>
+                    <input type="text" class="form-control" id="adresse" placeholder="Entrez votre adresse" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="username"><i class="fas fa-envelope"></i>Email</label>
+                    <input type="email" class="form-control" id="username" placeholder="Entrez votre email" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password"><i class="fas fa-unlock-alt"></i>Mot de passe</label>
+                    <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="confirm_password"><i class="fas fa-unlock-alt"></i>Confirmer le mot de passe</label>
+                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirmer votre mot de passe" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Valider</button>
+                <button type="reset" class="btn btn-danger">Annuler</button>
+            </div>
+        </form>
     </div>
 </div>
 

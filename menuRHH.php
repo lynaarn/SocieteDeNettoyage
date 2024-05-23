@@ -74,7 +74,7 @@
                 <div class="links">
                 <a href="employes.php" class="btn btn-primary btn-block mb-2">Gérer les employés </a>
                     <a href="congés.php" class="btn btn-primary btn-block mb-2">Gérer les congés</a>
-                    <a href="arrêtDeTravail.php" class="btn btn-primary btn-block mb-2">Gérer les arrêts de travail.php</a>
+                    <a href="arrêtDeTravail.php" class="btn btn-primary btn-block mb-2">Gérer les arrêts de travail</a>
                     <a href="demandeDemplois.php" class="btn btn-primary btn-block mb-2">Gérer les demandes d'emplois</a>
                   
                 </div>

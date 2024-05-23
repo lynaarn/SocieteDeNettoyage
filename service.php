@@ -96,7 +96,7 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col">
-      <h2 class="center-text">Les services:(<?php echo $nbrService ?>)</h2> 
+      <h2 class="center-text">Les services:<!--(<?php echo $nbrService ?>)--></h2> 
       <div class="photo"><img src="images/3.jpg" /></div>
       
     
@@ -134,7 +134,7 @@
     <td class="action-icons">
   
     <a href="modifierService.php?codes=<?php echo $service['CodeS']?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-    <a onclick="return confirm('etes vous sur de vouloir supprimer ce service')" 
+    <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce service ?')" 
     href="supprimerService.php?codes=<?php echo $service['CodeS']?>" class="delete-icon"><i class="fa fa-trash"></i></a>
 </td>
 </tr>

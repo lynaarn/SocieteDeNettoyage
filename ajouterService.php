@@ -92,7 +92,7 @@
 </div>
 
 
-                <button type="submit" class="btn btn-success btn-send">valider</button>
+                <button type="submit" class="btn btn-success btn-send">Enregistrer</button>
             </form>
         </div>
     </div>

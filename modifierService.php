@@ -32,7 +32,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     
-  
+  <style>
+    .ok{
+margin-bottom: 20px;
+    }
+    </style>
 </head>
 <body>
 
@@ -76,7 +80,7 @@
 
 <div class="container mt-5 custom-container">
     <div class="row justify-content-center">
-    <div class="photo4"><img src="images/14.jpg" /></div>
+    <div class="photo4"><img src="images/img-6.png" /></div>
         <div class="col-md-6">
        
             <h2 class="text-center mb-4 center-text2 ">Modifier un Service</h2>
@@ -114,7 +118,7 @@
 
 
 
-                <button type="submit" class="btn btn-success btn-send">valider</button>
+                <button type="submit" class="btn btn-success btn-send ok">valider</button>
             </form>
         </div>
     </div>
