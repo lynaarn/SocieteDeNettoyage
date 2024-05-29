@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 $nom = isset($_GET['nom']) ? $_GET['nom'] : "";
@@ -45,7 +46,8 @@ if ($reste === 0) {
     $nbrPage = floor($nbrPersonnels / $size) + 1;
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,7 +144,7 @@ if ($reste === 0) {
             <td onclick="window.location='informationsPersonnel.php?id=<?php echo $personnel['user_id']; ?>'"><?php echo $personnel['nomR']; ?></td>
             <td class="action-icons">
               <a href="modifierPersonnel.php?id=<?php echo $personnel['user_id']; ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
-              <a href="supprimerPersonnels.php?id=<?php echo $personnel['user_id']; ?>" class="delete-icon"><i class="fas fa-trash"></i></a>
+              <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-personnel-id="<?php echo $personnel['user_id']; ?>"><i class="fa fa-trash"></i></a>
             </td>
           </tr>
           <?php } ?>
@@ -169,8 +171,45 @@ if ($reste === 0) {
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de la suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir supprimer ce personnel ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  var deletePersonnelId;
+
+  // Ouvrir le modal et stocker l'ID du personnel à supprimer
+  $('.delete-icon').on('click', function() {
+    deletePersonnelId = $(this).data('personnel-id');
+  });
+
+  // Confirmer la suppression
+  $('#confirmDeleteBtn').on('click', function() {
+    window.location.href = 'supprimerPersonnel.php?id=' + deletePersonnelId;
+  });
+});
+</script>
 </body>
 </html>
+<?php } ?> 

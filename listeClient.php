@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 $id = isset($_GET['id']) ? $_GET['id'] : 0;

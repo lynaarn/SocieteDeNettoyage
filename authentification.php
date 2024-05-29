@@ -1,3 +1,14 @@
+<?php
+session_start();
+if(isset($_SESSION['error'])) { 
+    
+    $erreur = $_SESSION['error'];}
+     
+else{
+    $erreur ="";
+}
+session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,14 +83,19 @@
             <img src="images/logoo.png" alt="Logo">
         </div>
         <h2 class="text-center mb-4 titre">Se connecter</h2>
-        <form>
+        <form method="post" action="seConnecter.php">
+      <?php if(!empty($erreur)) { ?>
+            <div class="alert alert-danger"> 
+                   <?php echo $erreur ?>  
+            </div>
+       <?php } ?>
             <div class="form-group">
-                <label for="username"><i class="fas fa-envelope"></i>Email</label>
-                <input type="email" class="form-control" id="username" placeholder="Entrez votre email" required>
+                <label for="username"><i class="fas fa-envelope"></i>Email/Login</label>
+                <input type="text" name="login" class="form-control"  placeholder="Entrez votre email" required>
             </div>
             <div class="form-group">
                 <label for="password"><i class="fas fa-unlock-alt"></i>Mot de passe</label>
-                <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe" required>
+                <input type="password" class="form-control" name="pwd" placeholder="Entrez votre mot de passe" required>
             </div>
             <div class="modal-footer">
                 

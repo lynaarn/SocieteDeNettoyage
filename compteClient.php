@@ -1,3 +1,13 @@
+<?php 
+require_once("identifier.php");
+require_once("connexiondb.php"); // Inclusion de la connexion à la base de données
+?>
+<?php 
+if ($_SESSION['user']['TypeCompte'] == 'Client') {
+    $user = $_SESSION['user'];
+    $client = getClientDetails($user['id']); // Function to fetch client details like date_inscription and type_client
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -55,41 +65,51 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="nom" class="bold-label"><i class="far fa-user"></i>Nom</label>
-                  <input type="text" class="form-control" id="nom">
+                  <input type="text" class="form-control" id="nom" value="<?php echo htmlspecialchars($user['nom']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="prenom" class="bold-label"><i class="far fa-user"></i>Prénom</label>
-                  <input type="text" class="form-control" id="prenom">
+                  <input type="text" class="form-control" id="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="tel" class="bold-label"><i class="fas fa-phone"></i>Numéro de téléphone</label>
-                  <input type="text" class="form-control" id="tel">
+                  <input type="text" class="form-control" id="tel" value="<?php echo htmlspecialchars($user['telephone']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="adresse" class="bold-label"><i class="fas fa-map-marker-alt"></i>Adresse</label>
-                  <input type="text" class="form-control" id="adresse">
+                  <input type="text" class="form-control" id="adresse" value="<?php echo htmlspecialchars($user['adresse']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
-              <div class="form-group col-md-6">
+                <div class="form-group col-md-6">
                   <label for="login" class="bold-label"><i class="fas fa-user-circle"></i>Login</label>
-                  <input type="text" class="form-control" id="login">
+                  <input type="text" class="form-control" id="login" value="<?php echo htmlspecialchars($user['login']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="mdp" class="bold-label"><i class="fas fa-lock"></i>Mot de passe</label>
-                  <input type="password" class="form-control" id="mdp">
+                  <input type="password" class="form-control" id="mdp" value="********" readonly>
                 </div>
               </div>
               <div class="form-row">   
                 <div class="form-group col-md-6">
                   <label for="email" class="bold-label"><i class="fas fa-at"></i>Email</label>
-                  <input type="email" class="form-control" id="email">
+                  <input type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="date_inscription" class="bold-label"><i class="fas fa-calendar-alt"></i>Date d'inscription</label>
-                  <input type="date" class="form-control" id="date_inscription">
+                  <input type="date" class="form-control" id="date_inscription" value="<?php echo htmlspecialchars($client['date_inscription']); ?>" readonly>
+                </div>
+              </div>
+              <div class="form-row">   
+                <div class="form-group col-md-6">
+                  <label for="typeCompte" class="bold-label"><i class="fas fa-id-badge"></i>Type de Compte</label>
+                  <input type="text" class="form-control" id="typeCompte" value="<?php echo htmlspecialchars($user['TypeCompte']); ?>" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="typeClient" class="bold-label"><i class="fas fa-user-tag"></i>Type de Client</label>
+                  <input type="text" class="form-control" id="typeClient" value="<?php echo htmlspecialchars($client['type_client']); ?>" readonly>
                 </div>
               </div>
               <button type="submit" class="btn btn-success">Enregistrer</button>
@@ -109,3 +129,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php 
+} 
+
+function getClientDetails($userId) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT date_inscription, type_client FROM Client WHERE id = :userId");
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+?>

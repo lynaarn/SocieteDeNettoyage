@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 // Récupération des filtres et pagination
@@ -37,7 +38,8 @@ if ($reste === 0) {
   $nbrPage = floor($nbrEmployes / $size) + 1;
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='RRH') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -228,3 +230,4 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+<?php } ?> 

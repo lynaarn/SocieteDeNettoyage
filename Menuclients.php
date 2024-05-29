@@ -1,3 +1,6 @@
+<?php 
+ session_start();
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,3 +75,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?>

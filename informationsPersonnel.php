@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 // Vérification de la présence de l'ID dans l'URL
@@ -6,7 +7,7 @@ if(isset($_GET['id'])) {
     $id = $_GET['id'];
     
     // Requête pour récupérer les informations de l'utilisateur et son rôle
-    $requete = "SELECT u.*, r.nomR
+    $requete = "SELECT u.*, r.nomR, pa.date_embauche
                 FROM users u
                 INNER JOIN personnel_administratif pa ON u.id = pa.id
                 INNER JOIN roles r ON pa.role = r.numR
@@ -23,7 +24,8 @@ if(isset($_GET['id'])) {
     exit();
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,6 +112,10 @@ if(isset($_GET['id'])) {
             <th scope="row">Rôle</th>
             <td><?php echo $personnel['nomR']; ?></td>
           </tr>
+          <tr>
+            <th scope="row">Date d'embauche</th>
+            <td><?php echo $personnel['date_embauche']; ?></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -121,3 +127,4 @@ if(isset($_GET['id'])) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?>

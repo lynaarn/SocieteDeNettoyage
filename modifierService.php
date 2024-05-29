@@ -1,4 +1,5 @@
 <?php
+    require_once("identifier.php");
      require_once("connexiondb.php");
 
     $codes=isset($_GET['codes'])?$_GET['codes']:0;
@@ -17,7 +18,8 @@
       exit();
   }
 ?>  
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,3 +135,4 @@ margin-bottom: 20px;
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?>

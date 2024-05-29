@@ -1,11 +1,12 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 $id = isset($_GET['id']) ? $_GET['id'] : 0;
 $requete = "SELECT users.id AS user_id, nom, prenom, email, telephone, adresse, login, etat, role, nomR, date_embauche 
             FROM users
             INNER JOIN personnel_administratif ON users.id = personnel_administratif.id
-            INNER JOIN roles ON users.role = roles.id
+            INNER JOIN roles ON personnel_administratif.role = roles.numR
             WHERE users.id = $id";
 
 $resultat = $pdo->query($requete);
@@ -26,7 +27,8 @@ if ($personnel = $resultat->fetch()) {
     exit();
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,8 +120,8 @@ if ($personnel = $resultat->fetch()) {
                         $rolesReq = "SELECT * FROM roles";
                         $rolesResult = $pdo->query($rolesReq);
                         while ($roleData = $rolesResult->fetch()) {
-                            $selected = $roleData['id'] == $role ? 'selected' : '';
-                            echo "<option value='{$roleData['id']}' $selected>{$roleData['nomR']}</option>";
+                            $selected = $roleData['numR'] == $role ? 'selected' : '';
+                            echo "<option value='{$roleData['numR']}' $selected>{$roleData['nomR']}</option>";
                         }
                         ?>
                     </select>
@@ -139,3 +141,4 @@ if ($personnel = $resultat->fetch()) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?> 

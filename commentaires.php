@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 // Récupération des filtres et pagination
@@ -45,7 +46,8 @@ if ($reste === 0) {
     $nbrPage = floor($nbrCommentaires / $size) + 1;
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,6 +78,9 @@ if ($reste === 0) {
         }
         .star-rating .filled {
             color: gold;
+        }
+        .full-text {
+            display: none;
         }
     </style>
 </head>
@@ -138,39 +143,58 @@ if ($reste === 0) {
 
       <div class="row justify-content-center">
       <?php while ($commentaire = $resultatF->fetch()) { ?>
-    <div class="col-md-4">
-        <div class="card border-primary shadow rounded">
-            <div class="card-body">
-                <h5 class="card-title"><?php echo htmlspecialchars($commentaire['prenom'] . ' ' . $commentaire['nom']); ?></h5>
-                <div class="star-rating">
-                    <?php
-                    $note = $commentaire['note'];
-                    for ($i = 1; $i <= 5; $i++) {
-                        if ($i <= $note) {
-                            echo '<i class="fas fa-star filled"></i>';
-                        } else {
-                            echo '<i class="fas fa-star"></i>';
+        <div class="col-md-4">
+            <div class="card border-primary shadow rounded">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo htmlspecialchars($commentaire['prenom'] . ' ' . $commentaire['nom']); ?></h5>
+                    <div class="star-rating">
+                        <?php
+                        $note = $commentaire['note'];
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $note) {
+                                echo '<i class="fas fa-star filled"></i>';
+                            } else {
+                                echo '<i class="fas fa-star"></i>';
+                            }
                         }
-                    }
-                    ?>
+                        ?>
+                    </div>
+                    <p class="card-text short-text"><?php echo htmlspecialchars(strlen($commentaire['contenu']) > 60 ? substr($commentaire['contenu'], 0, 60) . '...' : $commentaire['contenu']); ?></p>
+                    <p class="card-text full-text d-none" data-full-text="<?php echo htmlspecialchars($commentaire['contenu']); ?>"><?php echo htmlspecialchars($commentaire['contenu']); ?></p>
                 </div>
-                <p class="card-text"><?php echo htmlspecialchars(strlen($commentaire['contenu']) > 60 ? substr($commentaire['contenu'], 0, 60) . '...' : $commentaire['contenu']); ?></p>
-            </div>
-            <div class="card-footer">
-                <?php if (strlen($commentaire['contenu']) > 60) { ?>
-                    <!-- Passer le CodeC du commentaire dans l'URL -->
-                    <a class="btn btn-primary" href="commentaire_complet.php?CodeC=<?php echo $commentaire['CodeC']; ?>">Lire la suite</a>
-                <?php } ?>
-                <a onclick="return confirm('etes vous sur de vouloir supprimer ce commentaire')"
-                class="btn btn-danger" href="supprimer_commentaire.php?CodeC=<?php echo $commentaire['CodeC']; ?>">
-            <i class="fas fa-trash-alt"></i> <!-- Icône de la corbeille -->
-        </a>
-                <p class="card-text"><small class="text-muted">Posté le <?php echo htmlspecialchars($commentaire['date_creation']); ?></small></p>
+                <div class="card-footer">
+                    <?php if (strlen($commentaire['contenu']) > 60) { ?>
+                        <a class="btn btn-primary toggle-text" href="#" data-toggle="modal" data-target="#commentModal-<?php echo $commentaire['CodeC']; ?>">Lire la suite</a>
+                    <?php } ?>
+                    <a href="#" class="btn btn-danger delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-comment-id="<?php echo $commentaire['CodeC']; ?>">
+                        <i class="fas fa-trash-alt"></i> <!-- Icône de la corbeille -->
+                    </a>
+                    <p class="card-text"><small class="text-muted">Posté le <?php echo htmlspecialchars($commentaire['date_creation']); ?></small></p>
+                </div>
             </div>
         </div>
-    </div>
-<?php } ?>
-
+        
+        <!-- Modal pour afficher le commentaire complet -->
+        <div class="modal fade" id="commentModal-<?php echo $commentaire['CodeC']; ?>" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel-<?php echo $commentaire['CodeC']; ?>" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="commentModalLabel-<?php echo $commentaire['CodeC']; ?>">Commentaire complet</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <?php echo htmlspecialchars($commentaire['contenu']); ?>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      <?php } ?>
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center paginationModif">
@@ -191,9 +215,46 @@ if ($reste === 0) {
   </div>
 </div>
 
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteLabel">Confirmation de la suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir supprimer ce commentaire ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  var deleteCommentId;
+
+  // Ouvrir le modal et stocker l'ID du commentaire à supprimer
+  $('.delete-icon').on('click', function() {
+    deleteCommentId = $(this).data('comment-id');
+  });
+
+  // Confirmer la suppression
+  $('#confirmDeleteBtn').on('click', function() {
+    window.location.href = 'supprimer_commentaire.php?CodeC=' + deleteCommentId;
+  });
+});
+</script>
 </body>
 </html>
+<?php } ?> 

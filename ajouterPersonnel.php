@@ -1,25 +1,40 @@
+<?php
+require_once("identifier.php");
+require_once("connexiondb.php");
+
+// Vérifiez que la connexion à la base de données est bien établie
+if ($pdo) {
+    // Requête pour récupérer les rôles
+    $reqRoles = "SELECT numR, nomR FROM roles";
+    $resultatRoles = $pdo->query($reqRoles);
+
+    // Vérifiez s'il y a une erreur dans la requête SQL
+    if ($resultatRoles === false) {
+        echo "Erreur dans la requête SQL : " . $pdo->errorInfo()[2];
+    } else {
+        $roles = $resultatRoles->fetchAll(PDO::FETCH_ASSOC);
+    }
+} else {
+    echo "Erreur de connexion à la base de données.";
+}
+?>
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capiclean</title>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-    
-  
 </head>
 <body>
-
-
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container"> 
-    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo "></a>
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -53,15 +68,11 @@
     </div>
   </div>
 </nav>
-
-
 <div class="container mt-5 custom-container">
     <div class="row justify-content-center">
-    <div class="photo4"><img src="images/16.jpg" /></div>
+        <div class="photo4"><img src="images/16.jpg" /></div>
         <div class="col-md-6">
-       
             <h2 class="text-center mb-4 center-text2 ">Ajouter un Personnel</h2>
-           
             <form method="post" action="insertPersonnel.php">
                 <div class="form-group">
                     <label for="nom" class="form-label">Nom</label>
@@ -94,8 +105,16 @@
                 <div class="form-group">
                     <label for="role" class="form-label">Rôle</label>
                     <select class="form-control form-input" id="role" name="role">
-                        <option value="1">Administratif</option>
-                        <!-- Ajoutez ici d'autres options pour les différents rôles -->
+                    <option value="" selected disabled>Choisir le role</option>
+                        <?php
+                        if (!empty($roles)) {
+                            foreach ($roles as $role) {
+                                echo "<option value='" . $role['numR'] . "'>" . $role['nomR'] . "</option>";
+                            }
+                        } else {
+                            echo "<option value=''>Aucun rôle disponible</option>";
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="form-group">
@@ -107,9 +126,9 @@
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?> 

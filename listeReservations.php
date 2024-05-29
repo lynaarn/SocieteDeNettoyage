@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 // Connexion à la base de données
 $mysqli = new mysqli("localhost", "root", "", "GestionSocieteNettoyage");
 

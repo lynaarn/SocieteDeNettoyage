@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 // Récupération des filtres et pagination
@@ -48,7 +49,8 @@ if ($reste === 0) {
     $nbrPage = floor($nbrClients / $size) + 1;
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,3 +179,4 @@ if ($reste === 0) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?> 

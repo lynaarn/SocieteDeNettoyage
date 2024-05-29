@@ -1,3 +1,29 @@
+<?php 
+require_once("identifier.php");
+require_once("connexiondb.php"); // Inclusion de la connexion à la base de données
+?>
+<?php 
+if ($_SESSION['user']['TypeCompte'] == 'Client') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $contenu = isset($_POST['comment']) ? $_POST['comment'] : '';
+        $note = isset($_POST['rating']) ? (int)$_POST['rating'] : 0;
+        $client_id = $_SESSION['user']['id'];
+
+        if (!empty($contenu) && $note >= 1 && $note <= 5) {
+            $stmt = $pdo->prepare("INSERT INTO commentaire (client_id, contenu, note) VALUES (:client_id, :contenu, :note)");
+            $stmt->bindParam(':client_id', $client_id);
+            $stmt->bindParam(':contenu', $contenu);
+            $stmt->bindParam(':note', $note);
+            if ($stmt->execute()) {
+                $_SESSION['message'] = "Commentaire ajouté avec succès.";
+            } else {
+                $_SESSION['message'] = "Erreur lors de l'ajout du commentaire.";
+            }
+        } else {
+            $_SESSION['message'] = "Veuillez remplir tous les champs correctement.";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,8 +37,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-   
-    
 </head>
 <body>
 
@@ -49,12 +73,17 @@
 <div class="container mt-5 top-margin-adjust">
     <div class="row">
         <div class="col-md-8 offset-md-2">
+            <?php if (isset($_SESSION['message'])) { ?>
+                <div class="alert alert-info">
+                    <?php echo $_SESSION['message']; unset($_SESSION['message']); ?>
+                </div>
+            <?php } ?>
             <div class="comment-box">
                 <h2 class="comment-title">Laissez un commentaire</h2>
-                <form>
+                <form method="POST" action="">
                     <div class="form-group">
                         <label for="comment">Votre commentaire :</label>
-                        <textarea class="form-control" id="comment" rows="3"></textarea>
+                        <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -76,8 +105,6 @@
     </div>
 </div>
 
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -95,12 +122,30 @@ $(document).ready(function() {
     );
 
     $('.star').click(function() {
-        $(this).prevAll().addBack().toggleClass('selected');
         var ratingValue = $(this).attr('data-value');
         $('#ratingInput').val(ratingValue);
+        $(this).siblings().removeClass('selected');
+        $(this).prevAll().addBack().addClass('selected');
     });
+
+    // Update stars based on hidden input value on page load
+    var initialRating = $('#ratingInput').val();
+    if (initialRating > 0) {
+        $('.star[data-value="' + initialRating + '"]').prevAll().addBack().addClass('selected');
+    }
 });
 </script>
 
 </body>
 </html>
+<?php 
+}
+
+function getClientDetails($userId) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT date_inscription, type_client FROM Client WHERE id = :userId");
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+?>

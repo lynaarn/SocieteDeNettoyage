@@ -1,4 +1,5 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 // Récupération des filtres et pagination
@@ -14,6 +15,7 @@ $requete = "
     INNER JOIN employe emp ON arret.id = emp.id
     INNER JOIN users ON emp.id = users.id
     WHERE arret.statut = 'pas encore traité' AND users.nom LIKE '%$nom%'
+    And  arret.Type IN ( 'Congé', 'Maladie', 'Maternité/Paternité')
     LIMIT $size OFFSET $offset
 ";
 
@@ -38,7 +40,8 @@ if ($reste === 0) {
     $nbrPage = floor($nbrConges / $size) + 1;
 }
 ?>
-
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='RRH') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -153,3 +156,5 @@ if ($reste === 0) {
 <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?> 
+

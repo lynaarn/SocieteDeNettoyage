@@ -1,4 +1,6 @@
 <?php
+session_start();
+if(isset($_SESSION['user'])){
      require_once("connexiondb.php");
     
 
@@ -8,11 +10,14 @@
     $Duree=isset($_POST['Duree'])?$_POST['Duree']:"";
     $Description=isset($_POST['Description'])?$_POST['Description']:"";
 
-$requete="insert into Service(NomS,TypeS,TarifHr, Duree, Description) value(?,?,?,?,?)";
-$params=array($noms,$types,$TarifHr,$Duree,$Description);
-$resultat = $pdo->prepare($requete);
-$resultat->execute($params);
+    $requete="insert into Service(NomS,TypeS,TarifHr, Duree, Description) value(?,?,?,?,?)";
+    $params=array($noms,$types,$TarifHr,$Duree,$Description);
+    $resultat = $pdo->prepare($requete);
+    $resultat->execute($params);
 
-header('location:service.php');
+    header('location:service.php');
+}else {
+    header('location:authentification.php');
+ }
 
 ?>

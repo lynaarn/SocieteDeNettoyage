@@ -1,10 +1,11 @@
 <?php
+require_once("identifier.php");
 require_once("connexiondb.php");
 
 $noms = isset($_GET['NomS']) ? $_GET['NomS'] : "";
 $types = isset($_GET['TypeS']) ? $_GET['TypeS'] : "all";
 
-$size = isset($_GET['size']) ? $_GET['size'] : 5;
+$size = isset($_GET['size']) ? $_GET['size'] : 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $size;
 
@@ -36,6 +37,8 @@ if ($reste === 0)
 else
     $nbrPage = floor($nbrService / $size) + 1;
 ?>
+<?php 
+ if ($_SESSION['user']['TypeCompte']=='Admin') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +57,7 @@ else
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container">
-    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo "></a>
+    <a class="navbar-brand" href="index.php"><img src="images/logoo.png" alt="Capiclean Logo "></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -193,3 +196,4 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+<?php } ?>
