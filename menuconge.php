@@ -12,7 +12,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     
-  
+    <style>
+        body {
+            background-color:#F2F8FE;
+        }
+        .content {
+            margin-top: 80px;
+            text-align: center;
+        }
+        .links a {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+            
+        }
+        .links a:hover {
+            color: #E5F1FE;
+        }
+    </style>
   
 </head>
 <body>
@@ -29,7 +47,7 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link active " href="menuconge.php">Congés</a>
+          <a class="nav-link active" href="#">Congés</a>
         </li>
         <li class="nav-item  ">
           <a class="nav-link" href="historiqueintervention.php">Historique interventions</a>
@@ -48,39 +66,21 @@
   </div>
 </nav>
 
-
-<div class="container mt-5 custom-container">
+<div class="container content">
     <div class="row justify-content-center">
-    <div class="photo5"><img src="images/21.jpg" /></div>
-        <div class="col-md-6">
-       
-            <h2 class="text-center mb-4 center-text2 ">Demander congé</h2>
-           
-            <form method="post" action="insertService.php">
-            <form action="traitement_demande_demission.php" method="post">
-                        <div class="form-group">
-                            <label for="nom">Nom</label>
-                            <input type="text" class="form-control" id="nom" name="nom" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="prenom">Prénom</label>
-                            <input type="text" class="form-control" id="prenom" name="prenom" required>
-                        </div>
-                        <div class="form-group">
-                        <label for="date"><i class="fas fa-calendar-alt"></i>Date de début</label>
-                        <input type="date" class="form-control" id="date" name="date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="date"><i class="fas fa-calendar-alt"></i>Date de fin</label>
-                        <input type="date" class="form-control" id="date" name="date" required>
-                    </div>
-                      
-                   
-                <button type="submit" class="btn btn-success btn-send">Envoyer la demande</button>
-            </form>
+        <div class="col-md-8">
+            <div class="card-body">
+                <div class="links">
+                <a href="congésEmploye.php" class="btn btn-primary btn-block mb-2">Demander congé </a>
+                    <a href="suivreconge.php" class="btn btn-primary btn-block mb-2">Suivre congé</a>
+                    
+                  
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

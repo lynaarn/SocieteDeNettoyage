@@ -1,8 +1,3 @@
-<?php
-require_once("identifier.php");
-?>
-<?php 
- if ($_SESSION['user']['TypeCompte']=='Client') {?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,7 +12,7 @@ require_once("identifier.php");
     <link rel="stylesheet" href="css/style.css">
     <style>
       
-        body {
+      body {
             background-color: #f8f9fa;
         }
         .content {
@@ -30,6 +25,8 @@ require_once("identifier.php");
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-top: 30px;
+          
+         
         }
         .form-group {
             margin-bottom: 15px; /* Reduced margin */
@@ -49,7 +46,17 @@ require_once("identifier.php");
         textarea {
             height: 80px; /* Reduced height */
         }
-        .form-group label {
+        .bg-light {
+        background-color:#A8A8A8;
+        padding: 7px;
+        border-radius: 5%;
+       
+}
+.ok{
+    margin-top: 50px;
+    
+}
+.form-group label {
             font-weight: bold;
             color: black;
         }
@@ -57,12 +64,7 @@ require_once("identifier.php");
             margin-right: 5px;
             color: #17a2b8; /* Changer la couleur des icônes si nécessaire */
         }
-        .bg-light {
-        background-color:#A8A8A8;
-        padding: 7px;
-        border-radius: 5%;
        
-}
     </style>
 </head>
 <body>
@@ -75,10 +77,10 @@ require_once("identifier.php");
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item ">
-          <a class="nav-link active" href="prestationsClient.php">Préstations</a>
+          <a class="nav-link " href="prestationsClient.php">Préstations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contratsClients.php">Contrats</a>
+          <a class="nav-link active" href="contratsClients.php">Contrats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="commentairesClients.php">commentaires</a>
@@ -98,13 +100,19 @@ require_once("identifier.php");
 
 
 <div class="container content">
+
     <div class="row justify-content-center">
+        
         <div class="col-md-8"> 
             <div class="form-container">
-                <h3 class="text-center txt mb-4"><span class="bg-light">Demande de Prestation</span></h3>
+                <h3 class="text-center  mb-4 ok "><span class="bg-light">Demande un contrat</span></h3>
                 <form action="demande_prestation.php" method="post">
                     <div class="form-group">
-                        <label for="date"><i class="fas fa-calendar-alt"></i>Date de la prestation</label>
+                        <label for="date"><i class="fas fa-calendar-alt"></i>Date de début</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date"><i class="fas fa-calendar-alt"></i>Date de fin</label>
                         <input type="date" class="form-control" id="date" name="date" required>
                     </div>
                     <div class="form-group">
@@ -114,6 +122,17 @@ require_once("identifier.php");
                             <option value="nettoyage_industriel">Nettoyage industriel</option>
                             <option value="nettoyage_commercial">Nettoyage commercial</option>
                             <option value="autre_service">Autre service</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="service"><i class="fas fa-clock"></i>Fréquence</label>
+                        <select class="form-control" id="service" name="fréquence" required>
+                            <option value="nettoyage_residantiel">quotidien</option>
+                            <option value="nettoyage_industriel">hebdomadaire</option>
+                            <option value="nettoyage_commercial">Mensuel</option>
+                            <option value="autre_service">Bimensuel</option>
+                            <option value="nettoyage_commercial">Trimestriel</option>
+                         
                         </select>
                     </div>
                     <div class="form-group">
@@ -150,4 +169,3 @@ require_once("identifier.php");
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-<?php } ?> 

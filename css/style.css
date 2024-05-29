@@ -1146,3 +1146,8 @@ textarea#comment::placeholder {
   padding: 7px; /* Ajoute un peu de rembourrage autour du texte */
   border-radius: 20px; /* Pour arrondir les coins, si désiré */
 }
+.center-text1 {
+  text-align: center;
+  font-weight: bold;
+  padding-top: 5%;
+}

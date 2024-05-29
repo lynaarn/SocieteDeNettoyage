@@ -1,6 +1,3 @@
-<?php
-require_once("identifier.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,10 +57,10 @@ require_once("identifier.php");
 
 <div class="container mt-5 custom-container">
     <div class="row justify-content-center">
-    <div class="photo4"><img src="images/18.jpg" /></div>
+    <div class="photo4"><img src="images/44.jpg" /></div>
         <div class="col-md-6">
        
-            <h2 class="text-center mb-4 center-text2 ">Ajouter un contrat</h2>
+            <h2 class="text-center mb-4 center-text2 ">Modifier un contrat</h2>
            
             <form>
             <div class="form-group">
