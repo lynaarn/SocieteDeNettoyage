@@ -16,16 +16,7 @@ if(isset($_SESSION['user'])){
             $date_embauche = isset($_POST['dateEmbaucheEmploye']) ? $_POST['dateEmbaucheEmploye'] : '';
             $competences = isset($_POST['competences']) ? explode(',', $_POST['competences']) : [];
 
-            // Debug: Afficher les données récupérées
-            echo "Nom: $nom<br>";
-            echo "Prénom: $prenom<br>";
-            echo "Adresse: $adresse<br>";
-            echo "Téléphone: $telephone<br>";
-            echo "Email: $email<br>";
-            echo "Login: $login<br>";
-            echo "Salaire: $salaire<br>";
-            echo "Date d'embauche: $date_embauche<br>";
-            echo "Compétences: " . implode(", ", $competences) . "<br>";
+            
 
             // Commencer une transaction
             $pdo->beginTransaction();
@@ -55,7 +46,7 @@ if(isset($_SESSION['user'])){
             $pdo->commit();
 
             // Redirection vers la page des employés
-            header('Location: insertEmploye.php');
+            header('Location: Employe.php');
             exit();
         } catch (Exception $e) {
             // Annuler la transaction en cas d'erreur

@@ -10,12 +10,12 @@ $offset = ($page - 1) * $size;
 
 // Requête principale pour récupérer les demandes de congés
 $requete = "
-    SELECT arret.NumA, arret.Date_deb, arret.Date_fin, arret.Type, users.nom, users.prenom
+    SELECT arret.NumA, arret.Date_deb, arret.Date_fin, arret.Type, arret.Description, users.nom, users.prenom
     FROM ArretDeTravail arret
     INNER JOIN employe emp ON arret.id = emp.id
     INNER JOIN users ON emp.id = users.id
     WHERE arret.statut = 'pas encore traité' AND users.nom LIKE '%$nom%'
-    And  arret.Type IN ( 'Congé', 'Maladie', 'Maternité/Paternité')
+    AND arret.Type IN ('Congé', 'Maladie', 'Maternité/Paternité') AND emp.statut='Actif'
     LIMIT $size OFFSET $offset
 ";
 
@@ -70,7 +70,6 @@ if ($reste === 0) {
         <li class="nav-item">
           <a class="nav-link" href="employes.php">Employés</a>
         </li>
-        
         <li class="nav-item">
           <a class="nav-link active" href="congés.php">Congés</a>
         </li>
@@ -117,17 +116,37 @@ if ($reste === 0) {
         <tbody>
           <?php while ($conge = $resultatF->fetch()) { ?>
           <tr>
-            <th scope="row"><?php echo $conge['NumA']; ?></th>
-            <td><?php echo $conge['nom']; ?></td>
-            <td><?php echo $conge['prenom']; ?></td>
-            <td><?php echo $conge['Date_deb']; ?></td>
-            <td><?php echo $conge['Date_fin']; ?></td>
-            <td><?php echo $conge['Type']; ?></td>
+            <th scope="row" data-toggle="modal" data-target="#descriptionModal<?php echo $conge['NumA']; ?>"><?php echo $conge['NumA']; ?></th>
+            <td data-toggle="modal" data-target="#descriptionModal<?php echo $conge['NumA']; ?>"><?php echo $conge['nom']; ?></td>
+            <td data-toggle="modal" data-target="#descriptionModal<?php echo $conge['NumA']; ?>"><?php echo $conge['prenom']; ?></td>
+            <td data-toggle="modal" data-target="#descriptionModal<?php echo $conge['NumA']; ?>"><?php echo $conge['Date_deb']; ?></td>
+            <td data-toggle="modal" data-target="#descriptionModal<?php echo $conge['NumA']; ?>"><?php echo $conge['Date_fin']; ?></td>
+            <td data-toggle="modal" data-target="#descriptionModal<?php echo $conge['NumA']; ?>"><?php echo $conge['Type']; ?></td>
             <td class="action-icons">
-              <a href="accepterConge.php?id=<?php echo $conge['NumA']; ?>" class="edit-icon2"><i class="fas fa-check"></i></a>
-              <a href="refuserConge.php?id=<?php echo $conge['NumA']; ?>" class="delete-icon"><i class="fas fa-user-times"></i></a>
+              <a href="#" class="edit-icon2" data-toggle="modal" data-target="#confirmAcceptModal" data-id="<?php echo $conge['NumA']; ?>"><i class="fas fa-check"></i></a>
+              <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmRejectModal" data-id="<?php echo $conge['NumA']; ?>"><i class="fas fa-user-times"></i></a>
             </td>
           </tr>
+
+          <!-- Modal pour afficher la description -->
+          <div class="modal fade" id="descriptionModal<?php echo $conge['NumA']; ?>" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel<?php echo $conge['NumA']; ?>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="descriptionModalLabel<?php echo $conge['NumA']; ?>">Description</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <?php echo $conge['Description']; ?>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <?php } ?>
         </tbody>
       </table>
@@ -151,10 +170,76 @@ if ($reste === 0) {
   </div>
 </div>
 
+<!-- Modal de confirmation d'acceptation -->
+<div class="modal fade" id="confirmAcceptModal" tabindex="-1" role="dialog" aria-labelledby="confirmAcceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmAcceptModalLabel">Confirmation d'acceptation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir accepter cette demande de congé ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-success" id="confirmAcceptBtn">Accepter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmation de refus -->
+<div class="modal fade" id="confirmRejectModal" tabindex="-1" role="dialog" aria-labelledby="confirmRejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmRejectModalLabel">Confirmation de refus</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir refuser cette demande de congé ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmRejectBtn">Refuser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  var congeId;
+
+  // Ouvrir le modal de confirmation d'acceptation
+  $('.edit-icon2').on('click', function() {
+    congeId = $(this).data('id');
+  });
+
+  // Confirmer l'acceptation
+  $('#confirmAcceptBtn').on('click', function() {
+    window.location.href = 'accepterConge.php?id=' + congeId;
+  });
+
+  // Ouvrir le modal de confirmation de refus
+  $('.delete-icon').on('click', function() {
+    congeId = $(this).data('id');
+  });
+
+  // Confirmer le refus
+  $('#confirmRejectBtn').on('click', function() {
+    window.location.href = 'refuserConge.php?id=' + congeId;
+  });
+});
+</script>;
 </body>
 </html>
 <?php } ?> 
-

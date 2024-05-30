@@ -159,12 +159,34 @@ CREATE TABLE offre_demploi (
     CHECK ((type_contrat = 'CDI' AND date_fin IS NULL) OR (type_contrat IN ('CDD', 'Stage') AND date_fin IS NOT NULL))
 );
 
+-- Table contrat
+CREATE TABLE IF NOT EXISTS contrat (
+    id_c INT AUTO_INCREMENT PRIMARY KEY,
+    date_deb DATE NOT NULL,
+    date_fin DATE NOT NULL,
+    etat ENUM('actif', 'résilié', 'terminé', 'en attente') NOT NULL DEFAULT 'en attente',
+    detailc TEXT NOT NULL,
+    client_id INT NOT NULL,
+    FOREIGN KEY (client_id) REFERENCES Client(id)
+);
+
+CREATE TABLE IF NOT EXISTS ServiceDansContrat (
+    CodeS INT,
+    id_c INT,
+    detailsSer TEXT,
+    frequence VARCHAR(50) NOT NULL,
+    PRIMARY KEY (CodeS, id_c),
+    FOREIGN KEY (CodeS) REFERENCES Service(CodeS) ON DELETE CASCADE,
+    FOREIGN KEY (id_c) REFERENCES contrat(id_c) ON DELETE CASCADE
+);
+
+
 -- Insérer les rôles dans la table roles
 INSERT INTO roles (nomR) VALUES ('Responsable RH'), ('Gestionnaire d\'Interventions');
 
 -- Insérer un utilisateur pour le Responsable RH
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
-VALUES ('Dupont', 'Jean', 'jean.dupont@example.com', '0123456789', '123 Rue Example', 'jdupont', 'hashed_password', 'RRH', 1);
+VALUES ('Ales', 'chmesedinne', 'jean.dupont@example.com', '0123456789', '123 Rue Example', 'jdupont', 'hashed_password', 'RRH', 1);
 
 -- Récupérer l'id de l'utilisateur nouvellement inséré pour le Responsable RH
 SET @user_id_rh = LAST_INSERT_ID();
@@ -495,3 +517,45 @@ VALUES
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
 VALUES 
 ('admin', 'admin', 'test.im@example.com', '01234567812', '117 Rue Exemple', 'Admin', '123', 'Admin', 1);
+
+
+-- Insertion de 10 contrats pour 10 clients différents
+INSERT INTO contrat (date_deb, date_fin, etat, detailc, client_id)
+VALUES 
+('2023-02-01', '2023-12-31', 'actif', 'Contrat pour nettoyage complet de la maison', @user_id_1),
+('2023-03-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de vitres', @user_id_2),
+('2023-04-01', '2023-12-31', 'actif', 'Contrat pour entretien de bureaux', @user_id_3),
+('2023-05-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de restaurants', @user_id_4),
+('2023-06-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de sites de construction', @user_id_5),
+('2023-07-01', '2023-12-31', 'actif', 'Contrat pour nettoyage d\'entrepôts', @user_id_6),
+('2023-08-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de véhicules', @user_id_7),
+('2023-09-01', '2023-12-31', 'actif', 'Contrat pour nettoyage après sinistre', @user_id_8),
+('2023-10-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de maisons et bureaux', @user_id_9),
+('2023-11-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de façades et sols', @user_id_10);
+
+-- Récupérer les IDs des contrats nouvellement insérés
+SET @contract_id_1 = LAST_INSERT_ID();
+SET @contract_id_2 = @contract_id_1 + 1;
+SET @contract_id_3 = @contract_id_2 + 1;
+SET @contract_id_4 = @contract_id_3 + 1;
+SET @contract_id_5 = @contract_id_4 + 1;
+SET @contract_id_6 = @contract_id_5 + 1;
+SET @contract_id_7 = @contract_id_6 + 1;
+SET @contract_id_8 = @contract_id_7 + 1;
+SET @contract_id_9 = @contract_id_8 + 1;
+SET @contract_id_10 = @contract_id_9 + 1;
+
+-- Insertion dans ServiceDansContrat pour les services associés aux contrats
+INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer,frequence) VALUES 
+(1, @contract_id_1, 'Nettoyage complet de la maison','tous les mois'),
+(2, @contract_id_2, 'Nettoyage de vitres','tous les deux mois'),
+(3, @contract_id_3, 'Entretien de bureaux','deux fois par semaine'),
+(4, @contract_id_4, 'Nettoyage de restaurants','une fois par semaine'),
+(5, @contract_id_5, 'Nettoyage de sites de construction ','après chaque projet'),
+(6, @contract_id_6, 'Nettoyage d\'entrepôts ','chaque trimestre'),
+(7, @contract_id_7, 'Nettoyage de véhicules','deux fois par mois'),
+(8, @contract_id_8, 'Nettoyage après sinistre en urgence','après sinistre'),
+(1, @contract_id_9, 'Nettoyage de maisons ','tous les mois'),
+(3, @contract_id_9, 'Nettoyage de bureaux ','deux fois par semaine'),
+(5, @contract_id_10, 'Nettoyage de façades ','chaque semestre'),
+(7, @contract_id_10, 'Nettoyage de sols','tous les mois');

@@ -21,7 +21,7 @@ if(isset($_SESSION['user'])){
         $resultat = $pdo->prepare($requete);
         $resultat->execute($params);
 
-        header('Location: ajouterDemandeDemploi.php');
+        header('Location:demandeDemplois.php');
         exit();
     }else {
             header('location:authentification.php');

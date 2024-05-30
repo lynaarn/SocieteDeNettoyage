@@ -1,3 +1,47 @@
+<?php
+require_once("identifier.php");
+require_once("connexiondb.php");
+
+// Récupérer les filtres et paramètres de pagination
+$noms = isset($_GET['NomS']) ? $_GET['NomS'] : "";
+$etat = isset($_GET['etat']) ? $_GET['etat'] : "all";
+$size = isset($_GET['size']) ? $_GET['size'] : 5;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($page - 1) * $size;
+
+// Construire les requêtes en fonction des filtres
+if ($etat == "all") {
+    $requete = "SELECT contrat.id_c, contrat.date_deb, contrat.date_fin, contrat.etat, users.nom, users.prenom 
+                FROM contrat
+                JOIN Client ON contrat.client_id = Client.id
+                JOIN users ON Client.id = users.id
+                WHERE users.nom LIKE '%$noms%'
+                LIMIT $size OFFSET $offset";
+    $requeteCount = "SELECT COUNT(*) countC FROM contrat
+                     JOIN Client ON contrat.client_id = Client.id
+                     JOIN users ON Client.id = users.id
+                     WHERE users.nom LIKE '%$noms%'";
+} else {
+    $requete = "SELECT contrat.id_c, contrat.date_deb, contrat.date_fin, contrat.etat, users.nom, users.prenom 
+                FROM contrat
+                JOIN Client ON contrat.client_id = Client.id
+                JOIN users ON Client.id = users.id
+                WHERE users.nom LIKE '%$noms%' AND contrat.etat='$etat'
+                LIMIT $size OFFSET $offset";
+    $requeteCount = "SELECT COUNT(*) countC FROM contrat
+                     JOIN Client ON contrat.client_id = Client.id
+                     JOIN users ON Client.id = users.id
+                     WHERE users.nom LIKE '%$noms%' AND contrat.etat='$etat'";
+}
+
+$resultatF = $pdo->query($requete);
+$resultatCount = $pdo->query($requeteCount);
+$tabCount = $resultatCount->fetch();
+$nbrContrat = $tabCount['countC'];
+$reste = $nbrContrat % $size;
+
+$nbrPage = $reste === 0 ? $nbrContrat / $size : floor($nbrContrat / $size) + 1;
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,13 +91,11 @@
         }
         .btn-group {
             margin-top: 20px;
-          
         }
         .btn-group2 {
             margin-top: 20px;
             text-align: right;
             background-color: #acc1db;
-          
         }
         .card img {
             margin-top: 10px;
@@ -61,18 +103,20 @@
             object-fit: cover;
             border-radius: 10%;
         }
-        .bout{
-          background-color:#acc1db;
+        .bout {
+            background-color:#acc1db;
         }
-        .boutt{
-          background-color:  #B9D9EB;
-          padding: 10px;
-          border-radius: 5%;
+        .boutt {
+            background-color: #B9D9EB;
+            padding: 10px;
+            border-radius: 5%;
         }
-        .divv{
+        .divv {
             text-align: right;
         }
-       
+        .pagination-container {
+            margin-top: 20px; /* Espace entre la pagination et les contrats */
+        }
     </style>
 </head>
 <body>
@@ -114,145 +158,65 @@
 </nav>
 
 <div class="container content">
-<h2 class="center-text1 ">Les contrats</h2>
+<h2 class="center-text1">Les contrats</h2>
 <div class="search-bar">
-        <form class="form-inline justify-content-center">
-        <input class="form-control mr-sm-2" type="search" placeholder="Nom de client" aria-label="Search">
-            <select class="form-control mr-sm-2">
-                <option value="">Tous les services</option>
-                <option value="nettoyage_bureaux">Nettoyage de bureaux</option>
-                <option value="nettoyage_residentiel">Nettoyage résidentiel</option>
-                <option value="nettoyage_industriel">Nettoyage industriel</option>
-                <!-- Ajouter d'autres options de service ici -->
-            </select>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-        </form>
-     
-    </div>
+    <form class="form-inline justify-content-center">
+        <input class="form-control mr-sm-2" type="search" name="NomS" value="<?php echo $noms ?>" placeholder="Nom de client" aria-label="Search">
+        <select class="form-control mr-sm-2" name="etat">
+            <option value="all" <?php if ($etat == "all") echo "selected"; ?>>Tous les états</option>
+            <option value="actif" <?php if ($etat == "actif") echo "selected"; ?>>Actif</option>
+            <option value="résilié" <?php if ($etat == "résilié") echo "selected"; ?>>Résilié</option>
+            <option value="terminé" <?php if ($etat == "terminé") echo "selected"; ?>>Terminé</option>
+        </select>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+    </form>
+</div>
 <div class="divv">
     <a href="ajouterContrat.php" class="btn btn-group2">Ajouter un contrat</a>
 </div>
-    <div class="row">
-        <!-- Premier contrat -->
+<div class="row">
+    <?php while ($row = $resultatF->fetch()) { ?>
         <div class="col-md-4">
             <div class="info-container">
-                <h3 class="text-center mb-4"><span class="boutt ">Aourane lyna</span></h3>
-                <img src="images/46.jpg" class="card-img-top" alt="Prestation 1">
-                <div class="info-group">
-                    <label for="nom1"><i class="fas fa-file-contract"></i> Nom :</label>
-                    <span id="nom1">Nettoyage de bureaux</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_debut1"><i class="fas fa-calendar-alt"></i> Date de début :</label>
-                    <span id="date_debut1">2024-05-20</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_fin1"><i class="fas fa-calendar-alt"></i> Date de fin :</label>
-                    <span id="date_fin1">2024-10-20</span>
-                </div>
-                <div class="info-group">
-                    <label for="frequence1"><i class="fas fa-clock"></i> Fréquence :</label>
-                    <span id="frequence1">Mensuel</span>
-                </div>
-               
-                <div class="btn-group">
-    <a href="#" class="btn bout">Voir plus</a>
-    <a href="modifierContrat.php" class="edit-icon ml-2"><i class="fa fa-pencil-alt"></i></a>
-    <a href="#" class="delete-icon ml-1"><i class="fa fa-trash"></i></a>
-</div>
-            </div>
-        </div>
-        <!-- Deuxième contrat -->
-        <div class="col-md-4">
-            <div class="info-container">
-                <h3 class="text-center mb-4"><span class="boutt">Safa Imad</span></h3>
-                <img src="images/46.jpg" class="card-img-top" alt="Prestation 2">
-                <div class="info-group">
-                    <label for="nom2"><i class="fas fa-file-contract"></i> Nom :</label>
-                    <span id="nom2">Nettoyage résidentiel</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_debut2"><i class="fas fa-calendar-alt"></i> Date de début :</label>
-                    <span id="date_debut2">2024-06-01</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_fin2"><i class="fas fa-calendar-alt"></i> Date de fin :</label>
-                    <span id="date_fin2">2024-06-30</span>
-                </div>
-                <div class="info-group">
-                    <label for="frequence2"><i class="fas fa-clock"></i> Fréquence :</label>
-                    <span id="frequence2">Hebdomadaire</span>
-                </div>
+                <h3 class="text-center mb-4"><span class="boutt"><?php echo $row["nom"] . ' ' . $row["prenom"]; ?></span></h3>
+                <img src="images/46.jpg" class="card-img-top" alt="Prestation">
                 
+                <div class="info-group">
+                    <label for="date_debut"><i class="fas fa-calendar-alt"></i> Date de début :</label>
+                    <span id="date_debut"><?php echo $row["date_deb"]; ?></span>
+                </div>
+                <div class="info-group">
+                    <label for="date_fin"><i class="fas fa-calendar-alt"></i> Date de fin :</label>
+                    <span id="date_fin"><?php echo $row["date_fin"]; ?></span>
+                </div>
+                <div class="info-group">
+                    <label for="etat"><i class="fas fa-clock"></i> État :</label>
+                    <span id="etat"><?php echo $row["etat"]; ?></span>
+                </div>
                 <div class="btn-group">
-    <a href="#" class="btn bout">Voir plus</a>
-    <a href="modifierContrat.php" class="edit-icon ml-2"><i class="fa fa-pencil-alt"></i></a>
-    <a href="#" class="delete-icon ml-1"><i class="fa fa-trash"></i></a>
-</div>
+                    <a href="detailsContrat.php?id=<?php echo $row["id_c"]; ?>" class="btn bout">Voir plus</a>
+                    <a href="modifierContrat.php?id=<?php echo $row["id_c"]; ?>" class="edit-icon ml-2"><i class="fa fa-pencil-alt"></i></a>
+                    <a href="#" class="delete-icon ml-1"><i class="fa fa-trash"></i></a>
+                </div>
             </div>
         </div>
-        <!-- Troisième contrat -->
-        <div class="col-md-4">
-            <div class="info-container">
-                <h3 class="text-center mb-4"><span class=" boutt ">Ines Safa</span></h3>
-                <img src="images/46.jpg" class="card-img-top" alt="Prestation 3">
-                <div class="info-group">
-                    <label for="nom3"><i class="fas fa-file-contract"></i> Nom :</label>
-                    <span id="nom3">Nettoyage industriel</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_debut3"><i class="fas fa-calendar-alt"></i> Date de début :</label>
-                    <span id="date_debut3">2024-07-01</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_fin3"><i class="fas fa-calendar-alt"></i> Date de fin :</label>
-                    <span id="date_fin3">2024-12-31</span>
-                </div>
-                <div class="info-group">
-                    <label for="frequence3"><i class="fas fa-clock"></i> Fréquence :</label>
-                    <span id="frequence3">Quotidien</span>
-                </div>
-               
-                <div class="btn-group">
-    <a href="#" class="btn bout">Voir plus</a>
-    <a href="modifierContrat.php" class="edit-icon ml-2"><i class="fa fa-pencil-alt"></i></a>
-    <a href="#" class="delete-icon ml-1"><i class="fa fa-trash"></i></a>
+    <?php } ?>
 </div>
-            </div>
-            
-        </div>
-
-        <div class="col-md-4">
-            <div class="info-container">
-                <h3 class="text-center mb-4"><span class="boutt">Ines Safa</span></h3>
-                <img src="images/46.jpg" class="card-img-top" alt="Prestation 3">
-                <div class="info-group">
-                    <label for="nom3"><i class="fas fa-file-contract"></i> Nom :</label>
-                    <span id="nom3">Nettoyage industriel</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_debut3"><i class="fas fa-calendar-alt"></i> Date de début :</label>
-                    <span id="date_debut3">2024-07-01</span>
-                </div>
-                <div class="info-group">
-                    <label for="date_fin3"><i class="fas fa-calendar-alt"></i> Date de fin :</label>
-                    <span id="date_fin3">2024-12-31</span>
-                </div>
-                <div class="info-group">
-                    <label for="frequence3"><i class="fas fa-clock"></i> Fréquence :</label>
-                    <span id="frequence3">Quotidien</span>
-                </div>
-               
-                <div class="btn-group">
-    <a href="#" class="btn bout">Voir plus</a>
-    <a href="modifierContrat.php" class="edit-icon ml-2"><i class="fa fa-pencil-alt"></i></a>
-    <a href="#" class="delete-icon ml-1"><i class="fa fa-trash"></i></a>
+<div class="pagination-container">
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+            <a class="page-link" href="contrats.php?page=<?php echo $page - 1; ?>&etat=<?php echo $etat; ?>">Précédent</a>
+        </li>
+        <?php for ($i = 1; $i <= $nbrPage; $i++) { ?>
+        <li class="page-item <?php if ($i == $page) echo 'active'; ?>"><a class="page-link" href="contrats.php?page=<?php echo $i; ?>&etat=<?php echo $etat; ?>"><?php echo $i; ?></a></li>
+        <?php } ?>
+        <li class="page-item <?php if ($page >= $nbrPage) echo 'disabled'; ?>">
+            <a class="page-link" href="contrats.php?page=<?php echo $page + 1; ?>&etat=<?php echo $etat; ?>">Suivant</a>
+        </li>
+    </ul>
+</nav>
 </div>
-            </div>
-            
-        </div>
-
-    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

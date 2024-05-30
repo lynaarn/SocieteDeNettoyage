@@ -23,10 +23,10 @@ $resultat = $pdo->query($requete);
 $requeteCount = "SELECT count(*) as countE 
                  FROM users INNER JOIN employe ON users.id = employe.id
                  WHERE nom LIKE '%$nom%' ";
-      if ($statut !== "Tous") {
-        $requeteCount .= " AND statut = '$statut'";
-    }
-    
+if ($statut !== "Tous") {
+  $requeteCount .= " AND statut = '$statut'";
+}
+
 $resultatCount = $pdo->query($requeteCount);
 $tabCount = $resultatCount->fetch();
 $nbrEmployes = $tabCount['countE'];
@@ -121,10 +121,10 @@ if ($reste === 0) {
         <tbody>
           <?php while ($employe = $resultat->fetch()) { ?>
           <tr>
-            <th scope="row"><?php echo $employe['user_id']; ?></th>
-            <td><?php echo $employe['nom']; ?></td>
-            <td><?php echo $employe['prenom']; ?></td>
-            <td><span class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>"><?php echo $employe['statut']; ?></span></td>
+            <th onclick="window.location='informationsEmploye.php?id=<?php echo $employe['user_id']; ?>'" scope="row"><?php echo $employe['user_id']; ?></th>
+            <td onclick="window.location='informationsEmploye.php?id=<?php echo $employe['user_id']; ?>'"><?php echo $employe['nom']; ?></td>
+            <td onclick="window.location='informationsEmploye.php?id=<?php echo $employe['user_id']; ?>'"><?php echo $employe['prenom']; ?></td>
+            <td onclick="window.location='informationsEmploye.php?id=<?php echo $employe['user_id']; ?>'"><span class="<?php echo ($employe['statut'] == 'Actif') ? 'status-actif' : 'status-autre'; ?>"><?php echo $employe['statut']; ?></span></td>
             <td class="action-icons">
               <a href="modifierEmployes.php?id=<?php echo $employe['user_id']; ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
               <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-employee-id="<?php echo $employe['user_id']; ?>"><i class="fa fa-trash"></i></a>
@@ -230,4 +230,4 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
-<?php } ?> 
+<?php } ?>

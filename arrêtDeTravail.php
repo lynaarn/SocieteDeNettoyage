@@ -121,8 +121,8 @@ if ($reste === 0) {
             <td data-toggle="modal" data-target="#demissionModal" data-description="<?php echo $arret['Description']; ?>"><?php echo $arret['prenom']; ?></td>
             <td data-toggle="modal" data-target="#demissionModal" data-description="<?php echo $arret['Description']; ?>"><?php echo $arret['Date_deb']; ?></td>
             <td class="action-icons">
-              <a href="accepterArret.php?id=<?php echo $arret['NumA']; ?>" class="edit-icon2"><i class="fas fa-check"></i></a>
-              <a href="refuserArret.php?id=<?php echo $arret['NumA']; ?>" class="delete-icon"><i class="fas fa-user-times"></i></a>
+              <a href="#" class="edit-icon2" data-toggle="modal" data-target="#confirmAcceptModal" data-id="<?php echo $arret['NumA']; ?>"><i class="fas fa-check"></i></a>
+              <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmRejectModal" data-id="<?php echo $arret['NumA']; ?>"><i class="fas fa-user-times"></i></a>
             </td>
           </tr>
           <?php } ?>
@@ -148,7 +148,7 @@ if ($reste === 0) {
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal pour afficher la description -->
 <div class="modal fade" id="demissionModal" tabindex="-1" role="dialog" aria-labelledby="demissionModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -168,11 +168,76 @@ if ($reste === 0) {
   </div>
 </div>
 
+<!-- Modal de confirmation d'acceptation -->
+<div class="modal fade" id="confirmAcceptModal" tabindex="-1" role="dialog" aria-labelledby="confirmAcceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmAcceptModalLabel">Confirmation d'acceptation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir accepter cette demande d'arrêt de travail ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-success" id="confirmAcceptBtn">Accepter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmation de refus -->
+<div class="modal fade" id="confirmRejectModal" tabindex="-1" role="dialog" aria-labelledby="confirmRejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmRejectModalLabel">Confirmation de refus</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir refuser cette demande d'arrêt de travail ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmRejectBtn">Refuser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
+  var arretId;
+
+  // Ouvrir le modal de confirmation d'acceptation
+  $('.edit-icon2').on('click', function() {
+    arretId = $(this).data('id');
+  });
+
+  // Confirmer l'acceptation
+  $('#confirmAcceptBtn').on('click', function() {
+    window.location.href = 'accepterArret.php?id=' + arretId;
+  });
+
+  // Ouvrir le modal de confirmation de refus
+  $('.delete-icon').on('click', function() {
+    arretId = $(this).data('id');
+  });
+
+  // Confirmer le refus
+  $('#confirmRejectBtn').on('click', function() {
+    window.location.href = 'refuserArret.php?id=' + arretId;
+  });
+
+  // Ouvrir le modal de description
   $('#demissionModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); 
     var description = button.data('description'); 
@@ -185,4 +250,4 @@ $(document).ready(function() {
 
 </body>
 </html>
-<?php } ?> 
+<?php } ?>
