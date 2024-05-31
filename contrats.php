@@ -47,7 +47,7 @@ $nbrPage = $reste === 0 ? $nbrContrat / $size : floor($nbrContrat / $size) + 1;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande de Prestation</title>
+    <title>Contrats</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -179,7 +179,7 @@ $nbrPage = $reste === 0 ? $nbrContrat / $size : floor($nbrContrat / $size) + 1;
         <div class="col-md-4">
             <div class="info-container">
                 <h3 class="text-center mb-4"><span class="boutt"><?php echo $row["nom"] . ' ' . $row["prenom"]; ?></span></h3>
-                <img src="images/46.jpg" class="card-img-top" alt="Prestation">
+                <img src="images/62.jpg" class="card-img-top" alt="Prestation">
                 
                 <div class="info-group">
                     <label for="date_debut"><i class="fas fa-calendar-alt"></i> Date de début :</label>

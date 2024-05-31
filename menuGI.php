@@ -1,12 +1,12 @@
 <?php 
 session_start();
- if ($_SESSION['user']['TypeCompte']=='Employe') {?>
+ if ($_SESSION['user']['TypeCompte']=='GI') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu employé</title>
+    <title>Menu GI</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -49,7 +49,7 @@ session_start();
       <ul class="navbar-nav ml-auto">
        
         <li class="nav-item">
-        <a class="nav-link" href="compteEmploye.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+          <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg"></i></a> 
         </li>
         <li class="nav-item">
           <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
@@ -58,16 +58,14 @@ session_start();
     </div>
   </div>
 </nav>
-
 <div class="container content">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card-body">
                 <div class="links">
-                <a href="demission.php" class="btn btn-primary btn-block mb-2">Demander démission </a>
-                    <a href="menuconge.php" class="btn btn-primary btn-block mb-2">Gérer les congés</a>
-                    <a href="historiqueintervention.php"" class="btn btn-primary btn-block mb-2">Consulter l'historique des interventions</a>
-                    <a href="tacheethoraire.php" class="btn btn-primary btn-block mb-2">Consulter les attribution de tâches et horraires</a>
+                <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Préparer une intervention </a>
+                <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Consulter la liste des reservations </a>
+              
                   
                 </div>
             </div>

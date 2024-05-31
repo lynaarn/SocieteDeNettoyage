@@ -45,31 +45,38 @@ if ($personnel = $resultat->fetch()) {
 </head>
 <body>
 
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
+  <div class="container"> 
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo "></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
           <a class="nav-link" href="service.php">Services</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Menuclients.php">Clients</a>
+          <a class="nav-link" href="clients.php">Clients</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="personnels.php">Personnels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="personnels.php">Personnels</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="menucontrat.php">Contrats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="paiement.php">Paiements</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="commentaires.php">Commentaires</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="compteAdmin.php"><i class="fas fa-user fa-lg"></i></a> 
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>
@@ -78,8 +85,9 @@ if ($personnel = $resultat->fetch()) {
 
 <div class="container mt-5">
     <div class="row justify-content-center">
+    <div class="photo4"><img src="images/65.jpg" /></div>
         <div class="col-md-6">
-            <h2 class="text-center mb-4">Modifier un Personnel</h2>
+        <h2 class="text-center mb-4 center-text2 ">Modifier un personnel</h2>
             <form method="post" action="updatePersonnel.php">
                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
                 <div class="form-group">
@@ -130,7 +138,7 @@ if ($personnel = $resultat->fetch()) {
                     <label for="date_embauche">Date d'embauche</label>
                     <input type="date" name="date_embauche" value="<?php echo $date_embauche; ?>" class="form-control" id="date_embauche">
                 </div>
-                <button type="submit" class="btn btn-success btn-block">Valider</button>
+                <button type="submit" class="btn btn-success btn-send ok">valider</button>
             </form>
         </div>
     </div>

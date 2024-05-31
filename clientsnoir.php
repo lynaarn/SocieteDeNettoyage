@@ -56,7 +56,7 @@ if ($reste === 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean</title>
+    <title>Liste noir client</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -85,7 +85,7 @@ if ($reste === 0) {
           <a class="nav-link" href="personnels.php">Personnels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="menucontrat.php">Contrats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="paiement.php">Paiements</a>
@@ -108,7 +108,7 @@ if ($reste === 0) {
   <div class="row">
     <div class="col">
       <h2 class="center-text">La liste noire (<?php echo $nbrClients; ?>)</h2> 
-      <div class="photo2"><img src="images/6.jpg" /></div>
+      <div class="photo2"><img src="images/59.jpg" /></div>
     
       <form method="get" action="clientsnoir.php" class="form-inline mb-3 justify-content-end">
         <input class="form-control mr-sm-2" type="search" name="nom" value="<?php echo $nom; ?>" placeholder="Rechercher par nom" aria-label="Search">

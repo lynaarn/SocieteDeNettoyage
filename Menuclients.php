@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean - Menu Clients</title>
+    <title>Menu Clients</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -35,7 +35,7 @@
           <a class="nav-link" href="personnels.php">Personnels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="menucontrat.php">Contrats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="paiement.php">Paiements</a>

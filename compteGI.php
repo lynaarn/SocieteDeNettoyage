@@ -1,22 +1,3 @@
-<?php 
-require_once("identifier.php");
-require_once("connexiondb.php"); // Inclusion de la connexion à la base de données
-
-function getPersonnelDetails($userId) {
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT pa.date_embauche, r.nomR 
-                           FROM personnel_administratif pa 
-                           JOIN roles r ON pa.role = r.numR 
-                           WHERE pa.id = :userId");
-    $stmt->bindParam(':userId', $userId);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-if ($_SESSION['user']['TypeCompte'] == 'RRH') {
-    $user = $_SESSION['user'];
-    $personnel = getPersonnelDetails($user['id']);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,19 +19,10 @@ if ($_SESSION['user']['TypeCompte'] == 'RRH') {
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
         <li class="nav-item ">
-          <a class="nav-link " href="employes.php">Employés</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="congés.php">Congés</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="menuDemandeDemplois.php">demande D'emplois</a>
-        </li>
+        <a class="nav-link" href="listeReservations.php">Interventions</a>
+    
         <li class="nav-item active ">
-            <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+            <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
         <li class="nav-item ">
             <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
@@ -69,32 +41,32 @@ if ($_SESSION['user']['TypeCompte'] == 'RRH') {
           <div class="info-box">
             <form>
               <div class="text-center mb-3">
-                <img src="images/65.jpg" class="rounded-circle"  width="200">
+                <img src="images/67.jpg" class="rounded-circle"  width="200">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="nom" class="bold-label"><i class="far fa-user"></i>Nom</label>
-                  <input type="text" class="form-control" id="nom" value="<?php echo htmlspecialchars($user['nom']); ?>" readonly>
+                  <input type="text" class="form-control" id="nom" value="Nom de l'utilisateur" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="prenom" class="bold-label"><i class="far fa-user"></i>Prénom</label>
-                  <input type="text" class="form-control" id="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" readonly>
+                  <input type="text" class="form-control" id="prenom" value="Prénom de l'utilisateur" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="tel" class="bold-label"><i class="fas fa-phone"></i>Numéro de téléphone</label>
-                  <input type="text" class="form-control" id="tel" value="<?php echo htmlspecialchars($user['telephone']); ?>" readonly>
+                  <input type="text" class="form-control" id="tel" value="Numéro de téléphone" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="adresse" class="bold-label"><i class="fas fa-map-marker-alt"></i>Adresse</label>
-                  <input type="text" class="form-control" id="adresse" value="<?php echo htmlspecialchars($user['adresse']); ?>" readonly>
+                  <input type="text" class="form-control" id="adresse" value="Adresse de l'utilisateur" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="login" class="bold-label"><i class="fas fa-user-circle"></i>Login</label>
-                  <input type="text" class="form-control" id="login" value="<?php echo htmlspecialchars($user['login']); ?>" readonly>
+                  <input type="text" class="form-control" id="login" value="Login de l'utilisateur" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="mdp" class="bold-label"><i class="fas fa-lock"></i>Mot de passe</label>
@@ -104,21 +76,21 @@ if ($_SESSION['user']['TypeCompte'] == 'RRH') {
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="email" class="bold-label"><i class="fas fa-at"></i>Email</label>
-                  <input type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
+                  <input type="email" class="form-control" id="email" value="Email de l'utilisateur" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="typeCompte" class="bold-label"><i class="fas fa-id-badge"></i>Type de Compte</label>
-                  <input type="text" class="form-control" id="typeCompte" value="<?php echo htmlspecialchars($user['TypeCompte']); ?>" readonly>
+                  <input type="text" class="form-control" id="typeCompte" value="Type de compte" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="date_embauche" class="bold-label"><i class="fas fa-calendar-alt"></i>Date d'embauche</label>
-                  <input type="date" class="form-control" id="date_embauche" value="<?php echo htmlspecialchars($personnel['date_embauche']); ?>" readonly>
+                  <input type="date" class="form-control" id="date_embauche" value="Date d'embauche" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="role" class="bold-label"><i class="fas fa-briefcase"></i>Rôle</label>
-                  <input type="text" class="form-control" id="role" value="<?php echo htmlspecialchars($personnel['nomR']); ?>" readonly>
+                  <input type="text" class="form-control" id="role" value="Rôle de l'utilisateur" readonly>
                 </div>
               </div>
             </form>
@@ -135,6 +107,3 @@ if ($_SESSION['user']['TypeCompte'] == 'RRH') {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-<?php 
-}
-?>

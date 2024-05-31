@@ -45,7 +45,7 @@ if ($employe = $resultat->fetch()) {
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
-  <div class="container">
+  <div class="container"> 
     <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -53,22 +53,22 @@ if ($employe = $resultat->fetch()) {
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="service.php">Services</a>
+          <a class="nav-link active" href="employes.php">Employés</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Menuclients.php">Clients</a>
+          <a class="nav-link" href="congés.php">Congés</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="personnels.php">Personnels</a>
+          <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="menuDemandeDemplois.php">Demande d'emplois</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="paiement.php">Paiements</a>
+          <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentaires.php">Commentaires</a>
+          <a class="nav-link ml-2" href="deconnexionClient.php">Déconnexion</a>
         </li>
       </ul>
     </div>
@@ -77,8 +77,9 @@ if ($employe = $resultat->fetch()) {
 
 <div class="container mt-5">
     <div class="row justify-content-center">
+    <div class="photo4"><img src="images/66.jpg" /></div>
         <div class="col-md-6">
-            <h2 class="text-center mb-4">Modifier un Employé</h2>
+        <h2 class="text-center mb-4 center-text2 ">Modifier un employé</h2>
             <form method="post" action="updateEmploye.php">
                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
                 <div class="form-group">
@@ -131,7 +132,7 @@ if ($employe = $resultat->fetch()) {
                     <label for="salaire">Salaire</label>
                     <input type="text" name="salaire" value="<?php echo $salaire; ?>" class="form-control" id="salaire">
                 </div>
-                <button type="submit" class="btn btn-success btn-block">Valider</button>
+                <button type="submit" class="btn btn-success btn-send ok">valider</button>
             </form>
         </div>
     </div>

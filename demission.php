@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean</title>
+    <title>Demissions</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -29,7 +29,7 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link " href="congésEmploye.php">Congés</a>
+          <a class="nav-link " href="menuconge.php">Congés</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="historiqueintervention.php">Historique interventions</a>
@@ -41,7 +41,7 @@
             <a class="nav-link" href="compteEmploye.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
         <li class="nav-item ">
-            <a class="nav-link ml-2" href="deconnexionEmploye.php">Deconnexion</a>
+            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>

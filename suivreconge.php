@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean</title>
+    <title>Mes congés</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -116,7 +116,7 @@
                     <a class="nav-link" href="compteEmploye.php"><i class="fas fa-user fa-lg ml-5"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ml-2" href="deconnexionEmploye.php">Déconnexion</a>
+                    <a class="nav-link ml-2" href="deconnexionClient.php">Déconnexion</a>
                 </li>
             </ul>
         </div>

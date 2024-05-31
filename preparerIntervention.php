@@ -117,36 +117,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo "></a>
+  <div class="container"> 
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
+      <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="service.php">Services</a>
+        <a class="nav-link" href="listeReservations.php">Interventions</a>
+    
+        <li class="nav-item  ">
+            <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="clients.php">Clients</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="personnels.php">Personnels</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="paiement.php">Paiements</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="commentaires.php">Commentaires</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="compteAdmin.php"><i class="fas fa-user fa-lg"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
+        <li class="nav-item ">
+            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>

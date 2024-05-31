@@ -6,7 +6,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean</title>
+    <title>Menu RRH</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -37,39 +37,27 @@ session_start();
   
 </head>
 <body>
+
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container"> 
-    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo "></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
-      <ul class="navbar-nav">
-        <li class="nav-item ">
-          <a class="nav-link " href="employes.php">Employés</a>
-        </li>
+      <ul class="navbar-nav ml-auto">
        
         <li class="nav-item">
-          <a class="nav-link " href="congés.php">Congés</a>
+          <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg"></i></a> 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="demandeDemplois.php">demande D'emplois</a>
-        </li>
-        <li class="nav-item  ">
-            <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
+          <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
-
 <div class="container content">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -78,7 +66,7 @@ session_start();
                 <a href="employes.php" class="btn btn-primary btn-block mb-2">Gérer les employés </a>
                     <a href="congés.php" class="btn btn-primary btn-block mb-2">Gérer les congés</a>
                     <a href="arrêtDeTravail.php" class="btn btn-primary btn-block mb-2">Gérer les arrêts de travail</a>
-                    <a href="demandeDemplois.php" class="btn btn-primary btn-block mb-2">Gérer les demandes d'emplois</a>
+                    <a href="menuDemandeDemplois.php" class="btn btn-primary btn-block mb-2">Gérer les demandes d'emplois</a>
                   
                 </div>
             </div>

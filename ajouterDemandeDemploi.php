@@ -8,7 +8,7 @@ require_once("identifier.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean</title>
+    <title>Ajouter demande d'emplois</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -39,7 +39,7 @@ require_once("identifier.php");
           <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="demandeDemplois.php">demande D'emplois</a>
+          <a class="nav-link active" href="menuDemandeDemplois.php">demande D'emplois</a>
         </li>
         <li class="nav-item  ">
             <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 

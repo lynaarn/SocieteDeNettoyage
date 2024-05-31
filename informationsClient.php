@@ -43,7 +43,7 @@ if(isset($_GET['id'])) {
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container">
-    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Capiclean Logo"></a>
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -59,7 +59,7 @@ if(isset($_GET['id'])) {
           <a class="nav-link" href="personnels.php">Personnels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="menucontrat.php">Contrats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="paiement.php">Paiements</a>
@@ -76,7 +76,7 @@ if(isset($_GET['id'])) {
   <div class="row">
     <div class="col">
       <h2 class="center-text">Informations Client</h2>
-      <div class="photo2"><img src="images/6.jpg" /></div>
+      <div class="photo2"><img src="images/61.jpg" /></div>
       <table class="table">
         <tbody>
           <tr>

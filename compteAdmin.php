@@ -10,7 +10,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Admin') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capiclean</title>
+    <title>Mon compte</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -35,7 +35,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Admin') {
           <a class="nav-link" href="personnels.php">Personnels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="menucontrat.php">Contrats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="paiement.php">Paiements</a>
@@ -63,7 +63,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Admin') {
           <div class="info-box">
             <form>
               <div class="text-center mb-3">
-                <img src="images/3.jpg" class="rounded-circle"  width="200">
+                <img src="images/64.png" class="rounded-circle"  width="200">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
