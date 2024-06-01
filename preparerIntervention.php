@@ -6,7 +6,7 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-$codeR = $_GET['codeR'];
+$codeR = $_GET['codeR'] ?? null;
 
 if (!$codeR) {
     die("CodeR is missing");
@@ -18,9 +18,12 @@ $reservationQuery = "
     FROM reservation r 
     JOIN Client c ON r.client_id = c.id 
     JOIN users u ON c.id = u.id 
-    WHERE r.codeR = $codeR
+    WHERE r.codeR = ?
 ";
-$reservationResult = $mysqli->query($reservationQuery);
+$reservationStmt = $mysqli->prepare($reservationQuery);
+$reservationStmt->bind_param("i", $codeR);
+$reservationStmt->execute();
+$reservationResult = $reservationStmt->get_result();
 
 if (!$reservationResult) {
     die("Error in reservation query: " . $mysqli->error);
@@ -37,9 +40,12 @@ $servicesQuery = "
     SELECT ds.*, s.NomS 
     FROM detailResSER ds 
     JOIN Service s ON ds.CodeS = s.CodeS 
-    WHERE ds.codeR = $codeR
+    WHERE ds.codeR = ?
 ";
-$services = $mysqli->query($servicesQuery);
+$servicesStmt = $mysqli->prepare($servicesQuery);
+$servicesStmt->bind_param("i", $codeR);
+$servicesStmt->execute();
+$services = $servicesStmt->get_result();
 
 if (!$services) {
     die("Error in services query: " . $mysqli->error);
@@ -64,40 +70,6 @@ $materiels = $mysqli->query($materielsQuery);
 if (!$materiels) {
     die("Error in materiels query: " . $mysqli->error);
 }
-
-// Traitement du formulaire
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    foreach ($_POST['services'] as $service) {
-        $CodeS = $service['CodeS'];
-        $employe_id = $service['employe_id'];
-        $materiels = $service['materiels'];
-
-        // Assigner l'employé et ajouter la tâche
-        $assignEmployeQuery = "
-            INSERT INTO employe_intervention (intervention_id, employe_id, tache) 
-            VALUES ($codeR, $employe_id, (SELECT NomS FROM Service WHERE CodeS = $CodeS))
-        ";
-        if (!$mysqli->query($assignEmployeQuery)) {
-            echo "Erreur: " . $mysqli->error;
-        }
-        
-        // Assigner les matériels
-        foreach ($materiels as $materiel) {
-            $codeM = $materiel['codeM'];
-            $quantite_utilisee = $materiel['quantite_utilisee'];
-            $assignMaterielQuery = "
-                INSERT INTO materiel_intervention (intervention_id, materiel_id, quantite_utilisee) 
-                VALUES ($codeR, $codeM, $quantite_utilisee)
-            ";
-            if (!$mysqli->query($assignMaterielQuery)) {
-                echo "Erreur: " . $mysqli->error;
-            }
-        }
-    }
-    
-    echo "Intervention préparée avec succès.";
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -143,40 +115,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <h2 class="mt-4">Informations du Client</h2>
   <div class="card mb-4">
     <div class="card-body">
-      <p class="card-text"><strong>Nom:</strong> <?= $reservation['nom'] ?> <?= $reservation['prenom'] ?></p>
-      <p class="card-text"><strong>Email:</strong> <?= $reservation['email'] ?></p>
-      <p class="card-text"><strong>Téléphone:</strong> <?= $reservation['telephone'] ?></p>
-      <p class="card-text"><strong>Adresse:</strong> <?= $reservation['adresse'] ?></p>
+      <p class="card-text"><strong>Nom:</strong> <?= htmlspecialchars($reservation['nom']) ?> <?= htmlspecialchars($reservation['prenom']) ?></p>
+      <p class="card-text"><strong>Email:</strong> <?= htmlspecialchars($reservation['email']) ?></p>
+      <p class="card-text"><strong>Téléphone:</strong> <?= htmlspecialchars($reservation['telephone']) ?></p>
+      <p class="card-text"><strong>Adresse:</strong> <?= htmlspecialchars($reservation['adresse']) ?></p>
     </div>
   </div>
 
   <h2>Informations de la Réservation</h2>
   <div class="card mb-4">
     <div class="card-body">
-      <p class="card-text"><strong>Date de Réservation:</strong> <?= $reservation['date_reservation'] ?></p>
-      <p class="card-text"><strong>Date de Prestation:</strong> <?= $reservation['date_prestation'] ?></p>
-      <p class="card-text"><strong>Heure de Prestation:</strong> <?= $reservation['heure_prestation'] ?></p>
-      <p class="card-text"><strong>Adresse de Prestation:</strong> <?= $reservation['adresse_prestation'] ?></p>
-      <p class="card-text"><strong>Montant:</strong> <?= $reservation['montant'] ?></p>
+      <p class="card-text"><strong>Date de Réservation:</strong> <?= htmlspecialchars($reservation['date_reservation']) ?></p>
+      <p class="card-text"><strong>Date de Prestation:</strong> <?= htmlspecialchars($reservation['date_prestation']) ?></p>
+      <p class="card-text"><strong>Heure de Prestation:</strong> <?= htmlspecialchars($reservation['heure_prestation']) ?></p>
+      <p class="card-text"><strong>Adresse de Prestation:</strong> <?= htmlspecialchars($reservation['adresse_prestation']) ?></p>
+      <p class="card-text"><strong>Montant:</strong> <?= htmlspecialchars($reservation['montant']) ?></p>
     </div>
   </div>
 
-  <form method="POST">
+  <form method="POST" action="traiterintervention.php?codeR=<?= $codeR ?>">
     <h2>Services de la Réservation</h2>
     <?php while ($service = $services->fetch_assoc()) { ?>
       <div class="card mb-4">
         <div class="card-body">
-          <h3>Service: <?= $service['NomS'] ?></h3>
-          <input type="hidden" name="services[<?= $service['CodeS'] ?>][CodeS]" value="<?= $service['CodeS'] ?>">
-          <p class="card-text"><strong>Nombre d'heures:</strong> <?= $service['nbr_hr'] ?></p>
-          <p class="card-text"><strong>Instructions Spéciales:</strong> <?= $service['instructions_speciales'] ?></p>
+          <h3>Service: <?= htmlspecialchars($service['NomS']) ?></h3>
+          <input type="hidden" name="services[<?= $service['CodeS'] ?>][CodeS]" value="<?= htmlspecialchars($service['CodeS']) ?>">
+          <p class="card-text"><strong>Nombre d'heures:</strong> <?= htmlspecialchars($service['nbr_hr']) ?></p>
+          <p class="card-text"><strong>Instructions Spéciales:</strong> <?= htmlspecialchars($service['instructions_speciales']) ?></p>
           <div class="form-group">
             <label for="employe_id_<?= $service['CodeS'] ?>">Assigner un Employé:</label>
             <select class="form-control" name="services[<?= $service['CodeS'] ?>][employe_id]" id="employe_id_<?= $service['CodeS'] ?>">
               <option value="">Sélectionner un employé</option>
               <?php $employes->data_seek(0);
               while ($employe = $employes->fetch_assoc()) { ?>
-                <option value="<?= $employe['id'] ?>"><?= $employe['nom'] ?> <?= $employe['prenom'] ?></option>
+                <option value="<?= htmlspecialchars($employe['id']) ?>"><?= htmlspecialchars($employe['nom']) ?> <?= htmlspecialchars($employe['prenom']) ?></option>
               <?php } ?>
             </select>
           </div>
@@ -196,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Choisir Matériels pour <?= $service['NomS'] ?></h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Choisir Matériels pour <?= htmlspecialchars($service['NomS']) ?></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -218,12 +190,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div id="materielList_<?= $service['CodeS'] ?>" class="materiel-list">
                     <?php $materiels->data_seek(0);
                     while ($materiel = $materiels->fetch_assoc()) { ?>
-                      <div class="form-check materiel-item" data-type="<?= $materiel['type'] ?>">
-                        <input class="form-check-input" type="checkbox" name="services[<?= $service['CodeS'] ?>][materiels][<?= $materiel['codeM'] ?>][codeM]" value="<?= $materiel['codeM'] ?>" id="materiel_<?= $materiel['codeM'] ?>_<?= $service['CodeS'] ?>" data-name="<?= $materiel['nomM'] ?>" data-quantite="<?= $materiel['quantite'] ?>">
+                      <div class="form-check materiel-item" data-type="<?= htmlspecialchars($materiel['type']) ?>">
+                        <input class="form-check-input" type="checkbox" name="services[<?= $service['CodeS'] ?>][materiels][<?= $materiel['codeM'] ?>][codeM]" value="<?= htmlspecialchars($materiel['codeM']) ?>" id="materiel_<?= $materiel['codeM'] ?>_<?= $service['CodeS'] ?>" data-name="<?= htmlspecialchars($materiel['nomM']) ?>" data-quantite="<?= htmlspecialchars($materiel['quantite']) ?>">
                         <label class="form-check-label" for="materiel_<?= $materiel['codeM'] ?>_<?= $service['CodeS'] ?>">
-                          <?= $materiel['nomM'] ?> (Quantité disponible: <?= $materiel['quantite'] ?>)
+                          <?= htmlspecialchars($materiel['nomM']) ?> (Quantité disponible: <?= htmlspecialchars($materiel['quantite']) ?>)
                         </label>
-                        <input type="number" class="form-control mt-2" name="services[<?= $service['CodeS'] ?>][materiels][<?= $materiel['codeM'] ?>][quantite_utilisee]" min="0" max="<?= $materiel['quantite'] ?>" value="0" data-materiel-id="<?= $materiel['codeM'] ?>">
+                        <input type="number" class="form-control mt-2" name="services[<?= $service['CodeS'] ?>][materiels][<?= $materiel['codeM'] ?>][quantite_utilisee]" min="0" max="<?= htmlspecialchars($materiel['quantite']) ?>" value="0" data-materiel-id="<?= htmlspecialchars($materiel['codeM']) ?>">
                       </div>
                     <?php } ?>
                   </div>

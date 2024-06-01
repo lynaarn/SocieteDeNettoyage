@@ -1,15 +1,42 @@
+<?php
+require_once("identifier.php");
+require_once("connexiondb.php");
+
+// Récupérer l'ID de l'employé connecté
+$id_employe = $_SESSION['user']['id'];
+
+// Requête pour obtenir le congé actuel (statut 'accordé' et Date_fin dans le futur)
+$requeteCongeActuel = $pdo->prepare("SELECT * FROM ArretDeTravail WHERE id = ? AND statut = 'accordé' AND Date_deb <= CURDATE() AND Date_fin >= CURDATE() ORDER BY Date_deb LIMIT 1");
+$requeteCongeActuel->execute([$id_employe]);
+$congeActuel = $requeteCongeActuel->fetch();
+
+// Requête pour obtenir les congés accordés mais pas encore commencés
+$requeteCongeFutur = $pdo->prepare("SELECT * FROM ArretDeTravail WHERE id = ? AND statut = 'accordé' AND Date_deb > CURDATE() ORDER BY Date_deb");
+$requeteCongeFutur->execute([$id_employe]);
+$congeFutur = $requeteCongeFutur->fetchAll();
+
+// Requête pour obtenir l'historique des congés (statut 'accordé' et Date_fin dans le passé)
+$requeteHistoriqueConge = $pdo->prepare("SELECT * FROM ArretDeTravail WHERE id = ? AND statut = 'accordé' AND Date_fin < CURDATE() ORDER BY Date_deb");
+$requeteHistoriqueConge->execute([$id_employe]);
+$historiqueConges = $requeteHistoriqueConge->fetchAll();
+
+$message = "";
+
+if (!$congeActuel) {
+    $message = "Pas de congé pour le moment.";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes congés</title>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-
     <style>
         .card {
             border: none;
@@ -18,28 +45,23 @@
             transition: transform 0.2s ease-in-out;
             background-color: #ffffff;
         }
-
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-
         .card-body {
             border-radius: 10px;
             padding: 20px;
         }
-
         .card-title {
             font-size: 1.25rem;
             font-weight: bold;
             color: #343a40;
         }
-
         .card-text {
             font-size: 1rem;
             color: #6c757d;
         }
-
         .custom-card {
             border: none;
             border-radius: 10px;
@@ -47,34 +69,27 @@
             transition: transform 0.2s ease-in-out;
             background-color: #ffffff;
         }
-
         .custom-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-
         .custom-card-body {
             border-radius: 10px;
             padding: 20px;
             margin-top: 50px;
         }
-        
-
         .custom-card-title {
             font-size: 1.25rem;
             font-weight: bold;
             color: #343a40;
         }
-
         .custom-card-text {
             font-size: 1rem;
             color: #6c757d;
         }
-
         .center-text {
             text-align: center;
         }
-
         .remaining-days {
             background-color: #ff4d4d;
             color: white;
@@ -83,8 +98,6 @@
             font-size: 1rem;
             margin-top: 10px;
         }
-
-        /* Style pour les icônes Font Awesome */
         .fa-icon {
             margin-right: 8px;
             color: #4682B4;
@@ -124,17 +137,20 @@
 </nav>
 
 <div class="container mt-5 pt-5">
-
     <div class="row justify-content-center">
         <div class="col-md-4 mb-4">
             <div class="custom-card text-center">
                 <div class="custom-card-body">
                     <h5 class="custom-card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Mon Congé actuel</h5>
-                    <p class="custom-card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2024-01-01</p>
-                    <p class="custom-card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2024-12-31</p>
-                    <p class="remaining-days"><strong><i class="far fa-hourglass fa-icon"></i>Jours restants:</strong> 
-                        <span id="days-left"></span>
-                    </p>
+                    <?php if ($congeActuel): ?>
+                        <p class="custom-card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> <?php echo htmlspecialchars($congeActuel['Date_deb']); ?></p>
+                        <p class="custom-card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> <?php echo htmlspecialchars($congeActuel['Date_fin']); ?></p>
+                        <p class="remaining-days"><strong><i class="far fa-hourglass fa-icon"></i>Jours restants:</strong> 
+                            <span id="days-left"></span>
+                        </p>
+                    <?php else: ?>
+                        <p class="custom-card-text">Pas de congé pour le moment.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -142,67 +158,44 @@
 </div>
 
 <div class="container mt-5">
+    <h2 class="center-text"><i class="fas fa-umbrella-beach fa-icon"></i>Congés à venir</h2>
+    <div class="row">
+        <?php if (count($congeFutur) > 0): ?>
+            <?php foreach ($congeFutur as $conge): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé</h5>
+                            <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> <?php echo htmlspecialchars($conge['Date_deb']); ?></p>
+                            <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> <?php echo htmlspecialchars($conge['Date_fin']); ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="custom-card-text">Pas de congé à venir.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
+<div class="container mt-5">
     <h2 class="center-text"><i class="fas fa-umbrella-beach fa-icon"></i>Mon historique des Congés</h2>
     <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé 1</h5>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2023-01-01</p>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2023-12-31</p>
+        <?php foreach ($historiqueConges as $conge): ?>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé</h5>
+                        <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> <?php echo htmlspecialchars($conge['Date_deb']); ?></p>
+                        <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> <?php echo htmlspecialchars($conge['Date_fin']); ?></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé 2</h5>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2023-02-01</p>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2023-11-30</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé 3</h5>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2023-03-01</p>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2023-10-31</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé 4</h5>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2023-01-01</p>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2023-12-31</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé 5</h5>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2023-02-01</p>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2023-11-30</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-umbrella-beach fa-icon"></i>Congé 6</h5>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Début:</strong> 2023-03-01</p>
-                    <p class="card-text"><strong><i class="fas fa-calendar-day fa-icon"></i>Date Fin:</strong> 2023-10-31</p>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>
 
 <script>
-    // Calculer les jours restants
     function calculateDaysLeft(endDate) {
         const today = new Date();
         const end = new Date(endDate);
@@ -212,13 +205,15 @@
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        const endDate = '2024-12-31'; // Date de fin du congé
-        const daysLeft = calculateDaysLeft(endDate);
-        document.getElementById('days-left').innerText = daysLeft;
+        <?php if ($congeActuel): ?>
+            const endDate = '<?php echo $congeActuel['Date_fin']; ?>';
+            const daysLeft = calculateDaysLeft(endDate);
+            document.getElementById('days-left').innerText = daysLeft;
+        <?php endif; ?>
     });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

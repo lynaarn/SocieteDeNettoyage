@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS ArretDeTravail (
     NumA INT AUTO_INCREMENT PRIMARY KEY,
     Type ENUM('Congé', 'Maladie', 'Maternité/Paternité', 'demission') NOT NULL,
     Date_deb DATE NOT NULL,
-    Date_fin DATE NOT NULL,
+    Date_fin DATE ,
     Description TEXT,
     statut ENUM('accordé', 'refusé', 'pas encore traité') DEFAULT 'pas encore traité',
     id INT,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS contrat (
     id_c INT AUTO_INCREMENT PRIMARY KEY,
     date_deb DATE NOT NULL,
     date_fin DATE NOT NULL,
-    etat ENUM('actif', 'résilié', 'terminé', 'en attente') NOT NULL DEFAULT 'en attente',
+    etat ENUM('actif', 'résilié', 'terminé', 'en attente de preparation','en attente de confirmation) NOT NULL DEFAULT 'en attente de confirmation',
     detailc TEXT NOT NULL,
     client_id INT NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS ServiceDansContrat (
     CodeS INT,
     id_c INT,
     detailsSer TEXT,
-    frequence VARCHAR(50) NOT NULL,
+    frequence  ENUM('tout les jours', 'une fois par semaine', 'une fois par mois', 'une fois chaque 3 mois') NOT NULL,
     PRIMARY KEY (CodeS, id_c),
     FOREIGN KEY (CodeS) REFERENCES Service(CodeS) ON DELETE CASCADE,
     FOREIGN KEY (id_c) REFERENCES contrat(id_c) ON DELETE CASCADE
@@ -547,15 +547,15 @@ SET @contract_id_10 = @contract_id_9 + 1;
 
 -- Insertion dans ServiceDansContrat pour les services associés aux contrats
 INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer,frequence) VALUES 
-(1, @contract_id_1, 'Nettoyage complet de la maison','tous les mois'),
-(2, @contract_id_2, 'Nettoyage de vitres','tous les deux mois'),
-(3, @contract_id_3, 'Entretien de bureaux','deux fois par semaine'),
+(1, @contract_id_1, 'Nettoyage complet de la maison','une fois par mois'),
+(2, @contract_id_2, 'Nettoyage de vitres','une fois par mois'),
+(3, @contract_id_3, 'Entretien de bureaux','une fois par semaine'),
 (4, @contract_id_4, 'Nettoyage de restaurants','une fois par semaine'),
-(5, @contract_id_5, 'Nettoyage de sites de construction ','après chaque projet'),
-(6, @contract_id_6, 'Nettoyage d\'entrepôts ','chaque trimestre'),
-(7, @contract_id_7, 'Nettoyage de véhicules','deux fois par mois'),
-(8, @contract_id_8, 'Nettoyage après sinistre en urgence','après sinistre'),
-(1, @contract_id_9, 'Nettoyage de maisons ','tous les mois'),
-(3, @contract_id_9, 'Nettoyage de bureaux ','deux fois par semaine'),
-(5, @contract_id_10, 'Nettoyage de façades ','chaque semestre'),
-(7, @contract_id_10, 'Nettoyage de sols','tous les mois');
+(5, @contract_id_5, 'Nettoyage de sites de construction ','tout les jours'),
+(6, @contract_id_6, 'Nettoyage d\'entrepôts ','une fois par mois'),
+(7, @contract_id_7, 'Nettoyage de véhicules','une fois par mois'),
+(8, @contract_id_8, 'Nettoyage après sinistre en urgence','une fois par mois'),
+(1, @contract_id_9, 'Nettoyage de maisons ','une fois par mois'),
+(3, @contract_id_9, 'Nettoyage de bureaux ','une fois par semaine'),
+(5, @contract_id_10, 'Nettoyage de façades ','une fois par mois'),
+(7, @contract_id_10, 'Nettoyage de sols','une fois par mois');

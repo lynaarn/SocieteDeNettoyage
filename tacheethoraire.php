@@ -1,3 +1,29 @@
+<?php
+require_once("identifier.php");
+require_once("connexiondb.php");
+
+// Récupérer l'ID de l'employé connecté
+$id_employe = $_SESSION['user']['id'];
+
+// Requête pour obtenir les interventions de l'employé
+$requeteInterventions = $pdo->prepare("
+    SELECT 
+        i.numI, i.etat, i.codeR, 
+        r.date_prestation, r.heure_prestation, 
+        ei.tache 
+    FROM 
+        intervention i 
+    JOIN 
+        reservation r ON i.codeR = r.codeR
+    JOIN 
+        employe_intervention ei ON i.numI = ei.intervention_id
+    WHERE 
+        ei.employe_id = ? AND r.date_prestation >= CURDATE()
+");
+$requeteInterventions->execute([$id_employe]);
+$interventions = $requeteInterventions->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +39,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     
     <style>
-       
         .card {
             position: relative;
             border: none;
@@ -21,6 +46,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out;
             background-color: #ffffff;
+            height: 100%; /* Ensure the card takes full height */
         }
 
         .card:hover {
@@ -31,6 +57,9 @@
         .card-body {
             border-radius: 10px;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute space between elements */
         }
 
         .card-title {
@@ -47,7 +76,7 @@
         /* Style pour les icônes Font Awesome */
         .fa-icon {
             margin-right: 8px;
-            color: 	#2E8B57;
+            color: #2E8B57;
         }
 
         .task-list {
@@ -67,7 +96,14 @@
             padding: 5px 10px;
             border-radius: 5px;
             font-weight: bold;
-          
+            font-size: 1rem; /* Adjust font size if needed */
+        }
+
+        .date-badge {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2E8B57;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -83,7 +119,6 @@
         <li class="nav-item ">
           <a class="nav-link " href="demission.php">Démission</a>
         </li>
-        
         <li class="nav-item">
           <a class="nav-link " href="menuconge.php">Congés</a>
         </li>
@@ -91,13 +126,13 @@
           <a class="nav-link" href="historiqueintervention.php">Historique interventions</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="tacheethoraire.php">attribution tâche et horraire</a>
+          <a class="nav-link" href="tacheethoraire.php">Attribution tâche et horaire</a>
         </li>
         <li class="nav-item  ">
             <a class="nav-link" href="compteEmploye.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>
         <li class="nav-item ">
-            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
+            <a class="nav-link ml-2" href="deconnexionClient.php">Déconnexion</a>
         </li>
       </ul>
     </div>
@@ -105,89 +140,34 @@
 </nav>
 
 <div class="container mt-5">
-    <h2 class="center-text"><i class="fas fa-tasks fa-icon"></i>Mon attributions des tâches</h2>
+    <h2 class="center-text"><i class="fas fa-tasks fa-icon"></i>Mes attributions des tâches</h2>
     <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="time-badge">8h-12h</div>
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-day fa-icon"></i>Samedi 11-05-2024</h5>
-                    <ul class="task-list">
-                        <li><i class="fas fa-check fa-icon"></i>Passer l'aspirateur</li>
-                        <li><i class="fas fa-check fa-icon"></i>Faire la vaisselle</li>
-                        <li><i class="fas fa-check fa-icon"></i>Nettoyer la salle de bain</li>
-                    </ul>
+        <?php if (empty($interventions)): ?>
+            <div class="col-12">
+                <div class="alert alert-info" role="alert">
+                    Vous n'avez aucune intervention pour le moment.
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="time-badge">12h-17h</div>
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-day fa-icon"></i>Mardi 12-05-2024</h5>
-                    <ul class="task-list">
-                        <li><i class="fas fa-check fa-icon"></i>Dépoussiérer les meubles</li>
-                        <li><i class="fas fa-check fa-icon"></i>Faire les lits</li>
-                        <li><i class="fas fa-check fa-icon"></i>Laver le sol</li>
-                    </ul>
+        <?php else: ?>
+            <?php foreach ($interventions as $intervention): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="time-badge"><?php echo date('H:i', strtotime($intervention['heure_prestation'])); ?></div>
+                        <div class="card-body">
+                            <div class="date-badge"><i class="fas fa-calendar-day fa-icon"></i><?php echo date('l d-m-Y', strtotime($intervention['date_prestation'])); ?></div>
+                            <ul class="task-list">
+                                <li><i class="fas fa-check fa-icon"></i><?php echo htmlspecialchars($intervention['tache']); ?></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="time-badge">9h-11h</div>
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-day fa-icon"></i>Lundi 13-05-2024</h5>
-                    <ul class="task-list">
-                        <li><i class="fas fa-check fa-icon"></i>Sortir les poubelles</li>
-                        <li><i class="fas fa-check fa-icon"></i>Repasser le linge</li>
-                        <li><i class="fas fa-check fa-icon"></i>Ranger les pièces</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="time-badge">15h-18h</div>
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-day fa-icon"></i>Jeudi 19-05-2024</h5>
-                    <ul class="task-list">
-                        <li><i class="fas fa-check fa-icon"></i>Nettoyer les vitres</li>
-                        <li><i class="fas fa-check fa-icon"></i>Changer les draps</li>
-                        <li><i class="fas fa-check fa-icon"></i>Organiser le placard</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="time-badge">7h-13h</div>
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-day fa-icon"></i>Jeudi 23-05-2024</h5>
-                    <ul class="task-list">
-                        <li><i class="fas fa-check fa-icon"></i>Laver les rideaux</li>
-                        <li><i class="fas fa-check fa-icon"></i>Nettoyer le four</li>
-                        <li><i class="fas fa-check fa-icon"></i>Arroser les plantes</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="time-badge">10h-12h</div>
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-day fa-icon"></i>Lundi 27-05-2024</h5>
-                    <ul class="task-list">
-                        <li><i class="fas fa-check fa-icon"></i>Nettoyer le réfrigérateur</li>
-                        <li><i class="fas fa-check fa-icon"></i>Balayer la terrasse</li>
-                        <li><i class="fas fa-check fa-icon"></i>Essuyer les comptoirs</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

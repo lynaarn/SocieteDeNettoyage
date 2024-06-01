@@ -80,14 +80,14 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
           <a class="nav-link" href="contratsClients.php">Contrats</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentairesClients.php">commentaires</a>
+          <a class="nav-link" href="commentairesClients.php">Commentaires</a>
         </li>
         <li class="nav-item1  ">
         <a class="nav-link" href="compteClient.php"><i class="fas fa-user fa-lg"></i></a>
 
         </li>
         <li class="nav-item ">
-        <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
+        <a class="nav-link" href="deconnexionClient.php">Déconnexion</a>
 
         </li>
       </ul>
@@ -183,10 +183,14 @@ $(document).ready(function() {
             if ($(this).is(':checked')) {
                 var serviceId = $(this).val();
                 var serviceNom = $(this).data('noms');
-                var frequenceInput = '<input type="text" class="form-control d-inline w-25 ml-2" name="frequence[' + serviceId + ']" placeholder="Fréquence" required>';
+                var frequenceSelect = '<select class="form-control d-inline w-25 ml-2" name="frequence[' + serviceId + ']" required>'
+                    + '<option value="Quotidien">Quotidien</option>'
+                    + '<option value="Hebdomadaire">Hebdomadaire</option>'
+                    + '<option value="Mensuel">Mensuel</option>'
+                    + '</select>';
                 var detailsInput = '<textarea class="form-control d-inline w-50 ml-2" name="detailsSer[' + serviceId + ']" placeholder="Détails"></textarea>';
                 var hiddenInput = '<input type="hidden" name="services[]" value="' + serviceId + '">';
-                var serviceItem = '<div>' + serviceNom + frequenceInput + detailsInput + hiddenInput + '</div>';
+                var serviceItem = '<div>' + serviceNom + frequenceSelect + detailsInput + hiddenInput + '</div>';
                 choixServices.append(serviceItem);
             }
         });

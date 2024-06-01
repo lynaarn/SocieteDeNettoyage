@@ -15,7 +15,7 @@ $requete = "
     INNER JOIN employe emp ON arret.id = emp.id
     INNER JOIN users ON emp.id = users.id
     WHERE arret.statut = 'pas encore traité' AND users.nom LIKE '%$nom%'
-    AND arret.Type IN ('Congé', 'Maladie', 'Maternité/Paternité') AND emp.statut='Actif'
+    AND arret.Type IN ('Congé', 'Maladie', 'Maternité/Paternité') 
     LIMIT $size OFFSET $offset
 ";
 

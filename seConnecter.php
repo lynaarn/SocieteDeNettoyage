@@ -29,7 +29,7 @@ if (!empty($login) && !empty($pwd)) {
                 // Rediriger vers la page appropriée en fonction du type de compte
                 switch ($user['TypeCompte']) {
                     case 'Client':
-                        header("Location: compteClient.php");
+                        header("Location: menuClient.php");
                         break;
                     case 'Employe':
                         header("Location: menuEmploye.php");

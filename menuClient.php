@@ -71,7 +71,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
                     <a href="contratsClients.php" class="btn btn-primary btn-block mb-2">Gérer mon contrat</a>
                     <a href="commentairesClients.php" class="btn btn-primary btn-block mb-2">Laisser un commentaire</a>
                     <a href="consulterCommentaires.php" class="btn btn-primary btn-block mb-2">Consulter mes commentaires</a>
-                    <a href="gererReservationsPrestations.php" class="btn btn-primary btn-block mb-2">Gérer mes réservations et prestations</a>
+                    <a href="prestationsClient.php" class="btn btn-primary btn-block mb-2">Gérer mes réservations et prestations</a>
                 </div>
             </div>
         </div>

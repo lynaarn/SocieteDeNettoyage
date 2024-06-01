@@ -1,6 +1,6 @@
 <?php 
 session_start();
- if ($_SESSION['user']['TypeCompte']=='GI') {?>
+if ($_SESSION['user']['TypeCompte']=='GI') {?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +9,7 @@ session_start();
     <title>Menu GI</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     
@@ -28,16 +26,13 @@ session_start();
             margin-bottom: 10px;
             color: #333;
             text-decoration: none;
-            
         }
         .links a:hover {
             color: #E5F1FE;
         }
     </style>
-  
 </head>
 <body>
-
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container"> 
@@ -47,32 +42,30 @@ session_start();
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav ml-auto">
-       
         <li class="nav-item">
           <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg"></i></a> 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="deconnexionClient.php">Deconnexion</a>
+          <a class="nav-link" href="deconnexionClient.php">Déconnexion</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
 <div class="container content">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card-body">
                 <div class="links">
-                <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Préparer une intervention </a>
-                <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Consulter la liste des reservations </a>
-              
-                  
+                    <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Préparer une intervention</a>
+                    <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Consulter la liste des reservations</a>
+                    <a href="interventionsContrats.php" class="btn btn-primary btn-block mb-2">Consulter les interventions pour contrats</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
