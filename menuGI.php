@@ -58,8 +58,8 @@ if ($_SESSION['user']['TypeCompte']=='GI') {?>
         <div class="col-md-8">
             <div class="card-body">
                 <div class="links">
-                    <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Préparer une intervention</a>
-                    <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Consulter la liste des reservations</a>
+                    <a href="listeReservations.php" class="btn btn-primary btn-block mb-2">Préparer une intervention pour reservation</a>
+                
                     <a href="interventionsContrats.php" class="btn btn-primary btn-block mb-2">Consulter les interventions pour contrats</a>
                 </div>
             </div>

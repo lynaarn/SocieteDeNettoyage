@@ -111,18 +111,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg"></i></a> 
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+        <a class="nav-link" href="listeReservations.php">Interventions reservation</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="deconnexionClient.php">Déconnexion</a>
+        <li class="nav-item active">
+        <a class="nav-link" href="interventionsContrats.php">Interventions contrat</a>
+        </li>
+        <li class="nav-item  ">
+            <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-
 <div class="container mt-5">
     <h1 class="mt-5">Préparer Contrat</h1>
     <h2 class="mt-4">Informations du Client</h2>

@@ -57,7 +57,7 @@
           <a class="nav-link" href="contratsClients.php">Contrats</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentairesClients.php">commentaires</a>
+          <a class="nav-link" href="menuCommentaire.php">commentaires</a>
         </li>
         <li class="nav-item1  ">
         <a class="nav-link" href="compteEmploye.php"><i class="fas fa-user fa-lg"></i></a>

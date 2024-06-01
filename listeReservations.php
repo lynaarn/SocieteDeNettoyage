@@ -38,8 +38,11 @@ $result = $mysqli->query("SELECT r.codeR, r.date_reservation, r.date_prestation,
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
       <ul class="navbar-nav">
         <li class="nav-item active">
-        <a class="nav-link" href="listeReservations.php">Interventions</a>
-    
+        <a class="nav-link" href="listeReservations.php">Interventions reservation</a>
+        </li>
+        <li class="nav-item ">
+        <a class="nav-link" href="interventionsContrats.php">Interventions contrat</a>
+        </li>
         <li class="nav-item  ">
             <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
         </li>

@@ -42,30 +42,30 @@ if (isset($_GET['id'])) {
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Capiclean Logo"></a>
+  <div class="container"> 
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="service.php">Services</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="Menuclients.php">Clients</a>
+          <a class="nav-link active" href="employes.php">Employés</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="personnels.php">Personnels</a>
+          <a class="nav-link" href="congés.php">Congés</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contrats.php">Contrats</a>
+          <a class="nav-link" href="arrêtDeTravail.php">Arrêt de travail</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="paiement.php">Paiements</a>
+          <a class="nav-link" href="menuDemandeDemplois.php">Demande d'emplois</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentaires.php">Commentaires</a>
+          <a class="nav-link" href="compteRHH.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+        </li>
+        <li class="nav-item">
+          <a class="nav-link ml-2" href="deconnexionClient.php">Déconnexion</a>
         </li>
       </ul>
     </div>

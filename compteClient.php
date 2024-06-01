@@ -39,7 +39,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
           <a class="nav-link" href="contratsClients.php">Contrats</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="commentairesClients.php">Commentaires</a>
+          <a class="nav-link" href="menuCommentaire.php">Commentaires</a>
         </li>
         <li class="nav-item1 active">
           <a class="nav-link" href="compteClient.php"><i class="fas fa-user fa-lg"></i></a>

@@ -106,17 +106,23 @@ $services = $servicesQuery->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
   <div class="container"> 
-    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo "></a>
+    <a class="navbar-brand" href="index.html"><img src="images/logoo.png" alt="Capiclean Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent"> 
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg"></i></a> 
+      <ul class="navbar-nav">
+        <li class="nav-item ">
+        <a class="nav-link" href="listeReservations.php">Interventions reservation</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="deconnexionClient.php">Déconnexion</a>
+        <li class="nav-item active">
+        <a class="nav-link" href="interventionsContrats.php">Interventions contrat</a>
+        </li>
+        <li class="nav-item  ">
+            <a class="nav-link" href="compteGI.php"><i class="fas fa-user fa-lg ml-5"></i></a> 
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link ml-2" href="deconnexionClient.php">Deconnexion</a>
         </li>
       </ul>
     </div>
