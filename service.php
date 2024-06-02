@@ -119,15 +119,16 @@ else
             <th scope="col">Type service</th>
             <th scope="col">Tarif heure</th>
             <th scope="col">Action</th>
+            <th style="display:none;">Description</th>
           </tr>
         </thead>
         <tbody>
           <?php while ($service = $resultatF->fetch()) { ?>
           <tr>
-            <th><?php echo $service['CodeS'] ?></th>
-            <td><?php echo $service['NomS'] ?></td>
-            <td><?php echo $service['TypeS'] ?></td>
-            <td><?php echo $service['TarifHr'] ?></td>
+            <th class="service-row" data-description="<?php echo htmlspecialchars($service['Description']); ?>"><?php echo $service['CodeS'] ?></th>
+            <td class="service-row" data-description="<?php echo htmlspecialchars($service['Description']); ?>"><?php echo $service['NomS'] ?></td>
+            <td class="service-row" data-description="<?php echo htmlspecialchars($service['Description']); ?>"><?php echo $service['TypeS'] ?></td>
+            <td class="service-row" data-description="<?php echo htmlspecialchars($service['Description']); ?>"><?php echo $service['TarifHr'] ?></td>
             <td class="action-icons">
               <a href="modifierService.php?codes=<?php echo $service['CodeS'] ?>" class="edit-icon"><i class="fa fa-pencil-alt"></i></a>
               <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-service-id="<?php echo $service['CodeS'] ?>"><i class="fa fa-trash"></i></a>
@@ -176,14 +177,34 @@ else
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Modal pour afficher la description -->
+<div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="descriptionModalLabel">Description du Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="serviceDescription"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
   var deleteServiceId;
 
-  // Ouvrir le modal et stocker l'ID du service à supprimer
+  // Ouvrir le modal de confirmation de suppression et stocker l'ID du service à supprimer
   $('.delete-icon').on('click', function() {
     deleteServiceId = $(this).data('service-id');
   });
@@ -191,6 +212,13 @@ $(document).ready(function() {
   // Confirmer la suppression
   $('#confirmDeleteBtn').on('click', function() {
     window.location.href = 'supprimerService.php?codes=' + deleteServiceId;
+  });
+
+  // Ouvrir le modal de description lorsque l'on clique sur une ligne du tableau
+  $('.service-row').on('click', function() {
+    var description = $(this).data('description');
+    $('#serviceDescription').text(description);
+    $('#descriptionModal').modal('show');
   });
 });
 </script>

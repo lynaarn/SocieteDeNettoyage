@@ -164,7 +164,8 @@ CREATE TABLE IF NOT EXISTS contrat (
     id_c INT AUTO_INCREMENT PRIMARY KEY,
     date_deb DATE NOT NULL,
     date_fin DATE NOT NULL,
-    etat ENUM('actif', 'résilié', 'terminé', 'en attente de preparation','en attente de confirmation') NOT NULL DEFAULT 'en attente de confirmation',
+    montantc DECIMAL(10, 2),
+    etat ENUM('actif','refusé', 'résilié', 'terminé', 'en attente de preparation','en attente de confirmation') NOT NULL DEFAULT 'en attente de confirmation',
     detailc TEXT NOT NULL,
     client_id INT NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)
@@ -520,18 +521,18 @@ VALUES
 
 
 -- Insertion de 10 contrats pour 10 clients différents
-INSERT INTO contrat (date_deb, date_fin, etat, detailc, client_id)
+INSERT INTO contrat (date_deb, date_fin, montantc, etat, detailc, client_id)
 VALUES 
-('2023-02-01', '2023-12-31', 'actif', 'Contrat pour nettoyage complet de la maison', @user_id_1),
-('2023-03-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de vitres', @user_id_2),
-('2023-04-01', '2023-12-31', 'actif', 'Contrat pour entretien de bureaux', @user_id_3),
-('2023-05-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de restaurants', @user_id_4),
-('2023-06-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de sites de construction', @user_id_5),
-('2023-07-01', '2023-12-31', 'actif', 'Contrat pour nettoyage d\'entrepôts', @user_id_6),
-('2023-08-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de véhicules', @user_id_7),
-('2023-09-01', '2023-12-31', 'actif', 'Contrat pour nettoyage après sinistre', @user_id_8),
-('2023-10-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de maisons et bureaux', @user_id_9),
-('2023-11-01', '2023-12-31', 'actif', 'Contrat pour nettoyage de façades et sols', @user_id_10);
+('2023-06-01', '2024-12-31', 12000.00, 'actif', 'Contrat pour nettoyage complet de la maison', @user_id_1),
+('2023-03-01', '2024-12-31', 80000.00, 'actif', 'Contrat pour nettoyage de vitres', @user_id_2),
+('2023-04-01', '2024-12-31', 15000.00, 'actif', 'Contrat pour entretien de bureaux', @user_id_3),
+('2023-05-01', '2024-12-31', 20000.00, 'actif', 'Contrat pour nettoyage de restaurants', @user_id_4),
+('2023-06-01', '2023-12-31', 18000.00, 'actif', 'Contrat pour nettoyage de sites de construction', @user_id_5),
+('2023-07-01', '2023-12-31', 16000.00, 'actif', 'Contrat pour nettoyage d\'entrepôts', @user_id_6),
+('2023-08-01', '2023-12-31', 11000.00, 'actif', 'Contrat pour nettoyage de véhicules', @user_id_7),
+('2023-09-01', '2023-12-31', 25000.00, 'actif', 'Contrat pour nettoyage après sinistre', @user_id_8),
+('2023-10-01', '2023-12-31', 13000.00, 'en attente de confirmation', 'Contrat pour nettoyage de maisons et bureaux', @user_id_9),
+('2023-11-01', '2023-12-31', 14000.00, 'en attente de confirmation', 'Contrat pour nettoyage de façades et sols', @user_id_10);
 
 -- Récupérer les IDs des contrats nouvellement insérés
 SET @contract_id_1 = LAST_INSERT_ID();

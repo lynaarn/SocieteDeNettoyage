@@ -3,6 +3,10 @@ require_once("identifier.php");
 require_once("connexiondb.php");
 
 if ($_SESSION['user']['TypeCompte'] == 'Client') {
+    
+    $frequences = $pdo->query("SHOW COLUMNS FROM ServiceDansContrat LIKE 'frequence'")->fetch(PDO::FETCH_ASSOC);
+    preg_match("/^enum\(\'(.*)\'\)$/", $frequences['Type'], $matches);
+    $frequence_values = explode("','", $matches[1]);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -10,58 +14,21 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demande de Contrat</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .content {
-            margin-top: 80px;
-            margin-bottom: 80px;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin-top: 30px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-        }
-        .btn-validate {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-        .btn-cancel {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-        textarea {
-            height: 80px;
-        }
-        .form-group label {
-            font-weight: bold;
-            color: black;
-        }
-        .form-group label i {
-            margin-right: 5px;
-            color: #17a2b8;
-        }
-        .bg-light {
-            background-color:#A8A8A8;
-            padding: 7px;
-            border-radius: 5%;
-        }
+        body { background-color: #f8f9fa; }
+        .content { margin-top: 80px; margin-bottom: 80px; }
+        .form-container { background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 30px; }
+        .form-group { margin-bottom: 15px; }
+        .btn-group { display: flex; justify-content: space-between; }
+        .btn-validate { background-color: #28a745; border-color: #28a745; }
+        .btn-cancel { background-color: #dc3545; border-color: #dc3545; }
+        textarea { height: 80px; }
+        .form-group label { font-weight: bold; color: black; }
+        .form-group label i { margin-right: 5px; color: #17a2b8; }
+        .bg-light { background-color:#A8A8A8; padding: 7px; border-radius: 5%; }
     </style>
 </head>
 <body>
@@ -176,6 +143,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
 $(document).ready(function() {
     var services = $('.service-checkbox');
     var choixServices = $('#choix_services');
+    var frequences = <?php echo json_encode($frequence_values); ?>;
 
     $('#addServices').on('click', function() {
         choixServices.empty();
@@ -183,11 +151,11 @@ $(document).ready(function() {
             if ($(this).is(':checked')) {
                 var serviceId = $(this).val();
                 var serviceNom = $(this).data('noms');
-                var frequenceSelect = '<select class="form-control d-inline w-25 ml-2" name="frequence[' + serviceId + ']" required>'
-                    + '<option value="Quotidien">Quotidien</option>'
-                    + '<option value="Hebdomadaire">Hebdomadaire</option>'
-                    + '<option value="Mensuel">Mensuel</option>'
-                    + '</select>';
+                var frequenceSelect = '<select class="form-control d-inline w-25 ml-2" name="frequence[' + serviceId + ']" required>';
+                frequences.forEach(function(freq) {
+                    frequenceSelect += '<option value="' + freq + '">' + freq + '</option>';
+                });
+                frequenceSelect += '</select>';
                 var detailsInput = '<textarea class="form-control d-inline w-50 ml-2" name="detailsSer[' + serviceId + ']" placeholder="Détails"></textarea>';
                 var hiddenInput = '<input type="hidden" name="services[]" value="' + serviceId + '">';
                 var serviceItem = '<div>' + serviceNom + frequenceSelect + detailsInput + hiddenInput + '</div>';

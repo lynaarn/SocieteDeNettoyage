@@ -85,7 +85,7 @@ require_once("identifier.php");
                 </div>
 <div class="form-group">
     <label for="tarif" class="form-label">TarifHeure (en dinars)</label>
-    <input name="TarifHr" type="number" class="form-control form-input" id="tarif" placeholder="Entrez le tarif" min="0" step="1000">
+    <input name="TarifHr" type="number" class="form-control form-input" id="tarif" placeholder="Entrez le tarif" min="0" >
 </div>
 <div class="form-group">
     <label for="duree" class="form-label">Durée (en heures)</label>

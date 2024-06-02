@@ -146,8 +146,7 @@ if ($reste === 0) {
             <td onclick="window.location='informationsClient.php?id=<?php echo $client['user_id']; ?>'"><?php echo $client['prenom']; ?></td>
             <td onclick="window.location='informationsClient.php?id=<?php echo $client['user_id']; ?>'"><?php echo $client['type_client']; ?></td>
             <td class="action-icons">
-              <a onclick="return confirm('etes vous sur de vouloir mettre ce client dans la liste noire')"
-               href="listeNoireClient.php?id=<?php echo $client['user_id']; ?>" class="blacklist-icon"><i class="fas fa-ban"></i></a>
+              <a href="#" class="blacklist-icon" data-toggle="modal" data-target="#confirmBlacklistModal" data-client-id="<?php echo $client['user_id']; ?>"><i class="fas fa-ban"></i></a>
             </td>
           </tr>
           <?php } ?>
@@ -174,9 +173,45 @@ if ($reste === 0) {
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Modal pour la confirmation de mise en liste noire -->
+<div class="modal fade" id="confirmBlacklistModal" tabindex="-1" role="dialog" aria-labelledby="confirmBlacklistModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmBlacklistModalLabel">Confirmation de mise en liste noire</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir mettre ce client dans la liste noire ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmBlacklistBtn">Mettre en liste noire</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  var blacklistClientId;
+
+  // Ouvrir le modal de confirmation de liste noire et stocker l'ID du client
+  $('.blacklist-icon').on('click', function() {
+    blacklistClientId = $(this).data('client-id');
+  });
+
+  // Confirmer la mise en liste noire
+  $('#confirmBlacklistBtn').on('click', function() {
+    window.location.href = 'listeNoireClient.php?id=' + blacklistClientId;
+  });
+});
+</script>
 </body>
 </html>
-<?php } ?> 
+<?php } ?>
