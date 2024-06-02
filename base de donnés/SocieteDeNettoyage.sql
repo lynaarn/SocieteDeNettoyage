@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS contrat (
     id_c INT AUTO_INCREMENT PRIMARY KEY,
     date_deb DATE NOT NULL,
     date_fin DATE NOT NULL,
-    etat ENUM('actif', 'résilié', 'terminé', 'en attente de preparation','en attente de confirmation) NOT NULL DEFAULT 'en attente de confirmation',
+    etat ENUM('actif', 'résilié', 'terminé', 'en attente de preparation','en attente de confirmation') NOT NULL DEFAULT 'en attente de confirmation',
     detailc TEXT NOT NULL,
     client_id INT NOT NULL,
     FOREIGN KEY (client_id) REFERENCES Client(id)

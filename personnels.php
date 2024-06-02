@@ -206,7 +206,7 @@ $(document).ready(function() {
 
   // Confirmer la suppression
   $('#confirmDeleteBtn').on('click', function() {
-    window.location.href = 'supprimerPersonnel.php?id=' + deletePersonnelId;
+    window.location.href = 'supprimerPersonnels.php?id=' + deletePersonnelId;
   });
 });
 </script>
