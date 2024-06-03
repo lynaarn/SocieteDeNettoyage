@@ -85,7 +85,7 @@
                     <p class="card-text"><strong>Date:</strong> 2024-05-20</p>
                     <p class="card-text"><strong>Superficie:</strong> 100 m²</p>
                     <div class="col-md-6 text-center">
-            <a href="#" class="btn ajout mb-3">Voir plus</a>
+            <a href="#" class="btn ajout mb-3" data-toggle="modal" data-target="#modal1">Voir plus</a>
         </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                     <p class="card-text"><strong>Date:</strong> 2024-04-21</p>
                     <p class="card-text"><strong>Superficie:</strong> 200 m²</p>
                     <div class="col-md-6 text-center">
-            <a href="#" class="btn ajout mb-3">Voir plus</a>
+            <a href="#" class="btn ajout mb-3" data-toggle="modal" data-target="#modal2">Voir plus</a>
         </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                     <p class="card-text"><strong>Date:</strong> 2024-03-22</p>
                     <p class="card-text"><strong>Superficie:</strong> 150 m²</p>
                     <div class="col-md-6 text-center">
-            <a href="#" class="btn ajout mb-3">Voir plus</a>
+            <a href="#" class="btn ajout mb-3" data-toggle="modal" data-target="#modal3">Voir plus</a>
         </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                     <p class="card-text"><strong>Date:</strong> 2024-03-10</p>
                     <p class="card-text"><strong>Superficie:</strong> 120 m²</p>
                     <div class="col-md-6 text-center">
-            <a href="#" class="btn ajout mb-3">Voir plus</a>
+            <a href="#" class="btn ajout mb-3" data-toggle="modal" data-target="#modal4">Voir plus</a>
         </div>
                 </div>
             </div>
@@ -139,6 +139,101 @@
     </div>
 </div>
 
+<!-- Modal 1 -->
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal1Label">Détails du Nettoyage de bureaux</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Date:</strong> 2024-05-20</p>
+        <p><strong>Superficie:</strong> 100 m²</p>
+        <p><strong>Heures passées:</strong> 4 heures</p>
+        <p><strong>Équipements utilisés:</strong> Aspirateur, Produits de nettoyage</p>
+        <p><strong>Commentaire:</strong> Nettoyage en profondeur des bureaux et des surfaces de travail.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2 -->
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal2Label">Détails du Nettoyage résidentiel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Date:</strong> 2024-04-21</p>
+        <p><strong>Superficie:</strong> 200 m²</p>
+        <p><strong>Heures passées:</strong> 6 heures</p>
+        <p><strong>Équipements utilisés:</strong> Balai, Produits de nettoyage</p>
+        <p><strong>Commentaire:</strong> Nettoyage complet de la maison, y compris les sols et les vitres.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 3 -->
+<div class="modal fade" id="modal3" tabindex="-1" role="dialog" aria-labelledby="modal3Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal3Label">Détails de la Désinfectation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Date:</strong> 2024-03-22</p>
+        <p><strong>Superficie:</strong> 150 m²</p>
+        <p><strong>Heures passées:</strong> 3 heures</p>
+        <p><strong>Équipements utilisés:</strong> Désinfectants, Gants</p>
+        <p><strong>Commentaire:</strong> Désinfectation complète des zones touchées et des surfaces de contact.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 4 -->
+<div class="modal fade" id="modal4" tabindex="-1" role="dialog" aria-labelledby="modal4Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal4Label">Détails du Nettoyage industriel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Date:</strong> 2024-03-10</p>
+        <p><strong>Superficie:</strong> 120 m²</p>
+        <p><strong>Heures passées:</strong> 5 heures</p>
+        <p><strong>Équipements utilisés:</strong> Machines de nettoyage, Produits industriels</p>
+        <p><strong>Commentaire:</strong> Nettoyage des équipements industriels et des sols.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

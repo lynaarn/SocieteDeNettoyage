@@ -5,8 +5,8 @@ require_once("connexiondb.php");
 // Récupérer l'ID de l'employé connecté
 $id_employe = $_SESSION['user']['id'];
 
-// Requête pour obtenir les interventions de l'employé
-$requeteInterventions = $pdo->prepare("
+// Requête pour obtenir les interventions de l'employé pour les réservations
+$requeteInterventionsReservations = $pdo->prepare("
     SELECT 
         i.numI, i.etat, i.codeR, 
         r.date_prestation, r.heure_prestation, 
@@ -20,8 +20,26 @@ $requeteInterventions = $pdo->prepare("
     WHERE 
         ei.employe_id = ? AND r.date_prestation >= CURDATE()
 ");
-$requeteInterventions->execute([$id_employe]);
-$interventions = $requeteInterventions->fetchAll(PDO::FETCH_ASSOC);
+$requeteInterventionsReservations->execute([$id_employe]);
+$interventionsReservations = $requeteInterventionsReservations->fetchAll(PDO::FETCH_ASSOC);
+
+// Requête pour obtenir les interventions de l'employé pour les contrats
+$requeteInterventionsContrats = $pdo->prepare("
+    SELECT 
+        i.numI, i.etat, 
+        sc.frequence, 
+        ei.tache 
+    FROM 
+        intervention i 
+    JOIN 
+        ServiceDansContrat sc ON i.numI = sc.intervention_id
+    JOIN 
+        employe_intervention ei ON i.numI = ei.intervention_id
+    WHERE 
+        ei.employe_id = ? 
+");
+$requeteInterventionsContrats->execute([$id_employe]);
+$interventionsContrats = $requeteInterventionsContrats->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -32,9 +50,7 @@ $interventions = $requeteInterventions->fetchAll(PDO::FETCH_ASSOC);
     <title>Capiclean</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     
@@ -140,29 +156,59 @@ $interventions = $requeteInterventions->fetchAll(PDO::FETCH_ASSOC);
 </nav>
 
 <div class="container mt-5">
-    <h2 class="center-text"><i class="fas fa-tasks fa-icon"></i>Mes attributions des tâches</h2>
+    <h2 class="center-text"><i class="fas fa-tasks fa-icon"></i> Mes attributions des tâches</h2>
+
     <div class="row">
-        <?php if (empty($interventions)): ?>
-            <div class="col-12">
+        <div class="col-12">
+            <h3 class="mt-5">Attributions pour Réservations</h3>
+            <?php if (empty($interventionsReservations)): ?>
                 <div class="alert alert-info" role="alert">
-                    Vous n'avez aucune intervention pour le moment.
+                    Vous n'avez aucune intervention pour les réservations pour le moment.
                 </div>
-            </div>
-        <?php else: ?>
-            <?php foreach ($interventions as $intervention): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="time-badge"><?php echo date('H:i', strtotime($intervention['heure_prestation'])); ?></div>
-                        <div class="card-body">
-                            <div class="date-badge"><i class="fas fa-calendar-day fa-icon"></i><?php echo date('l d-m-Y', strtotime($intervention['date_prestation'])); ?></div>
-                            <ul class="task-list">
-                                <li><i class="fas fa-check fa-icon"></i><?php echo htmlspecialchars($intervention['tache']); ?></li>
-                            </ul>
+            <?php else: ?>
+                <div class="row">
+                    <?php foreach ($interventionsReservations as $intervention): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="time-badge"><?php echo date('H:i', strtotime($intervention['heure_prestation'])); ?></div>
+                                <div class="card-body">
+                                    <div class="date-badge"><i class="fas fa-calendar-day fa-icon"></i><?php echo date('l d-m-Y', strtotime($intervention['date_prestation'])); ?></div>
+                                    <ul class="task-list">
+                                        <li><i class="fas fa-check fa-icon"></i><?php echo htmlspecialchars($intervention['tache']); ?></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mt-5">Attributions pour Contrats</h3>
+            <?php if (empty($interventionsContrats)): ?>
+                <div class="alert alert-info" role="alert">
+                    Vous n'avez aucune intervention pour les contrats pour le moment.
+                </div>
+            <?php else: ?>
+                <div class="row">
+                    <?php foreach ($interventionsContrats as $intervention): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="date-badge"><i class="fas fa-calendar-day fa-icon"></i><?php echo htmlspecialchars($intervention['frequence']); ?></div>
+                                    <ul class="task-list">
+                                        <li><i class="fas fa-check fa-icon"></i><?php echo htmlspecialchars($intervention['tache']); ?></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

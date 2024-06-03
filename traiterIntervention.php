@@ -1,5 +1,7 @@
 <?php
-// Connexion à la base de données
+require_once("identifier.php");
+require_once("connexiondb.php");
+
 $mysqli = new mysqli("localhost", "root", "", "GestionSocieteNettoyage");
 
 if ($mysqli->connect_error) {
@@ -12,58 +14,58 @@ if (!$codeR) {
     die("CodeR is missing");
 }
 
-// Traitement du formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    foreach ($_POST['services'] as $service) {
-        if (isset($service['CodeS']) && isset($service['employe_id']) && !empty($service['employe_id'])) {
+    $mysqli->begin_transaction();
+    try {
+        // Créer une nouvelle intervention
+        $createInterventionQuery = "INSERT INTO intervention (etat, codeR) VALUES ('pas encore faite', ?)";
+        $createInterventionStmt = $mysqli->prepare($createInterventionQuery);
+        $createInterventionStmt->bind_param("i", $codeR);
+        $createInterventionStmt->execute();
+        $intervention_id = $mysqli->insert_id;
+
+        foreach ($_POST['services'] as $service) {
             $CodeS = $service['CodeS'];
-            $employe_id = $service['employe_id'];
-            $materiels = $service['materiels'];
+            $employe_id = $service['employe_id'] ?? null;
+            $materiels = $service['materiels'] ?? [];
 
-            // Insertion dans la table intervention
-            $insertInterventionQuery = "
-                INSERT INTO intervention (etat, employe_id, codeR) 
-                VALUES ('pas encore faite', $employe_id, $codeR)
-            ";
-            if (!$mysqli->query($insertInterventionQuery)) {
-                echo "Erreur: " . $mysqli->error;
+            if ($employe_id) {
+                // Assigner l'employé à l'intervention
+                $assignEmployeQuery = "INSERT INTO employe_intervention (intervention_id, employe_id, CodeS, tache) VALUES (?, ?, ?, (SELECT NomS FROM Service WHERE CodeS = ?))";
+                $assignEmployeStmt = $mysqli->prepare($assignEmployeQuery);
+                $assignEmployeStmt->bind_param("iiis", $intervention_id, $employe_id, $CodeS, $CodeS);
+                $assignEmployeStmt->execute();
             }
 
-            $intervention_id = $mysqli->insert_id;
+            foreach ($materiels as $materiel) {
+                if (isset($materiel['codeM']) && isset($materiel['quantite_utilisee'])) {
+                    $codeM = $materiel['codeM'];
+                    $quantite_utilisee = $materiel['quantite_utilisee'];
 
-            // Assigner l'employé et ajouter la tâche
-            $assignEmployeQuery = "
-                INSERT INTO employe_intervention (intervention_id, employe_id, tache) 
-                VALUES ($intervention_id, $employe_id, (SELECT NomS FROM Service WHERE CodeS = $CodeS))
-            ";
-            if (!$mysqli->query($assignEmployeQuery)) {
-                echo "Erreur: " . $mysqli->error;
-            }
-
-            // Assigner les matériels
-            if (!empty($materiels)) {
-                foreach ($materiels as $materiel) {
-                    if (isset($materiel['codeM']) && isset($materiel['quantite_utilisee'])) {
-                        $codeM = $materiel['codeM'];
-                        $quantite_utilisee = $materiel['quantite_utilisee'];
-                        $assignMaterielQuery = "
-                            INSERT INTO materiel_intervention (intervention_id, materiel_id, quantite_utilisee) 
-                            VALUES ($intervention_id, $codeM, $quantite_utilisee)
-                        ";
-                        if (!$mysqli->query($assignMaterielQuery)) {
-                            echo "Erreur: " . $mysqli->error;
-                        }
-                    }
+                    // Assigner le matériel à l'intervention
+                    $assignMaterielQuery = "INSERT INTO materiel_intervention (intervention_id, materiel_id, CodeS, quantite_utilisee) VALUES (?, ?, ?, ?)";
+                    $assignMaterielStmt = $mysqli->prepare($assignMaterielQuery);
+                    $assignMaterielStmt->bind_param("iiii", $intervention_id, $codeM, $CodeS, $quantite_utilisee);
+                    $assignMaterielStmt->execute();
                 }
             }
         }
+
+        // Mettre à jour l'état de la réservation
+        $updateReservationQuery = "UPDATE reservation SET etat = 'traité' WHERE codeR = ?";
+        $updateReservationStmt = $mysqli->prepare($updateReservationQuery);
+        $updateReservationStmt->bind_param("i", $codeR);
+        $updateReservationStmt->execute();
+
+        $mysqli->commit();
+
+        echo "Intervention préparée avec succès.";
+        header('Location: listeReservations.php');
+    } catch (Exception $e) {
+        $mysqli->rollback();
+        echo "Erreur lors de la préparation de l'intervention : " . $e->getMessage();
     }
-
-    echo "Intervention préparée avec succès.";
-    // Redirection ou autre traitement après la préparation
-    header("Location: listeReservations.php");
-    exit();
+} else {
+    echo "Invalid request method";
 }
-
-$mysqli->close();
 ?>

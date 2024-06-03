@@ -61,51 +61,52 @@ if ($_SESSION['user']['TypeCompte'] == 'Admin') {
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <div class="info-box">
-            <form>
+            <form id="profileForm" action="updateAdmin.php" method="POST">
               <div class="text-center mb-3">
-                <img src="images/64.png" class="rounded-circle"  width="200">
+                <img src="images/64.png" class="rounded-circle" width="200">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="nom" class="bold-label"><i class="far fa-user"></i>Nom</label>
-                  <input type="text" class="form-control" id="nom" value="<?php echo htmlspecialchars($user['nom']); ?>" readonly>
+                  <label for="nom" class="bold-label"><i class="far fa-user"></i> Nom</label>
+                  <input type="text" class="form-control editable" id="nom" name="nom" value="<?php echo htmlspecialchars($user['nom']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="prenom" class="bold-label"><i class="far fa-user"></i>Prénom</label>
-                  <input type="text" class="form-control" id="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" readonly>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="tel" class="bold-label"><i class="fas fa-phone"></i>Numéro de téléphone</label>
-                  <input type="text" class="form-control" id="tel" value="<?php echo htmlspecialchars($user['telephone']); ?>" readonly>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="adresse" class="bold-label"><i class="fas fa-map-marker-alt"></i>Adresse</label>
-                  <input type="text" class="form-control" id="adresse" value="<?php echo htmlspecialchars($user['adresse']); ?>" readonly>
+                  <label for="prenom" class="bold-label"><i class="far fa-user"></i> Prénom</label>
+                  <input type="text" class="form-control editable" id="prenom" name="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="email" class="bold-label"><i class="fas fa-at"></i>Email</label>
-                  <input type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
+                  <label for="tel" class="bold-label"><i class="fas fa-phone"></i> Numéro de téléphone</label>
+                  <input type="text" class="form-control editable" id="tel" name="telephone" value="<?php echo htmlspecialchars($user['telephone']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="login" class="bold-label"><i class="fas fa-user"></i>Login</label>
-                  <input type="text" class="form-control" id="login" value="<?php echo htmlspecialchars($user['login']); ?>" readonly>
+                  <label for="adresse" class="bold-label"><i class="fas fa-map-marker-alt"></i> Adresse</label>
+                  <input type="text" class="form-control editable" id="adresse" name="adresse" value="<?php echo htmlspecialchars($user['adresse']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="mdp" class="bold-label"><i class="fas fa-lock"></i>Mot de passe</label>
-                  <input type="password" class="form-control" id="mdp" value="********" readonly>
+                  <label for="email" class="bold-label"><i class="fas fa-at"></i> Email</label>
+                  <input type="email" class="form-control editable" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="typeCompte" class="bold-label"><i class="fas fa-id-badge"></i>Type de Compte</label>
+                  <label for="login" class="bold-label"><i class="fas fa-user"></i> Login</label>
+                  <input type="text" class="form-control editable" id="login" name="login" value="<?php echo htmlspecialchars($user['login']); ?>" readonly>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="mdp" class="bold-label"><i class="fas fa-lock"></i> Mot de passe</label>
+                  <input type="password" class="form-control editable" id="mdp" name="password" value="<?php echo htmlspecialchars($user['password']); ?>" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="typeCompte" class="bold-label"><i class="fas fa-id-badge"></i> Type de Compte</label>
                   <input type="text" class="form-control" id="typeCompte" value="<?php echo htmlspecialchars($user['TypeCompte']); ?>" readonly>
                 </div>
               </div>
-              <button type="submit" class="btn btn-success">Enregistrer</button>
+              <button type="button" class="btn btn-success d-none" id="saveBtn">Enregistrer</button>
+              <button type="button" class="btn btn-primary ml-2" id="editBtn">Modifier</button>
             </form>
           </div>
         </div>
@@ -115,9 +116,24 @@ if ($_SESSION['user']['TypeCompte'] == 'Admin') {
 </div>
 <div style="height: 50px;"></div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#editBtn').on('click', function() {
+        $('.editable').prop('readonly', false);
+        $('#saveBtn').removeClass('d-none');
+        $('#editBtn').addClass('d-none');
+        $('#mdp').attr('type', 'text');
+    });
+
+    $('#saveBtn').on('click', function() {
+        $('#profileForm').submit();
+    });
+});
+</script>
+
 </body>
 </html>
 <?php } ?>

@@ -17,7 +17,7 @@ $contrat = $contratQuery->fetch(PDO::FETCH_ASSOC);
 
 // Récupérer les services du contrat
 $servicesQuery = $pdo->prepare("
-    SELECT sc.*, s.NomS 
+    SELECT sc.*, s.NomS, sc.intervention_id 
     FROM ServiceDansContrat sc 
     JOIN Service s ON sc.CodeS = s.CodeS 
     WHERE sc.id_c = ?
@@ -164,9 +164,9 @@ $services = $servicesQuery->fetchAll(PDO::FETCH_ASSOC);
                     SELECT ei.*, u.nom, u.prenom 
                     FROM employe_intervention ei 
                     JOIN users u ON ei.employe_id = u.id 
-                    WHERE ei.intervention_id = ?
+                    WHERE ei.intervention_id = ? AND ei.CodeS = ?
                 ");
-                $employesServiceQuery->execute([$service['CodeS']]);
+                $employesServiceQuery->execute([$service['intervention_id'], $service['CodeS']]);
                 $employesService = $employesServiceQuery->fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <ul class="list-group mb-3">
@@ -181,9 +181,9 @@ $services = $servicesQuery->fetchAll(PDO::FETCH_ASSOC);
                     SELECT mi.*, m.nomM 
                     FROM materiel_intervention mi 
                     JOIN materiel m ON mi.materiel_id = m.codeM 
-                    WHERE mi.intervention_id = ?
+                    WHERE mi.intervention_id = ? AND mi.CodeS = ?
                 ");
-                $materielsServiceQuery->execute([$service['CodeS']]);
+                $materielsServiceQuery->execute([$service['intervention_id'], $service['CodeS']]);
                 $materielsService = $materielsServiceQuery->fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <ul class="list-group mb-3">

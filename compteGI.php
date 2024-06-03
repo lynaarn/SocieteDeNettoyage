@@ -1,3 +1,13 @@
+<?php 
+require_once("identifier.php");
+require_once("connexiondb.php"); // Inclusion de la connexion à la base de données
+
+// Assurez-vous que l'utilisateur est connecté et que le type de compte est Gestionnaire d'Intervention
+if ($_SESSION['user']['TypeCompte'] == 'GI') {
+    $user = $_SESSION['user'];
+    $gestionnaire = getGestionnaireDetails($user['id']); // Fonction pour récupérer les détails du gestionnaire
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,60 +52,58 @@
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <div class="info-box">
-            <form>
+            <form id="profileForm" action="updateGI.php" method="POST">
               <div class="text-center mb-3">
                 <img src="images/67.jpg" class="rounded-circle"  width="200">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="nom" class="bold-label"><i class="far fa-user"></i>Nom</label>
-                  <input type="text" class="form-control" id="nom" value="Nom de l'utilisateur" readonly>
+                  <input type="text" class="form-control editable" id="nom" name="nom" value="<?php echo htmlspecialchars($user['nom']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="prenom" class="bold-label"><i class="far fa-user"></i>Prénom</label>
-                  <input type="text" class="form-control" id="prenom" value="Prénom de l'utilisateur" readonly>
+                  <input type="text" class="form-control editable" id="prenom" name="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="tel" class="bold-label"><i class="fas fa-phone"></i>Numéro de téléphone</label>
-                  <input type="text" class="form-control" id="tel" value="Numéro de téléphone" readonly>
+                  <input type="text" class="form-control editable" id="tel" name="telephone" value="<?php echo htmlspecialchars($user['telephone']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="adresse" class="bold-label"><i class="fas fa-map-marker-alt"></i>Adresse</label>
-                  <input type="text" class="form-control" id="adresse" value="Adresse de l'utilisateur" readonly>
+                  <input type="text" class="form-control editable" id="adresse" name="adresse" value="<?php echo htmlspecialchars($user['adresse']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="login" class="bold-label"><i class="fas fa-user-circle"></i>Login</label>
-                  <input type="text" class="form-control" id="login" value="Login de l'utilisateur" readonly>
+                  <input type="text" class="form-control editable" id="login" name="login" value="<?php echo htmlspecialchars($user['login']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="mdp" class="bold-label"><i class="fas fa-lock"></i>Mot de passe</label>
-                  <input type="password" class="form-control" id="mdp" value="********" readonly>
+                  <input type="password" class="form-control editable" id="mdp" name="password" value="<?php echo htmlspecialchars($user['password']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="email" class="bold-label"><i class="fas fa-at"></i>Email</label>
-                  <input type="email" class="form-control" id="email" value="Email de l'utilisateur" readonly>
+                  <input type="email" class="form-control editable" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="typeCompte" class="bold-label"><i class="fas fa-id-badge"></i>Type de Compte</label>
-                  <input type="text" class="form-control" id="typeCompte" value="Type de compte" readonly>
+                  <label for="date_embauche" class="bold-label"><i class="fas fa-calendar-alt"></i>Date d'embauche</label>
+                  <input type="date" class="form-control editable" id="date_embauche" name="date_embauche" value="<?php echo htmlspecialchars($gestionnaire['date_embauche']); ?>" readonly>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="date_embauche" class="bold-label"><i class="fas fa-calendar-alt"></i>Date d'embauche</label>
-                  <input type="date" class="form-control" id="date_embauche" value="Date d'embauche" readonly>
-                </div>
-                <div class="form-group col-md-6">
                   <label for="role" class="bold-label"><i class="fas fa-briefcase"></i>Rôle</label>
-                  <input type="text" class="form-control" id="role" value="Rôle de l'utilisateur" readonly>
+                  <input type="text" class="form-control editable" id="role" name="role" value="<?php echo htmlspecialchars($gestionnaire['nomR']); ?>" readonly>
                 </div>
               </div>
+              <button type="button" class="btn btn-success d-none" id="saveBtn">Enregistrer</button>
+              <button type="button" class="btn btn-primary ml-2" id="editBtn">Modifier</button>
             </form>
           </div>
         </div>
@@ -105,8 +113,40 @@
 </div>
 <div style="height: 50px;"></div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#editBtn').on('click', function() {
+        $('.editable').prop('readonly', false);
+        $('#saveBtn').removeClass('d-none');
+        $('#editBtn').addClass('d-none');
+        $('#mdp').attr('type', 'text');
+    });
+
+    $('#saveBtn').on('click', function() {
+        $('#profileForm').submit();
+    });
+});
+</script>
+
 </body>
 </html>
+
+<?php 
+}
+
+function getGestionnaireDetails($userId) {
+    global $pdo;
+    $stmt = $pdo->prepare("
+        SELECT pa.date_embauche, r.nomR 
+        FROM personnel_administratif pa
+        JOIN roles r ON pa.role = r.numR
+        WHERE pa.id = :userId
+    ");
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+?>

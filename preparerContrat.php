@@ -48,51 +48,76 @@ $materiels = $materielsQuery->fetchAll(PDO::FETCH_ASSOC);
 
 // Traitement du formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    foreach ($_POST['services'] as $service) {
-        if (isset($service['CodeS']) && isset($service['employe_id']) && !empty($service['employe_id'])) {
-            $CodeS = $service['CodeS'];
-            $employe_id = $service['employe_id'];
-            $materiels = $service['materiels'];
+    try {
+        $pdo->beginTransaction();
 
-            // Insertion dans la table intervention
-            $insertInterventionQuery = $pdo->prepare("
-                INSERT INTO intervention (etat, employe_id, codeR) 
-                VALUES ('pas encore faite', ?, ?)
-            ");
-            $insertInterventionQuery->execute([$employe_id, $id_c]);
+        // Insertion dans la table intervention
+        $insertInterventionQuery = $pdo->prepare("
+            INSERT INTO intervention (etat, codeR, id_c) 
+            VALUES ('pas encore faite', NULL, ?)
+        ");
+        $insertInterventionQuery->execute([$id_c]);
+        $intervention_id = $pdo->lastInsertId();
 
-            $intervention_id = $pdo->lastInsertId();
+        foreach ($_POST['services'] as $service) {
+            if (isset($service['CodeS']) && isset($service['employe_id']) && !empty($service['employe_id'])) {
+                $CodeS = $service['CodeS'];
+                $employe_id = $service['employe_id'];
+                $materiels = $service['materiels'];
 
-            // Assigner l'employé et ajouter la tâche
-            $assignEmployeQuery = $pdo->prepare("
-                INSERT INTO employe_intervention (intervention_id, employe_id, tache) 
-                VALUES (?, ?, (SELECT NomS FROM Service WHERE CodeS = ?))
-            ");
-            $assignEmployeQuery->execute([$intervention_id, $employe_id, $CodeS]);
+                // Mettre à jour l'intervention_id dans la table ServiceDansContrat
+                $updateServiceDansContratQuery = $pdo->prepare("
+                    UPDATE ServiceDansContrat 
+                    SET intervention_id = ? 
+                    WHERE CodeS = ? AND id_c = ?
+                ");
+                $updateServiceDansContratQuery->execute([$intervention_id, $CodeS, $id_c]);
 
-            // Assigner les matériels
-            if (!empty($materiels)) {
-                foreach ($materiels as $materiel) {
-                    if (isset($materiel['codeM']) && isset($materiel['quantite_utilisee'])) {
-                        $codeM = $materiel['codeM'];
-                        $quantite_utilisee = $materiel['quantite_utilisee'];
-                        $assignMaterielQuery = $pdo->prepare("
-                            INSERT INTO materiel_intervention (intervention_id, materiel_id, quantite_utilisee) 
-                            VALUES (?, ?, ?)
-                        ");
-                        $assignMaterielQuery->execute([$intervention_id, $codeM, $quantite_utilisee]);
+                // Assigner l'employé et ajouter la tâche
+                $assignEmployeQuery = $pdo->prepare("
+                    INSERT INTO employe_intervention (intervention_id, employe_id, CodeS, tache) 
+                    VALUES (?, ?, ?, (SELECT NomS FROM Service WHERE CodeS = ?))
+                ");
+                $assignEmployeQuery->execute([$intervention_id, $employe_id, $CodeS, $CodeS]);
+
+                // Assigner les matériels
+                if (!empty($materiels)) {
+                    foreach ($materiels as $materiel) {
+                        if (isset($materiel['codeM']) && isset($materiel['quantite_utilisee'])) {
+                            $codeM = $materiel['codeM'];
+                            $quantite_utilisee = $materiel['quantite_utilisee'];
+                            $assignMaterielQuery = $pdo->prepare("
+                                INSERT INTO materiel_intervention (intervention_id, materiel_id, CodeS, quantite_utilisee) 
+                                VALUES (?, ?, ?, ?)
+                            ");
+                            $assignMaterielQuery->execute([$intervention_id, $codeM, $CodeS, $quantite_utilisee]);
+                        }
                     }
                 }
             }
         }
-    }
 
-    echo "Intervention préparée avec succès.";
+        // Mettre à jour l'état du contrat à 'actif'
+        $updateContratQuery = $pdo->prepare("
+            UPDATE contrat 
+            SET etat = 'actif' 
+            WHERE id_c = ?
+        ");
+        $updateContratQuery->execute([$id_c]);
+
+        $pdo->commit();
+
+        echo "Intervention préparée avec succès.";
+        header('Location: interventionsContrats.php');
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "Erreur lors de la préparation de l'intervention : " . $e->getMessage();
+    }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

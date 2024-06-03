@@ -10,7 +10,7 @@ if(isset($_SESSION['user'])){
         $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : "";
         $adresse = isset($_POST['adresse']) ? $_POST['adresse'] : "";
         $login = isset($_POST['login']) ? $_POST['login'] : "";
-        $password = password_hash(isset($_POST['password']) ? $_POST['password'] : "", PASSWORD_DEFAULT);
+        $password =isset($_POST['password']) ? $_POST['password'] : "";
         $role = isset($_POST['role']) ? $_POST['role'] : "";
         $date_embauche = isset($_POST['date_embauche']) ? $_POST['date_embauche'] : "";
 

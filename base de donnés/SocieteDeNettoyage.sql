@@ -93,12 +93,10 @@ CREATE TABLE reservation (
 CREATE TABLE intervention (
     numI INT AUTO_INCREMENT PRIMARY KEY,
     etat ENUM('pas encore faite', 'faite payé', 'faite non payé') DEFAULT 'pas encore faite',
-    codeM INT,
-    employe_id INT,
     codeR INT,
-    FOREIGN KEY (codeM) REFERENCES materiel(codeM),
-    FOREIGN KEY (employe_id) REFERENCES employe(id),
-    FOREIGN KEY (codeR) REFERENCES reservation(codeR)
+    id_c INT,
+    FOREIGN KEY (codeR) REFERENCES reservation(codeR),
+    FOREIGN KEY (id_c) REFERENCES contrat(id_c)
 );
 
 CREATE TABLE materiel (
@@ -124,6 +122,8 @@ CREATE TABLE IF NOT EXISTS materiel_intervention (
     materiel_id INT,
     quantite_utilisee INT NOT NULL,
     PRIMARY KEY (intervention_id, materiel_id),
+    CodeS INT,
+    FOREIGN KEY (CodeS) REFERENCES Service(CodeS) ON DELETE CASCADE,
     FOREIGN KEY (intervention_id) REFERENCES intervention(numI) ON DELETE CASCADE,
     FOREIGN KEY (materiel_id) REFERENCES materiel(codeM) ON DELETE CASCADE
 );
@@ -131,8 +131,10 @@ CREATE TABLE IF NOT EXISTS materiel_intervention (
 CREATE TABLE IF NOT EXISTS employe_intervention (
     intervention_id INT,
     employe_id INT,
+    CodeS INT,
     tache VARCHAR(255) NOT NULL,
     PRIMARY KEY (intervention_id, employe_id),
+    FOREIGN KEY (CodeS) REFERENCES Service(CodeS) ON DELETE CASCADE,
     FOREIGN KEY (intervention_id) REFERENCES intervention(numI) ON DELETE CASCADE,
     FOREIGN KEY (employe_id) REFERENCES employe(id) ON DELETE CASCADE
 );
@@ -158,7 +160,16 @@ CREATE TABLE offre_demploi (
     competences_requises TEXT NOT NULL,
     CHECK ((type_contrat = 'CDI' AND date_fin IS NULL) OR (type_contrat IN ('CDD', 'Stage') AND date_fin IS NOT NULL))
 );
-
+CREATE TABLE IF NOT EXISTS candidature (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    experience TEXT NOT NULL,
+    education TEXT NOT NULL,
+    offre_id INT,
+    FOREIGN KEY (offre_id) REFERENCES offre_demploi(idoff)
+);
 -- Table contrat
 CREATE TABLE IF NOT EXISTS contrat (
     id_c INT AUTO_INCREMENT PRIMARY KEY,
@@ -175,10 +186,26 @@ CREATE TABLE IF NOT EXISTS ServiceDansContrat (
     CodeS INT,
     id_c INT,
     detailsSer TEXT,
+    intervention_id INT DEFAULT NULL,
     frequence  ENUM('tout les jours', 'une fois par semaine', 'une fois par mois', 'une fois chaque 3 mois') NOT NULL,
     PRIMARY KEY (CodeS, id_c),
     FOREIGN KEY (CodeS) REFERENCES Service(CodeS) ON DELETE CASCADE,
+    FOREIGN KEY (intervention_id) REFERENCES intervention(numI) ,
     FOREIGN KEY (id_c) REFERENCES contrat(id_c) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS DatePaiment(
+id_d INT AUTO_INCREMENT PRIMARY KEY,
+date DATE 
+);
+
+CREATE TABLE IF NOT EXISTS paiement (
+    id_p INT AUTO_INCREMENT PRIMARY KEY,
+    date_paiement INT NOT NULL,
+    montant DECIMAL(10, 2) NOT NULL,
+    etat_paiement ENUM('payé', 'en retard', 'en attente') NOT NULL DEFAULT 'en attente',
+    contrat_id INT NOT NULL,
+    FOREIGN KEY (contrat_id) REFERENCES contrat(id_c),
+    FOREIGN KEY (date_paiement) REFERENCES DatePaiment(id_d)
 );
 
 
@@ -187,7 +214,7 @@ INSERT INTO roles (nomR) VALUES ('Responsable RH'), ('Gestionnaire d\'Interventi
 
 -- Insérer un utilisateur pour le Responsable RH
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
-VALUES ('Ales', 'chmesedinne', 'jean.dupont@example.com', '0123456789', '123 Rue Example', 'jdupont', 'hashed_password', 'RRH', 1);
+VALUES ('Ales', 'chmesedinne', 'jean.dupont@example.com', '0123456789', '123 Rue Example', 'jdupont', '(hashed_password)', 'RRH', 1);
 
 -- Récupérer l'id de l'utilisateur nouvellement inséré pour le Responsable RH
 SET @user_id_rh = LAST_INSERT_ID();
@@ -508,7 +535,7 @@ INSERT INTO competence (nomCp) VALUES
 
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
 VALUES 
-('safa', 'imad', 'sf.im@example.com', '0123456789', '117 Rue Exemple', 'Simad', 'password_hash(azerty)', 'Client', 1);
+('safa', 'imad', 'sf.im@example.com', '0123456789', '117 Rue Exemple', 'Simad', 'PASSWORD(azerty)', 'Client', 1);
 
 SET @user_id_21 = LAST_INSERT_ID();
 INSERT INTO Client (id, date_inscription, type_client)
@@ -523,15 +550,15 @@ VALUES
 -- Insertion de 10 contrats pour 10 clients différents
 INSERT INTO contrat (date_deb, date_fin, montantc, etat, detailc, client_id)
 VALUES 
-('2023-06-01', '2024-12-31', 12000.00, 'actif', 'Contrat pour nettoyage complet de la maison', @user_id_1),
-('2023-03-01', '2024-12-31', 80000.00, 'actif', 'Contrat pour nettoyage de vitres', @user_id_2),
-('2023-04-01', '2024-12-31', 15000.00, 'actif', 'Contrat pour entretien de bureaux', @user_id_3),
-('2023-05-01', '2024-12-31', 20000.00, 'actif', 'Contrat pour nettoyage de restaurants', @user_id_4),
-('2023-06-01', '2023-12-31', 18000.00, 'actif', 'Contrat pour nettoyage de sites de construction', @user_id_5),
-('2023-07-01', '2023-12-31', 16000.00, 'actif', 'Contrat pour nettoyage d\'entrepôts', @user_id_6),
+('2024-11-01', '2024-12-31', 12000.00, 'Actif', 'Contrat pour nettoyage complet de la maison', @user_id_1),
+('2024-10-01', '2024-12-31', 80000.00, 'Actif', 'Contrat pour nettoyage de vitres', @user_id_2),
+('2024-07-01', '2024-12-31', 15000.00, 'Actif', 'Contrat pour entretien de bureaux', @user_id_3),
+('2024-05-01', '2024-12-31', 20000.00, 'en attente de preparation', 'Contrat pour nettoyage de restaurants', @user_id_4),
+('2024-09-01', '2024-12-31', 18000.00, 'en attente de preparation', 'Contrat pour nettoyage de sites de construction', @user_id_5),
+('2024-07-01', '2024-12-31', 16000.00, 'en attente de preparation', 'Contrat pour nettoyage d\'entrepôts', @user_id_6),
 ('2023-08-01', '2023-12-31', 11000.00, 'actif', 'Contrat pour nettoyage de véhicules', @user_id_7),
 ('2023-09-01', '2023-12-31', 25000.00, 'actif', 'Contrat pour nettoyage après sinistre', @user_id_8),
-('2023-10-01', '2023-12-31', 13000.00, 'en attente de confirmation', 'Contrat pour nettoyage de maisons et bureaux', @user_id_9),
+('2023-10-01', '2023-12-31', 13000.00, 'en attente de preparation', 'Contrat pour nettoyage de maisons et bureaux', @user_id_9),
 ('2023-11-01', '2023-12-31', 14000.00, 'en attente de confirmation', 'Contrat pour nettoyage de façades et sols', @user_id_10);
 
 -- Récupérer les IDs des contrats nouvellement insérés
@@ -547,6 +574,7 @@ SET @contract_id_9 = @contract_id_8 + 1;
 SET @contract_id_10 = @contract_id_9 + 1;
 
 -- Insertion dans ServiceDansContrat pour les services associés aux contrats
+<<<<<<< HEAD
 INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer,frequence) VALUES 
 (1, @contract_id_1, 'Nettoyage complet de la maison','une fois par mois'),
 (2, @contract_id_2, 'Nettoyage de vitres','une fois par mois'),
@@ -562,4 +590,19 @@ INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer,frequence) VALUES
 (7, @contract_id_10, 'Nettoyage de sols','une fois par mois');
 
 
+=======
+INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer, intervention_id, frequence) VALUES 
+(1, @contract_id_1, 'Nettoyage complet de la maison', NULL, 'une fois par mois'),
+(2, @contract_id_2, 'Nettoyage de vitres', NULL, 'une fois par mois'),
+(3, @contract_id_3, 'Entretien de bureaux', NULL, 'une fois par semaine'),
+(4, @contract_id_4, 'Nettoyage de restaurants', NULL, 'une fois par semaine'),
+(5, @contract_id_5, 'Nettoyage de sites de construction', NULL, 'tout les jours'),
+(6, @contract_id_6, 'Nettoyage d\'entrepôts', NULL, 'une fois par mois'),
+(7, @contract_id_7, 'Nettoyage de véhicules', NULL, 'une fois par mois'),
+(8, @contract_id_8, 'Nettoyage après sinistre en urgence', NULL, 'une fois par mois'),
+(1, @contract_id_9, 'Nettoyage de maisons', NULL, 'une fois par mois'),
+(3, @contract_id_9, 'Nettoyage de bureaux', NULL, 'une fois par semaine'),
+(5, @contract_id_10, 'Nettoyage de façades', NULL, 'une fois par mois'),
+(7, @contract_id_10, 'Nettoyage de sols', NULL, 'une fois par mois');
+>>>>>>> 236b116 (init)
 

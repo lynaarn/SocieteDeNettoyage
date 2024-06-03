@@ -67,7 +67,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
         <div class="col-md-8"> 
             <div class="form-container">
                 <h3 class="text-center txt mb-4"><span class="bg-light">Demande de Contrat</span></h3>
-                <form action="demande_contrat.php" method="post">
+                <form action="demande_contrat.php" method="post" id="contratForm">
                     <div class="form-group">
                         <label for="date_deb"><i class="fas fa-calendar-alt"></i>Date de début</label>
                         <input type="date" class="form-control" id="date_deb" name="date_deb" required>
@@ -84,6 +84,10 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
                         <label for="choix_services"><i class="fas fa-broom"></i>Services Choisis</label>
                         <div id="choix_services"></div>
                         <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#servicesModal">Choisir Services</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="montant_total"><i class="fas fa-money-bill-wave"></i>Montant Total</label>
+                        <input type="text" class="form-control" id="montant_total" name="montant_total" readonly>
                     </div>
                     <button type="submit" class="btn btn-success">Valider</button>
                     <button type="button" class="btn btn-danger ml-2">Annuler</button>
@@ -121,7 +125,7 @@ if ($_SESSION['user']['TypeCompte'] == 'Client') {
           $services = $pdo->query("SELECT * FROM Service")->fetchAll();
           foreach ($services as $service) {
               echo '<div class="form-check">';
-              echo '<input class="form-check-input service-checkbox" type="checkbox" name="service_modal[]" id="service' . $service['CodeS'] . '" value="' . $service['CodeS'] . '" data-noms="' . $service['NomS'] . '" data-type="' . $service['TypeS'] . '">';
+              echo '<input class="form-check-input service-checkbox" type="checkbox" name="service_modal[]" id="service' . $service['CodeS'] . '" value="' . $service['CodeS'] . '" data-nom="' . $service['NomS'] . '" data-tarif="' . $service['TarifHr'] . '" data-type="' . $service['TypeS'] . '">';
               echo '<label class="form-check-label" for="service' . $service['CodeS'] . '">' . $service['NomS'] . '</label>';
               echo '</div>';
           }
@@ -145,12 +149,32 @@ $(document).ready(function() {
     var choixServices = $('#choix_services');
     var frequences = <?php echo json_encode($frequence_values); ?>;
 
+    function calculateTotalAmount() {
+        var totalAmount = 0;
+        choixServices.find('div').each(function() {
+            var serviceId = $(this).find('input[name="services[]"]').val();
+            var serviceTarif = parseFloat($(this).data('tarif'));
+            var frequence = $(this).find('select').val();
+
+            var reduction = 0;
+            if (frequence === 'tout les jours') reduction = 0.10;
+            else if (frequence === 'une fois par semaine') reduction = 0.07;
+            else if (frequence === 'une fois par mois') reduction = 0.05;
+            else if (frequence === 'une fois chaque 3 mois') reduction = 0.02;
+
+            var amount = serviceTarif - (serviceTarif * reduction);
+            totalAmount += amount;
+        });
+        $('#montant_total').val(totalAmount.toFixed(2));
+    }
+
     $('#addServices').on('click', function() {
         choixServices.empty();
         services.each(function() {
             if ($(this).is(':checked')) {
                 var serviceId = $(this).val();
-                var serviceNom = $(this).data('noms');
+                var serviceNom = $(this).data('nom');
+                var serviceTarif = $(this).data('tarif');
                 var frequenceSelect = '<select class="form-control d-inline w-25 ml-2" name="frequence[' + serviceId + ']" required>';
                 frequences.forEach(function(freq) {
                     frequenceSelect += '<option value="' + freq + '">' + freq + '</option>';
@@ -158,11 +182,12 @@ $(document).ready(function() {
                 frequenceSelect += '</select>';
                 var detailsInput = '<textarea class="form-control d-inline w-50 ml-2" name="detailsSer[' + serviceId + ']" placeholder="Détails"></textarea>';
                 var hiddenInput = '<input type="hidden" name="services[]" value="' + serviceId + '">';
-                var serviceItem = '<div>' + serviceNom + frequenceSelect + detailsInput + hiddenInput + '</div>';
+                var serviceItem = '<div data-tarif="' + serviceTarif + '">' + serviceNom + frequenceSelect + detailsInput + hiddenInput + '</div>';
                 choixServices.append(serviceItem);
             }
         });
         $('#servicesModal').modal('hide');
+        calculateTotalAmount();
     });
 
     $('#searchService').on('keyup', function() {
@@ -188,6 +213,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#choix_services').on('change', 'select', calculateTotalAmount);
 });
 </script>
 </body>

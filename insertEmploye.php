@@ -11,7 +11,7 @@ if (isset($_SESSION['user'])) {
         $telephone = isset($_POST['telEmploye']) ? $_POST['telEmploye'] : '';
         $email = isset($_POST['emailEmploye']) ? $_POST['emailEmploye'] : '';
         $login = isset($_POST['loginEmploye']) ? $_POST['loginEmploye'] : '';
-        $password = isset($_POST['mdpEmploye']) ? password_hash($_POST['mdpEmploye'], PASSWORD_BCRYPT) : ''; // Hachage du mot de passe
+        $password = isset($_POST['mdpEmploye']) ?$_POST['mdpEmploye'] : ''; 
         $salaire = isset($_POST['salaireEmploye']) ? $_POST['salaireEmploye'] : 0;
         $date_embauche = isset($_POST['dateEmbaucheEmploye']) ? $_POST['dateEmbaucheEmploye'] : '';
         $competences = isset($_POST['competences']) ? explode(',', $_POST['competences']) : [];

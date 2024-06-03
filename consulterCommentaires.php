@@ -244,7 +244,7 @@ $(document).ready(function() {
 
   // Confirmer la suppression
   $('#confirmDeleteBtn').on('click', function() {
-    window.location.href = 'supprimer_commentaire.php?CodeC=' + deleteCommentId;
+    window.location.href = 'suppcom.php?CodeC=' + deleteCommentId;
   });
 });
 </script>

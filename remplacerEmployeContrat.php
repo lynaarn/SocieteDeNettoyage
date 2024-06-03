@@ -30,7 +30,8 @@ $employesQuery = $pdo->prepare("
     FROM employe_intervention ei
     JOIN employe e ON ei.employe_id = e.id
     JOIN users u ON e.id = u.id
-    WHERE ei.intervention_id = ? AND e.statut IN ('Congé', 'Maladie', 'Maternité/Paternité', 'Démissionnaire')
+    JOIN ServiceDansContrat sc ON sc.CodeS = ei.CodeS
+    WHERE sc.id_c = ? AND e.statut IN ('Congé', 'Maladie', 'Maternité/Paternité', 'Démissionnaire')
 ");
 $employesQuery->execute([$id_c]);
 $employesARemplacer = $employesQuery->fetchAll(PDO::FETCH_ASSOC);
@@ -52,14 +53,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['remplacements'])) {
             $updateEmployeQuery = $pdo->prepare("
                 UPDATE employe_intervention 
                 SET employe_id = ? 
-                WHERE intervention_id = ? AND employe_id = ?
+                WHERE employe_id = ? AND intervention_id IN (SELECT numI FROM intervention WHERE id_c = ?)
             ");
-            if (!$updateEmployeQuery->execute([$nouvel_employe_id, $id_c, $employe_id_original])) {
+            if (!$updateEmployeQuery->execute([$nouvel_employe_id, $employe_id_original, $id_c])) {
                 echo "Erreur: " . $pdo->errorInfo()[2];
             }
         }
     }
-    echo "Remplacements effectués avec succès.";
+
+    // Redirection vers interventionsContrats.php après le remplacement
+    header("Location: interventionsContrats.php");
+    exit();
 }
 ?>
 
@@ -216,3 +220,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['remplacements'])) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+<?php $pdo = null; ?>

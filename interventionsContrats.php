@@ -8,18 +8,22 @@ $nouveauxContratsQuery = $pdo->prepare("
     FROM contrat c 
     JOIN Client cl ON c.client_id = cl.id 
     JOIN users u ON cl.id = u.id 
-    WHERE c.etat = 'en attente'
+    WHERE c.etat = 'en attente de preparation' AND c.date_deb >= CURDATE()
 ");
 $nouveauxContratsQuery->execute();
 $nouveauxContrats = $nouveauxContratsQuery->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les contrats déjà préparés
+// Récupérer les contrats déjà préparés avec des employés actifs et des matériaux assignés
 $contratsPreparesQuery = $pdo->prepare("
-    SELECT c.*, u.nom, u.prenom, u.email, u.telephone, u.adresse 
+    SELECT c.*, u.nom, u.prenom, u.email, u.telephone, u.adresse, e.id AS employe_id, e.statut AS employe_statut
     FROM contrat c 
     JOIN Client cl ON c.client_id = cl.id 
     JOIN users u ON cl.id = u.id 
-    WHERE c.etat = 'actif'
+    JOIN ServiceDansContrat sc ON c.id_c = sc.id_c 
+    JOIN intervention i ON i.numI = sc.intervention_id 
+    JOIN employe_intervention ei ON i.numI = ei.intervention_id 
+    JOIN employe e ON ei.employe_id = e.id 
+    WHERE c.etat = 'actif' AND c.date_deb >= CURDATE() AND e.statut = 'Actif'
 ");
 $contratsPreparesQuery->execute();
 $contratsPrepares = $contratsPreparesQuery->fetchAll(PDO::FETCH_ASSOC);
@@ -31,9 +35,10 @@ $contratsRemplacementQuery = $pdo->prepare("
     JOIN Client cl ON c.client_id = cl.id 
     JOIN users u ON cl.id = u.id 
     JOIN ServiceDansContrat sc ON c.id_c = sc.id_c 
-    JOIN employe_intervention ei ON sc.CodeS = ei.intervention_id
-    JOIN employe e ON ei.employe_id = e.id
-    WHERE e.statut IN ('Congé', 'Maladie', 'Maternité/Paternité', 'Démissionnaire')
+    JOIN intervention i ON i.numI = sc.intervention_id 
+    JOIN employe_intervention ei ON i.numI = ei.intervention_id 
+    JOIN employe e ON ei.employe_id = e.id 
+    WHERE c.date_deb >= CURDATE() AND e.statut IN ('Congé', 'Maladie', 'Maternité/Paternité', 'Démissionnaire')
 ");
 $contratsRemplacementQuery->execute();
 $contratsRemplacement = $contratsRemplacementQuery->fetchAll(PDO::FETCH_ASSOC);
@@ -193,6 +198,7 @@ $contratsRemplacement = $contratsRemplacementQuery->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo htmlspecialchars($contrat['nom'] . ' ' . $contrat['prenom']); ?></td>
                     <td><?php echo htmlspecialchars($contrat['date_deb']); ?></td>
                     <td><?php echo htmlspecialchars($contrat['date_fin']); ?></td>
+                
                     <td>
                         <a href="detailContrat.php?id_c=<?php echo $contrat['id_c']; ?>" class="btn btn-info btn-sm">Voir Détails</a>
                     </td>

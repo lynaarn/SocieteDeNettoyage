@@ -1,8 +1,50 @@
 <?php
-require_once("identifier.php");
+require_once("connexiondb.php");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les données du formulaire
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $telephone = $_POST['num_tel'];
+    $adresse = $_POST['adresse'];
+    $email = $_POST['username'];
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    $type_client = $_POST['type_client'];
+    $date_inscription = date('Y-m-d');
+
+    try {
+        // Commencer une transaction
+        $pdo->beginTransaction();
+
+        // Insérer les données dans la table users
+        $stmt = $pdo->prepare("
+            INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'Client', 1)
+        ");
+        $stmt->execute([$nom, $prenom, $email, $telephone, $adresse, $login, $password]);
+
+        // Récupérer l'ID de l'utilisateur nouvellement créé
+        $user_id = $pdo->lastInsertId();
+
+        // Insérer les données dans la table Client
+        $stmt = $pdo->prepare("
+            INSERT INTO Client (id, date_inscription, type_client)
+            VALUES (?, ?, ?)
+        ");
+        $stmt->execute([$user_id, $date_inscription, $type_client]);
+
+        // Valider la transaction
+        $pdo->commit();
+        echo "Compte créé avec succès !";
+    } catch (Exception $e) {
+        // Annuler la transaction en cas d'erreur
+        $pdo->rollBack();
+        echo "Erreur : " . $e->getMessage();
+    }
+}
 ?>
-<?php 
- if ($_SESSION['user']['TypeCompte']=='Client') {?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,11 +90,8 @@ require_once("identifier.php");
             color: #2774AE;
         }
         .modal-footer {
-          
-          
             align-items: center;
         }
-       
     </style>
 </head>
 <body>
@@ -63,41 +102,54 @@ require_once("identifier.php");
             <img src="images/logoo.png" alt="Logo">
         </div>
         <h2 class="text-center mb-4 titre">Créer un compte</h2>
-        <form>
+        <form method="POST" action="">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="nom"><i class="fas fa-user"></i>Nom</label>
-                    <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom" required>
+                    <input type="text" class="form-control" id="nom" name="nom" placeholder="Entrez votre nom" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="prenom"><i class="fas fa-user"></i>Prénom</label>
-                    <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom" required>
+                    <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="num_tel"><i class="fas fa-phone"></i>Numéro de téléphone</label>
-                    <input type="tel" class="form-control" id="num_tel" placeholder="Entrez votre numéro de téléphone" required>
+                    <input type="tel" class="form-control" id="num_tel" name="num_tel" placeholder="Entrez votre numéro de téléphone" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="adresse"><i class="fas fa-map-marker-alt"></i>Adresse</label>
-                    <input type="text" class="form-control" id="adresse" placeholder="Entrez votre adresse" required>
+                    <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Entrez votre adresse" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="username"><i class="fas fa-envelope"></i>Email</label>
-                    <input type="email" class="form-control" id="username" placeholder="Entrez votre email" required>
+                    <input type="email" class="form-control" id="username" name="username" placeholder="Entrez votre email" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="password"><i class="fas fa-unlock-alt"></i>Mot de passe</label>
-                    <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe" required>
+                    <label for="login"><i class="fas fa-user"></i>Login</label>
+                    <input type="text" class="form-control" id="login" name="login" placeholder="Entrez votre login" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
+                    <label for="password"><i class="fas fa-unlock-alt"></i>Mot de passe</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+                </div>
+                <div class="form-group col-md-6">
                     <label for="confirm_password"><i class="fas fa-unlock-alt"></i>Confirmer le mot de passe</label>
-                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirmer votre mot de passe" required>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirmer votre mot de passe" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="type_client"><i class="fas fa-user-tag"></i>Type de client</label>
+                    <select class="form-control" id="type_client" name="type_client" required>
+                        <option value="Particulier">Particulier</option>
+                        <option value="Entreprise">Entreprise</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
@@ -113,5 +165,3 @@ require_once("identifier.php");
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-<?php } ?> 
-
