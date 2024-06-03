@@ -15,7 +15,7 @@ $nouveauxContrats = $nouveauxContratsQuery->fetchAll(PDO::FETCH_ASSOC);
 
 // Récupérer les contrats déjà préparés avec des employés actifs et des matériaux assignés
 $contratsPreparesQuery = $pdo->prepare("
-    SELECT c.*, u.nom, u.prenom, u.email, u.telephone, u.adresse, e.id AS employe_id, e.statut AS employe_statut
+    SELECT DISTINCT c.id_c, c.date_deb, c.date_fin, c.detailc, c.client_id, u.nom, u.prenom, u.email, u.telephone, u.adresse
     FROM contrat c 
     JOIN Client cl ON c.client_id = cl.id 
     JOIN users u ON cl.id = u.id 

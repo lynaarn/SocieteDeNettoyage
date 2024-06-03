@@ -2,6 +2,10 @@
 require_once("identifier.php");
 require_once("connexiondb.php");
 
+// Mettre à jour l'état des contrats expirés à "terminé"
+$updateExpiredContracts = "UPDATE contrat SET etat='terminé' WHERE date_fin < CURDATE() AND etat = 'actif'";
+$pdo->query($updateExpiredContracts);
+
 // Récupérer les filtres et paramètres de pagination
 $noms = isset($_GET['NomS']) ? $_GET['NomS'] : "";
 $etat = isset($_GET['etat']) ? $_GET['etat'] : "all";
@@ -24,7 +28,8 @@ $requeteTermines = "SELECT contrat.id_c, contrat.date_deb, contrat.date_fin, con
                     JOIN Client ON contrat.client_id = Client.id
                     JOIN users ON Client.id = users.id
                     WHERE users.nom LIKE '%$noms%' 
-                    AND contrat.date_fin < CURDATE()
+                    AND contrat.date_fin < CURDATE() 
+                    AND contrat.etat='terminé'
                     LIMIT $size OFFSET $offset";
 
 $requeteAttente = "SELECT contrat.id_c, contrat.date_deb, contrat.date_fin, contrat.etat, users.nom, users.prenom 
