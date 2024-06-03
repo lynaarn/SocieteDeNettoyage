@@ -560,3 +560,6 @@ INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer,frequence) VALUES
 (3, @contract_id_9, 'Nettoyage de bureaux ','une fois par semaine'),
 (5, @contract_id_10, 'Nettoyage de façades ','une fois par mois'),
 (7, @contract_id_10, 'Nettoyage de sols','une fois par mois');
+
+
+

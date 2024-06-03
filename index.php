@@ -493,7 +493,7 @@
                                     </ul>
                                 </div>
                                 <div class="postuler-button">
-                                <a href="#" id="postulerBtn">Postuler pour cette offre</a>
+                                <a href="#" id="postulerBtn1">Postuler pour cette offre</a>
                                 </div>
                             </div>
                         </div>
@@ -522,8 +522,8 @@
                                     </ul>
                                 </div>
                                 <div class="postuler-button">
-                                <a href="#" id="postulerBtn">Postuler pour cette offre</a>
-</div>
+                                <a href="#" id="postulerBtn2">Postuler pour cette offre</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -793,13 +793,21 @@
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var postulerBtn = document.getElementById('postulerBtn');
-        postulerBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            $('#cvModal').modal('show');
-        });
+   document.addEventListener("DOMContentLoaded", function() {
+    var postulerBtn1 = document.getElementById('postulerBtn1');
+    var postulerBtn2 = document.getElementById('postulerBtn2');
+
+    postulerBtn1.addEventListener('click', function(e) {
+        e.preventDefault();
+        $('#cvModal').modal('show');
     });
+
+    postulerBtn2.addEventListener('click', function(e) {
+        e.preventDefault();
+        $('#cvModal').modal('show');
+    });
+});
+    
 </script>
 
 
