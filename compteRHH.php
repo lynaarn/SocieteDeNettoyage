@@ -116,7 +116,7 @@ if ($_SESSION['user']['TypeCompte'] == 'RRH') {
                 </div>
               </div>
               <button type="button" class="btn btn-success d-none" id="saveBtn">Enregistrer</button>
-              <button type="button" class="btn btn-primary ml-2" id="editBtn">Modifier</button>
+             
             </form>
           </div>
         </div>

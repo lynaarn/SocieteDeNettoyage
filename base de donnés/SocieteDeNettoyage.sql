@@ -214,7 +214,7 @@ INSERT INTO roles (nomR) VALUES ('Responsable RH'), ('Gestionnaire d\'Interventi
 
 -- Insérer un utilisateur pour le Responsable RH
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
-VALUES ('Ales', 'chmesedinne', 'jean.dupont@example.com', '0123456789', '123 Rue Example', 'jdupont', '(hashed_password)', 'RRH', 1);
+VALUES ('Ales', 'chmesedinne', 'jean.dupont@example.com', '0123456789', '123 Rue Example', 'rhh', '123', 'RRH', 1);
 
 -- Récupérer l'id de l'utilisateur nouvellement inséré pour le Responsable RH
 SET @user_id_rh = LAST_INSERT_ID();
@@ -341,7 +341,7 @@ INSERT INTO commentaire (client_id, contenu, note) VALUES
 
 -- Insérer 20 utilisateurs pour les employés
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat) VALUES
-('Vannier', 'Barthélemy', 'barthelemy.vannier@example.com', '0123456789', '21 Rue Example', 'bvannier', 'hashed_password21', 'Employe', 1),
+('Imad', 'safa', 'barthelemy.vannier@example.com', '0123456789', '21 Rue Example', 'imad', 'safaimad', 'Employe', 1),
 ('Maurice', 'Jacob', 'jacob.maurice@example.com', '0123456790', '22 Rue Example', 'jmaurice', 'hashed_password22', 'Employe', 1),
 ('Levett', 'Camille', 'camille.levett@example.com', '0123456791', '23 Rue Example', 'clevett', 'hashed_password23', 'Employe', 1),
 ('Ponce', 'Omer', 'omer.ponce@example.com', '0123456792', '24 Rue Example', 'oponce', 'hashed_password24', 'Employe', 1),
@@ -604,5 +604,74 @@ INSERT INTO ServiceDansContrat (CodeS, id_c, detailsSer, intervention_id, freque
 (3, @contract_id_9, 'Nettoyage de bureaux', NULL, 'une fois par semaine'),
 (5, @contract_id_10, 'Nettoyage de façades', NULL, 'une fois par mois'),
 (7, @contract_id_10, 'Nettoyage de sols', NULL, 'une fois par mois');
+<<<<<<< HEAD
 >>>>>>> 236b116 (init)
+=======
+
+INSERT INTO reservation (date_reservation, date_prestation, heure_prestation, adresse_prestation, montant, etat, client_id)
+VALUES 
+('2023-05-15', '2023-05-20', '10:00:00', '123 Rue Principale, Alger', 150.00, 'traité', 1),
+('2023-04-10', '2023-04-15', '14:00:00', '456 Avenue Liberté, Oran', 200.00, 'traité', 2),
+('2023-03-05', '2023-03-10', '09:30:00', '789 Boulevard Industriel, Constantine', 250.00, 'pas encore traité', 3),
+('2023-02-01', '2023-02-05', '08:00:00', '101 Rue de la Paix, Blida', 300.00, 'traité', 4),
+('2023-01-20', '2023-01-25', '16:00:00', '202 Place de la Victoire, Tizi Ouzou', 180.00, 'pas encore traité', 5);
+
+
+INSERT INTO paiement (date_paiement, montant, etat_paiement, contrat_id)
+VALUES 
+('2023-06-10', 150.00, 'payé', 1),
+('2023-07-05', 180.00, 'en retard', 1),
+('2023-08-20', 200.00, 'payé', 1),
+('2023-09-15', 250.00, 'en retard', 1),
+('2023-10-10', 300.00, 'payé', 1),
+('2023-11-05', 180.00, 'en retard', 1),
+('2023-05-20', 200.00, 'en retard', 2),
+('2023-06-15', 250.00, 'en retard', 2),
+('2023-07-10', 300.00, 'payé', 2),
+('2023-08-05', 180.00, 'en retard', 2),
+('2023-09-20', 200.00, 'payé', 2),
+('2023-10-15', 250.00, 'en retard', 2),
+('2023-11-10', 300.00, 'payé', 2),
+('2023-04-15', 250.00, 'payé', 3),
+('2023-05-10', 300.00, 'en retard', 3),
+('2023-06-05', 180.00, 'payé', 3),
+('2023-07-20', 200.00, 'en retard', 3),
+('2023-08-15', 250.00, 'payé', 3),
+('2023-09-10', 300.00, 'en retard', 3);
+
+INSERT INTO ArretDeTravail (Type, Date_deb, Date_fin, Description, statut, id)
+VALUES
+('Congé', '2023-01-15', '2023-01-20', 'Congé annuel', 'accordé', 13),
+('Congé', '2023-06-01', '2023-06-05', 'Congé de printemps', 'accordé', 13),
+('Congé', '2023-12-03', '2023-12-10', 'Congé dhiver', 'accordé', 13),
+('Congé', '2024-06-01','2024-06-10', 'Congé pour raison personnelle', 'accordé', 13),
+('Congé', '2024-12-03','2024-12-10', 'Congé anticipé pour lannée prochaine', 'accordé', 13);
+
+INSERT INTO reservation (date_reservation, date_prestation, heure_prestation, adresse_prestation, montant, etat, client_id)
+VALUES 
+('2024-06-10', '2024-06-15', '10:00:00', '123 Rue de la Liberté', 150.00, 'pas encore traité', 1),
+('2024-07-05', '2024-07-10', '14:00:00', '456 Avenue du Soleil', 200.00, 'pas encore traité', 2),
+('2024-08-20', '2024-08-25', '12:00:00', '789 Boulevard des Étoiles', 250.00, 'pas encore traité', 3);
+
+
+
+
+
+-- Insertion des données avec id_c null et etat 'pas encore faite'
+INSERT INTO intervention (etat,codeR, id_c)
+VALUES 
+('pas encore faite','7', NULL),
+('pas encore faite','8', NULL),
+('pas encore faite','9', NULL);
+
+INSERT INTO employe_intervention (intervention_id, employe_id, CodeS, tache)
+VALUES 
+(1, 13, 3, 'Nettoyage des sols'),
+(2, 13, 4, 'Nettoyage des vitres'),
+(3, 13, 3, 'Nettoyage des bureaux'),
+(4, 13, 3, 'Nettoyage des sanitaires'),
+(5, 13, 3, 'Nettoyage des surfaces'),
+(6, 13, 3, 'Nettoyage des espaces communs');
+
+
 

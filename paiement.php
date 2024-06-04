@@ -122,7 +122,7 @@ $nbrPage = $reste === 0 ? $nbrReservation / $size : floor($nbrReservation / $siz
             <th scope="col">Date réservation</th>
             <th scope="col">Date prestation</th>
             <th scope="col">Heure prestation</th>
-            <th scope="col">Adresse prestation</th>
+           
             <th scope="col">Montant</th>
             <th scope="col">État</th>
             <th scope="col">Action</th>
@@ -136,7 +136,7 @@ $nbrPage = $reste === 0 ? $nbrReservation / $size : floor($nbrReservation / $siz
             <td><?php echo htmlspecialchars($reservation['date_reservation']); ?></td>
             <td><?php echo htmlspecialchars($reservation['date_prestation']); ?></td>
             <td><?php echo htmlspecialchars($reservation['heure_prestation']); ?></td>
-            <td><?php echo htmlspecialchars($reservation['adresse_prestation']); ?></td>
+         
             <td><?php echo htmlspecialchars($reservation['montant']); ?></td>
             <td><?php echo htmlspecialchars($reservation['etat']); ?></td>
             <td class="action-icons">
