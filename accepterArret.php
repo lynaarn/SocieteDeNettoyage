@@ -31,6 +31,13 @@ if(isset($_SESSION['user'])){
             $stmtUpdateEmploye = $pdo->prepare($requeteUpdateEmploye);
             $stmtUpdateEmploye->execute([$id_employe]);
 
+            $requeteUpdateUsers = "UPDATE users 
+            SET etat = 0
+            WHERE id = ?";
+$stmtUpdateUsers = $pdo->prepare($requeteUpdateUsers);
+$stmtUpdateUsers->execute([$id_employe]);
+
+
             // Commit la transaction
             $pdo->commit();
 

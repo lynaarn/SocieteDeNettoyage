@@ -225,7 +225,7 @@ VALUES (@user_id_rh, '2020-01-01', (SELECT numR FROM roles WHERE nomR='Responsab
 
 -- Insérer un utilisateur pour le Gestionnaire d'Interventions
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
-VALUES ('Martin', 'Sophie', 'sophie.martin@example.com', '0987654321', '456 Rue Example', 'smartin', 'hashed_password', 'GI', 1);
+VALUES ('Martin', 'Sophie', 'sophie.martin@example.com', '0987654321', '456 Rue Example', 'gi', '123', 'GI', 1);
 
 -- Récupérer l'id de l'utilisateur nouvellement inséré pour le Gestionnaire d'Interventions
 SET @user_id_gi = LAST_INSERT_ID();
@@ -674,4 +674,8 @@ VALUES
 (6, 13, 3, 'Nettoyage des espaces communs');
 
 
+INSERT INTO reservation (date_reservation, date_prestation, heure_prestation, adresse_prestation, montant, etat, client_id)
+VALUES 
+('2023-05-15', '2024-07-20', '10:00:00', '123 Rue Principale, Alger', 150.00, 'traité', 1),
+('2023-04-10', '2024-07-15', '14:00:00', '456 Avenue Liberté, Oran', 200.00, 'traité', 2);
 
