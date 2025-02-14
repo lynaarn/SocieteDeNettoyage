@@ -253,7 +253,7 @@ VALUES
 -- Insérer 10 utilisateurs pour les clients
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
 VALUES 
-('Safa', 'Imad', 'alice.bernard@example.com', '0123456789', '123 Rue Exemple', 'abernard', 'hashed_password1', 'Client', 1);
+('Safa', 'Imad', 'alice.bernard@example.com', '0123456789', '123 Rue Exemple', 'imad2', '123', 'Client', 1);
 
 SET @user_id_1 = LAST_INSERT_ID();
 
@@ -341,17 +341,17 @@ INSERT INTO commentaire (client_id, contenu, note) VALUES
 
 -- Insérer 20 utilisateurs pour les employés
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat) VALUES
-('Imad', 'safa', 'barthelemy.vannier@example.com', '0123456789', '21 Rue Example', 'imad', 'safaimad', 'Employe', 1),
-('Maurice', 'Jacob', 'jacob.maurice@example.com', '0123456790', '22 Rue Example', 'jmaurice', 'hashed_password22', 'Employe', 1),
-('Levett', 'Camille', 'camille.levett@example.com', '0123456791', '23 Rue Example', 'clevett', 'hashed_password23', 'Employe', 1),
-('Ponce', 'Omer', 'omer.ponce@example.com', '0123456792', '24 Rue Example', 'oponce', 'hashed_password24', 'Employe', 1),
+('Imad', 'safa', 'barthelemy.vannier@example.com', '0123456789', '21 Rue Example', 'imad', '123', 'Employe', 1),
+('Maurice', 'Jacob', 'jacob.maurice@example.com', '0123456790', '22 Rue Example', 'test1', '123', 'Employe', 1),
+('Levett', 'Camille', 'camille.levett@example.com', '0123456791', '23 Rue Example', 'test2', '123', 'Employe', 1),
+('bouakaz', 'anais', 'omer.ponce@example.com', '0123456792', '24 Rue Example', 'anais', '123', 'Employe', 1),
 ('Duchamp', 'Antoine', 'antoine.duchamp@example.com', '0123456793', '25 Rue Example', 'aduchamp', 'hashed_password25', 'Employe', 1),
 ('Loupe', 'Gérôme', 'gerome.loupe@example.com', '0123456794', '26 Rue Example', 'gloupe', 'hashed_password26', 'Employe', 1),
 ('Bourguignon', 'Gilles', 'gilles.bourguignon@example.com', '0123456795', '27 Rue Example', 'gbourguignon', 'hashed_password27', 'Employe', 1),
 ('Haillet', 'Félix', 'felix.haillet@example.com', '0123456796', '28 Rue Example', 'fhaillet', 'hashed_password28', 'Employe', 1),
 ('Trintignant', 'Pierre-Louis', 'pierre-louis.trintignant@example.com', '0123456797', '29 Rue Example', 'pltrintignant', 'hashed_password29', 'Employe', 1),
 ('Delacroix', 'Maximilien', 'maximilien.delacroix@example.com', '0123456798', '30 Rue Example', 'mdelacroix', 'hashed_password30', 'Employe', 1),
-('Héroux', 'Chloé', 'chloe.heroux@example.com', '0123456799', '31 Rue Example', 'cheroux', 'hashed_password31', 'Employe', 1),
+('meftouh', 'yasmine', 'chloe.heroux@example.com', '0123456799', '31 Rue Example', 'yasmine', '123', 'Employe', 1),
 ('Bougie', 'Camille', 'camille.bougie@example.com', '0123456800', '32 Rue Example', 'cbougie', 'hashed_password32', 'Employe', 1),
 ('Botrel', 'Sylvia', 'sylvia.botrel@example.com', '0123456801', '33 Rue Example', 'sbotrel', 'hashed_password33', 'Employe', 1),
 ('Trouvé', 'Laure', 'laure.trouve@example.com', '0123456802', '34 Rue Example', 'ltrouve', 'hashed_password34', 'Employe', 1),
@@ -392,7 +392,7 @@ VALUES
 -- Insérer 10 utilisateurs supplémentaires pour les clients
 INSERT INTO users (nom, prenom, email, telephone, adresse, login, password, TypeCompte, etat)
 VALUES 
-('Martin', 'Lucie', 'lucie.martin@example.com', '0123456789', '108 Rue Exemple', 'lmartin', 'hashed_password11', 'Client', 1);
+('aourane', 'lyna', 'lucie.martin@example.com', '0123456789', '108 Rue Exemple', 'lyna', '123', 'Client', 1);
 
 SET @user_id_11 = LAST_INSERT_ID();
 
@@ -514,7 +514,6 @@ INSERT INTO materiel (nomM, type, etat, quantite) VALUES
 
 -- Insertion de 5 éléments dans la table ArretDeTravail pour 5 employés différents
 INSERT INTO ArretDeTravail (Type, Date_deb, Date_fin, Description, statut, id) VALUES
-('demission', '2024-06-01', '2024-06-10', 'Congé annuel', 'pas encore traité', @user_id_start),
 ('Maladie', '2024-06-05', '2024-06-12', 'Arrêt maladie pour grippe', 'pas encore traité', @user_id_start + 1),
 ('Maternité/Paternité', '2024-07-01', '2024-09-30', 'Congé maternité', 'pas encore traité', @user_id_start + 2),
 ('Congé', '2024-08-01', '2024-08-15', 'Congé estival', 'pas encore traité', @user_id_start + 3),

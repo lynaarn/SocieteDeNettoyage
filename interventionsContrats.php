@@ -38,7 +38,7 @@ $contratsRemplacementQuery = $pdo->prepare("
     JOIN intervention i ON i.numI = sc.intervention_id 
     JOIN employe_intervention ei ON i.numI = ei.intervention_id 
     JOIN employe e ON ei.employe_id = e.id 
-    WHERE c.date_deb >= CURDATE() AND e.statut IN ('Congé', 'Maladie', 'Maternité/Paternité', 'Démissionnaire')
+    WHERE c.date_deb >= CURDATE() AND e.statut='Congé'
 ");
 $contratsRemplacementQuery->execute();
 $contratsRemplacement = $contratsRemplacementQuery->fetchAll(PDO::FETCH_ASSOC);

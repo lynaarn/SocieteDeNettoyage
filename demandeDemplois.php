@@ -119,9 +119,9 @@ require_once("identifier.php");
             </td>
           </tr>
           <tr data-toggle="modal" data-target="#cvModal3">
-            <td>Benrahma</td>
-            <td>Rachid</td>
-            <td>24</td>
+            <td>aourane</td>
+            <td>lyna</td>
+            <td>21</td>
             <td class="action-icons">
               <a href="#" class="edit-icon2"><i class="fas fa-check"></i></a>
               <a href="#" class="delete-icon"><i class="fas fa-user-times"></i></a>
@@ -224,29 +224,28 @@ require_once("identifier.php");
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="cvModalLabel3">CV de David Jones</h5>
+        <h5 class="modal-title" id="cvModalLabel3">CV de aourane lyna</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <!-- Content of the CV -->
-        <p><strong>Nom:</strong> David Jones</p>
-        <p><strong>Age:</strong> 35</p>
+        <p><strong>Nom:</strong> Lyna aourane</p>
+        <p><strong>Age:</strong> 21</p>
         <p><strong>Expérience:</strong></p>
         <ul>
-          <li>Manager chez JKL (2018-2023)</li>
-          <li>Consultant chez MNO (2012-2018)</li>
+         
+          <li>test</li>
         </ul>
         <p><strong>Compétences:</strong></p>
         <ul>
-          <li>Management</li>
-          <li>Stratégie d'entreprise</li>
-          <li>Excel, Tableau</li>
+          <li>test</li>
+        
         </ul>
         <p><strong>Éducation:</strong></p>
         <ul>
-          <li>MBA - Université de Somewhere Else (2005-2010)</li>
+          <li>test</li>
         </ul>
       </div>
       <div class="modal-footer">
